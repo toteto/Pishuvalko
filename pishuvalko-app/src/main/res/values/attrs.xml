@@ -1,0 +1,6 @@
+<resources>
+    <declare-styleable name="WritingView">
+        <attr name="progress" format="float"/>
+        <attr name="character" format="string"/>
+    </declare-styleable>
+</resources>

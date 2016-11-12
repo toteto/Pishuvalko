@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import com.jane.antonio.pishuvalko.R;
 
+/** Activity that will serve as the main navigation for the application. */
 public class MainActivity extends AppCompatActivity {
 
   @Override
