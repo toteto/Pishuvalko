@@ -20,6 +20,7 @@
     </activity>
     <activity android:name=".controllers.LevelSelectionActivity"/>
     <activity android:name=".controllers.SettingsActivity"/>
+    <activity android:name=".controllers.GameTypeActivity" />
   </application>
 
 </manifest>

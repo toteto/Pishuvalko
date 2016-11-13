@@ -1,6 +1,7 @@
 package com.jane.antonio.pishuvalko.controllers;
 
 import android.content.res.AssetManager;
+import android.support.annotation.Nullable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.PersistableBundle;
@@ -23,16 +24,42 @@ import java.util.List;
 
 public class LevelSelectionActivity extends AppCompatActivity {
 
-    private GridLayoutManager lLayout;
-    private final static String charactersPath= "characters/letters";
+    public static final String GAME_TYPE_KEY = "game_type";
 
+    public static final int SMALL_LETTERS = 1;
+    public static final int BIG_LETTERS = 2;
+    public static final int NUMBERS = 3;
+
+
+
+    private GridLayoutManager lLayout;
+    private final static String bigLettersCharactersPath= "characters/bigLetters";
+    private final static String smallLettersCharactersPath= "characters/smallLetters";
+    private final static String numbersCharactersPath= "characters/numbers";
+
+    List<LetterImageObject> imageList;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_level_selection);
 
-        List<LetterImageObject> imageList = getAllItemList();
+        int gameChoice = getIntent().getIntExtra(GAME_TYPE_KEY, 2);
+
+
+
+        switch(gameChoice) {
+            case SMALL_LETTERS:
+                imageList = getSmallLetters();
+                break;
+            case BIG_LETTERS:
+                imageList = getBigLetters();
+                break;
+            case NUMBERS:
+                imageList = getNumbers();
+                break;
+        }
+
         lLayout = new GridLayoutManager(LevelSelectionActivity.this, 3);
 
         RecyclerView rView = (RecyclerView)findViewById(R.id.recycler_view_level_selection);
@@ -43,16 +70,66 @@ public class LevelSelectionActivity extends AppCompatActivity {
         rView.setAdapter(rcAdapter);
     }
 
-    public List<LetterImageObject> getAllItemList() {
+    public List<LetterImageObject> getBigLetters() {
         List<LetterImageObject> allLetters = new ArrayList<LetterImageObject>();
         AssetManager assetManager = getAssets();
         // load images
         try {
-            String[] images = assetManager.list("characters/letters");
+            String[] images = assetManager.list(bigLettersCharactersPath);
             for (String image : images){
 
                 // get input stream
-                InputStream ims = assetManager.open(charactersPath + "/" + image);
+                InputStream ims = assetManager.open(bigLettersCharactersPath + "/" + image);
+
+                // create drawable from stream
+                Drawable d = Drawable.createFromStream(ims, null);
+
+                // set the drawable to imageview
+                allLetters.add(new LetterImageObject(d));
+            }
+
+        } catch(IOException ex) {
+            // ?
+        }
+        return allLetters;
+
+    }
+
+    public List<LetterImageObject> getSmallLetters() {
+        List<LetterImageObject> allLetters = new ArrayList<LetterImageObject>();
+        AssetManager assetManager = getAssets();
+        // load images
+        try {
+            String[] images = assetManager.list(smallLettersCharactersPath);
+            for (String image : images){
+
+                // get input stream
+                InputStream ims = assetManager.open(smallLettersCharactersPath + "/" + image);
+
+                // create drawable from stream
+                Drawable d = Drawable.createFromStream(ims, null);
+
+                // set the drawable to imageview
+                allLetters.add(new LetterImageObject(d));
+            }
+
+        } catch(IOException ex) {
+            // ?
+        }
+        return allLetters;
+
+    }
+
+    public List<LetterImageObject> getNumbers() {
+        List<LetterImageObject> allLetters = new ArrayList<LetterImageObject>();
+        AssetManager assetManager = getAssets();
+        // load images
+        try {
+            String[] images = assetManager.list(numbersCharactersPath);
+            for (String image : images){
+
+                // get input stream
+                InputStream ims = assetManager.open(numbersCharactersPath + "/" + image);
 
                 // create drawable from stream
                 Drawable d = Drawable.createFromStream(ims, null);
