@@ -9,28 +9,12 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.jane.antonio.pishuvalko.controllers.MainActivity">
+    tools:context="com.jane.antonio.pishuvalko.controllers.LevelSelectionActivity">
 
-    <Button
-        android:id="@+id/bt_startGame"
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="START GAME"
-        />
-
-    <Button
-        android:id="@+id/bt_goToSettings"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="SETTINGS"
-        />
-
-    <Button
-        android:id="@+id/bt_exit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="EXIT"
-        />
+        android:text="Level selection"/>
 
 
 </LinearLayout>

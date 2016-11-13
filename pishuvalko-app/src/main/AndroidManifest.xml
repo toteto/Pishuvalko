@@ -16,6 +16,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".controllers.WritingGameActivity"/>
+        <activity android:name=".controllers.LevelSelectionActivity" />
+        <activity android:name=".controllers.Settings" />
     </application>
 
 </manifest>
