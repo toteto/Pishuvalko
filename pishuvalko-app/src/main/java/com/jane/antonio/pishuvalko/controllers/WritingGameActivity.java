@@ -20,7 +20,7 @@ public class WritingGameActivity extends AppCompatActivity {
     setContentView(R.layout.writing_game_activity);
 
     writingView = (WritingView) findViewById(R.id.writingView);
-    writingView.setCurrentCharacter(CharacterFactory.getA());
+    writingView.setCurrentCharacter(CharacterFactory.getP());
   }
 
   private final OnWritingChangeListener writingChangeListener = new OnWritingChangeListener() {
