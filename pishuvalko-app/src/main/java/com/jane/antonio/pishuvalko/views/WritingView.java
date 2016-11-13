@@ -13,7 +13,11 @@ import android.view.View;
 
 import com.jane.antonio.pishuvalko.controllers.OnWritingChangeListener;
 import com.jane.antonio.pishuvalko.models.Progress;
+import com.jane.antonio.pishuvalko.models.Segment;
 import com.jane.antonio.pishuvalko.models.WritableCharacter;
+
+import java.util.LinkedList;
+import java.util.List;
 
 /** Custom view that will be used by the user to write the {@link WritableCharacter} on. */
 public class WritingView extends View {
@@ -26,6 +30,7 @@ public class WritingView extends View {
   private final Paint writingPaint;
 
   private final Matrix scaleMatrix;
+  private List<Path> drawingPaths;
 
   public WritingView(Context context) {
     this(context, null);
@@ -43,6 +48,7 @@ public class WritingView extends View {
     writingPaint.setColor(ContextCompat.getColor(context, android.R.color.holo_orange_dark));
 
     scaleMatrix = new Matrix();
+    drawingPaths = new LinkedList<>();
   }
 
   @Override
@@ -66,13 +72,12 @@ public class WritingView extends View {
   }
 
 
-
   @Override
   protected void onDraw(Canvas canvas) {
-    for (Path path : currentCharacter.getSegments()) {
-      Path scaledPath = new Path();
-      scaledPath.addPath(path, scaleMatrix);
-      canvas.drawPath(scaledPath, characterPaint);
+    if (drawingPaths != null) {
+      for (Path path : drawingPaths) {
+        canvas.drawPath(path, characterPaint);
+      }
     }
     super.onDraw(canvas);
   }
@@ -84,6 +89,19 @@ public class WritingView extends View {
 
     float scale = Math.min(maxScaleByHeight, maxScaleByWidth);
     scaleMatrix.setScale(scale, scale);
+    drawingPaths = scaleWritableCharacterPaths(currentCharacter, scaleMatrix);
+  }
+
+  private static List<Path> scaleWritableCharacterPaths(WritableCharacter character, Matrix scaleMatrix) {
+    List<Path> scaledPaths = new LinkedList<>();
+    if (character != null) {
+      for (Segment segment : character.getSegments()) {
+        Path scaledPath = new Path();
+        scaledPath.addPath(segment.getPath(), scaleMatrix);
+        scaledPaths.add(scaledPath);
+      }
+    }
+    return scaledPaths;
   }
 
   public WritableCharacter getCurrentCharacter() {
@@ -92,6 +110,7 @@ public class WritingView extends View {
 
   public void setCurrentCharacter(WritableCharacter currentCharacter) {
     this.currentCharacter = currentCharacter;
+    drawingPaths = scaleWritableCharacterPaths(currentCharacter, scaleMatrix);
     currentProgress = null;
     invalidate();
   }

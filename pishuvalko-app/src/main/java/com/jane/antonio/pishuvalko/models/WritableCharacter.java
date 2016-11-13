@@ -1,7 +1,5 @@
 package com.jane.antonio.pishuvalko.models;
 
-import android.graphics.Path;
-
 import java.util.List;
 
 /**
@@ -9,11 +7,11 @@ import java.util.List;
  */
 public class WritableCharacter {
   private final String name;
-  private final List<Path> segments;
+  private final List<Segment> segments;
   private final float height;
   private final float width;
 
-  public WritableCharacter(String name, List<Path> segments, float height, float width) {
+  public WritableCharacter(String name, List<Segment> segments, float height, float width) {
     this.name = name;
     this.segments = segments;
     this.height = height;
@@ -24,7 +22,7 @@ public class WritableCharacter {
     return name;
   }
 
-  public List<Path> getSegments() {
+  public List<Segment> getSegments() {
     return segments;
   }
 
