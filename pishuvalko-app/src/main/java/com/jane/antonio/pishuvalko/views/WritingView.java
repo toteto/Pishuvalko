@@ -41,7 +41,7 @@ public class WritingView extends View {
 
     characterPaint = new Paint();
     characterPaint.setColor(ContextCompat.getColor(context, android.R.color.holo_red_dark));
-    characterPaint.setStrokeWidth(10);
+    characterPaint.setStrokeWidth(50);
     characterPaint.setStyle(Paint.Style.STROKE);
 
     writingPaint = new Paint();
@@ -96,8 +96,14 @@ public class WritingView extends View {
     List<Path> scaledPaths = new LinkedList<>();
     if (character != null) {
       for (Segment segment : character.getSegments()) {
+        Segment tmp = segment;
         Path scaledPath = new Path();
-        scaledPath.addPath(segment.getPath(), scaleMatrix);
+        while (tmp != null) {
+          scaledPath.addPath(tmp.getPath());
+          tmp = tmp.getConnectedSegment();
+        }
+        scaledPath.transform(scaleMatrix);
+
         scaledPaths.add(scaledPath);
       }
     }
