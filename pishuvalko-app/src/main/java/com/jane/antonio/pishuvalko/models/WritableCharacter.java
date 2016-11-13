@@ -10,10 +10,14 @@ import java.util.List;
 public class WritableCharacter {
   private final String name;
   private final List<Path> segments;
+  private final float height;
+  private final float width;
 
-  public WritableCharacter(String name, List<Path> segments) {
+  public WritableCharacter(String name, List<Path> segments, float height, float width) {
     this.name = name;
     this.segments = segments;
+    this.height = height;
+    this.width = width;
   }
 
   public String getName() {
@@ -22,5 +26,13 @@ public class WritableCharacter {
 
   public List<Path> getSegments() {
     return segments;
+  }
+
+  public float getHeight() {
+    return height;
+  }
+
+  public float getWidth() {
+    return width;
   }
 }

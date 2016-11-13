@@ -9,7 +9,7 @@ import com.jane.antonio.pishuvalko.R;
  * Created by janedzumerko on 11/13/16.
  */
 
-public class Settings extends AppCompatActivity {
+public class SettingsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
