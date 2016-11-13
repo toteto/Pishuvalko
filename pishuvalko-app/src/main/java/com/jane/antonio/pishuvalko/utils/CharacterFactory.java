@@ -19,8 +19,8 @@ public class CharacterFactory {
 
   public static WritableCharacter getA() {
     List<Segment> segments = new ArrayList<>();
-    segments.add(new Line(0f, 0f, 1f, 2f));
-    segments.add(new Line(1f, 2f, 2f, 0f));
+    segments.add(new Line(0f, 2f, 1f, 0f));
+    segments.add(new Line(1f, 0f, 2f, 2f));
     segments.add(new Line(0.5f, 1f, 1.5f, 1f));
     return new WritableCharacter("A", segments, 2, 2);
   }
