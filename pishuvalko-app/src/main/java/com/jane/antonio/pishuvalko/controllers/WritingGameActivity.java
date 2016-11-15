@@ -12,6 +12,9 @@ import com.jane.antonio.pishuvalko.views.WritingView;
 
 /** Activity that will be responsible for controlling and displaying of the writing game. */
 public class WritingGameActivity extends AppCompatActivity {
+
+  public static final String LETTER_SELECT_KEY = "letter_select";
+
   private WritingView writingView;
 
   @Override

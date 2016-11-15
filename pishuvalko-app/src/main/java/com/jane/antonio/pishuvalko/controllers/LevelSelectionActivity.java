@@ -78,6 +78,8 @@ public class LevelSelectionActivity extends AppCompatActivity {
             String[] images = assetManager.list(bigLettersCharactersPath);
             for (String image : images){
 
+                Log.i("divya","Big letters : " + image);
+
                 // get input stream
                 InputStream ims = assetManager.open(bigLettersCharactersPath + "/" + image);
 
@@ -85,7 +87,7 @@ public class LevelSelectionActivity extends AppCompatActivity {
                 Drawable d = Drawable.createFromStream(ims, null);
 
                 // set the drawable to imageview
-                allLetters.add(new LetterImageObject(d));
+                allLetters.add(new LetterImageObject(d, false, getImageNameWithoutExtension(image)));
             }
 
         } catch(IOException ex) {
@@ -103,6 +105,8 @@ public class LevelSelectionActivity extends AppCompatActivity {
             String[] images = assetManager.list(smallLettersCharactersPath);
             for (String image : images){
 
+                Log.i("divya","Small letters : " + image);
+
                 // get input stream
                 InputStream ims = assetManager.open(smallLettersCharactersPath + "/" + image);
 
@@ -110,7 +114,7 @@ public class LevelSelectionActivity extends AppCompatActivity {
                 Drawable d = Drawable.createFromStream(ims, null);
 
                 // set the drawable to imageview
-                allLetters.add(new LetterImageObject(d));
+                allLetters.add(new LetterImageObject(d, true, getImageNameWithoutExtension(image)));
             }
 
         } catch(IOException ex) {
@@ -128,6 +132,8 @@ public class LevelSelectionActivity extends AppCompatActivity {
             String[] images = assetManager.list(numbersCharactersPath);
             for (String image : images){
 
+                Log.i("divya","Numbers : " + image);
+
                 // get input stream
                 InputStream ims = assetManager.open(numbersCharactersPath + "/" + image);
 
@@ -135,7 +141,7 @@ public class LevelSelectionActivity extends AppCompatActivity {
                 Drawable d = Drawable.createFromStream(ims, null);
 
                 // set the drawable to imageview
-                allLetters.add(new LetterImageObject(d));
+                allLetters.add(new LetterImageObject(d, true, getImageNameWithoutExtension(image)));
             }
 
         } catch(IOException ex) {
@@ -143,5 +149,9 @@ public class LevelSelectionActivity extends AppCompatActivity {
         }
         return allLetters;
 
+    }
+
+    public String getImageNameWithoutExtension(String imageNameWithExtension) {
+        return imageNameWithExtension.split("\\.")[0];
     }
 }

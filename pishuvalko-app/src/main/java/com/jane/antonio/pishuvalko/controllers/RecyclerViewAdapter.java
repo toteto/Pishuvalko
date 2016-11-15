@@ -1,6 +1,7 @@
 package com.jane.antonio.pishuvalko.controllers;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,9 +34,18 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<LevelViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(LevelViewHolder holder, int position) {
+    public void onBindViewHolder(LevelViewHolder holder, final int position) {
         LetterImageObject letterImageObject = imageList.get(position);
         holder.countryPhoto.setImageDrawable(letterImageObject.getImage());
+
+        holder.countryPhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, WritingGameActivity.class);
+                intent.putExtra(WritingGameActivity.LETTER_SELECT_KEY, imageList.get(position).getName());
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override

@@ -10,12 +10,13 @@ import com.jane.antonio.pishuvalko.R;
 /**
  * Created by janedzumerko on 11/13/16.
  */
-public class LevelViewHolder extends RecyclerView.ViewHolder {
+public class LevelViewHolder extends RecyclerView.ViewHolder{
     public ImageView countryPhoto;
 
     public LevelViewHolder(View itemView) {
         super(itemView);
         countryPhoto = (ImageView)itemView.findViewById(R.id.letter_photo);
     }
+
 
 }
