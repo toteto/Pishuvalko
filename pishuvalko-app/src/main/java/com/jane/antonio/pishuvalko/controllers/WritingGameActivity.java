@@ -1,5 +1,7 @@
 package com.jane.antonio.pishuvalko.controllers;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Path;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,10 +12,12 @@ import com.jane.antonio.pishuvalko.models.WritableCharacter;
 import com.jane.antonio.pishuvalko.utils.CharacterFactory;
 import com.jane.antonio.pishuvalko.views.WritingView;
 
-/** Activity that will be responsible for controlling and displaying of the writing game. */
+/**
+ * Activity that will be responsible for controlling and displaying of the writing game.
+ */
 public class WritingGameActivity extends AppCompatActivity {
 
-  public static final String LETTER_SELECT_KEY = "letter_select";
+  protected static final String WRITABLE_CHARACTER_INTENT_KEY = "letter_select";
 
   private WritingView writingView;
 
@@ -32,4 +36,10 @@ public class WritingGameActivity extends AppCompatActivity {
 
     }
   };
+
+  public static Intent getStartingIntent(Context context, WritableCharacter writableCharacter) {
+    Intent intent = new Intent(context, WritingGameActivity.class);
+    intent.putExtra(WRITABLE_CHARACTER_INTENT_KEY, writableCharacter);
+    return intent;
+  }
 }

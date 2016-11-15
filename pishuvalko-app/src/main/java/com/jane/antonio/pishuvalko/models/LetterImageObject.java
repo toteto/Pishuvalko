@@ -1,11 +1,6 @@
-package com.jane.antonio.pishuvalko.controllers;
+package com.jane.antonio.pishuvalko.models;
 
 import android.graphics.drawable.Drawable;
-
-/**
- * Created by janedzumerko on 11/13/16.
- */
-
 
 public class LetterImageObject {
 

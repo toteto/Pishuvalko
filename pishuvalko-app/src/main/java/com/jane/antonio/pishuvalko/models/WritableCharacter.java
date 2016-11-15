@@ -1,11 +1,14 @@
 package com.jane.antonio.pishuvalko.models;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Model that describes the character that will be written by the user.
  */
-public class WritableCharacter {
+public class WritableCharacter implements Serializable {
+  private static final long serialVersionUID = -7117773315661436706L;
+
   private final String name;
   private final List<Segment> segments;
   private final float height;
