@@ -13,13 +13,15 @@ import android.view.View;
 
 import com.jane.antonio.pishuvalko.controllers.OnWritingChangeListener;
 import com.jane.antonio.pishuvalko.models.Progress;
-import com.jane.antonio.pishuvalko.models.Segment;
 import com.jane.antonio.pishuvalko.models.WritableCharacter;
+import com.jane.antonio.pishuvalko.utils.PishuvalkoUtils;
 
 import java.util.LinkedList;
 import java.util.List;
 
-/** Custom view that will be used by the user to write the {@link WritableCharacter} on. */
+/**
+ * Custom view that will be used by the user to write the {@link WritableCharacter} on.
+ */
 public class WritingView extends View {
   private static final String LOG_TAG = WritingView.class.getSimpleName();
   private WritableCharacter currentCharacter;
@@ -30,7 +32,7 @@ public class WritingView extends View {
   private final Paint writingPaint;
 
   private final Matrix scaleMatrix;
-  private List<Path> drawingPaths;
+  private final List<Path> drawingPaths;
 
   public WritingView(Context context) {
     this(context, null);
@@ -74,10 +76,8 @@ public class WritingView extends View {
 
   @Override
   protected void onDraw(Canvas canvas) {
-    if (drawingPaths != null) {
-      for (Path path : drawingPaths) {
-        canvas.drawPath(path, characterPaint);
-      }
+    for (Path path : drawingPaths) {
+      canvas.drawPath(path, characterPaint);
     }
     super.onDraw(canvas);
   }
@@ -89,34 +89,14 @@ public class WritingView extends View {
 
     float scale = Math.min(maxScaleByHeight, maxScaleByWidth);
     scaleMatrix.setScale(scale, scale);
-    drawingPaths = scaleWritableCharacterPaths(currentCharacter, scaleMatrix);
-  }
-
-  private static List<Path> scaleWritableCharacterPaths(WritableCharacter character, Matrix scaleMatrix) {
-    List<Path> scaledPaths = new LinkedList<>();
-    if (character != null) {
-      for (Segment segment : character.getSegments()) {
-        Segment tmp = segment;
-        Path scaledPath = new Path();
-        while (tmp != null) {
-          scaledPath.addPath(tmp.getPath());
-          tmp = tmp.getConnectedSegment();
-        }
-        scaledPath.transform(scaleMatrix);
-
-        scaledPaths.add(scaledPath);
-      }
-    }
-    return scaledPaths;
-  }
-
-  public WritableCharacter getCurrentCharacter() {
-    return currentCharacter;
+    drawingPaths.clear();
+    drawingPaths.addAll(PishuvalkoUtils.scaleWritableCharacterStepPaths(currentCharacter, scaleMatrix));
   }
 
   public void setCurrentCharacter(WritableCharacter currentCharacter) {
     this.currentCharacter = currentCharacter;
-    drawingPaths = scaleWritableCharacterPaths(currentCharacter, scaleMatrix);
+    drawingPaths.clear();
+    drawingPaths.addAll(PishuvalkoUtils.scaleWritableCharacterStepPaths(currentCharacter, scaleMatrix));
     currentProgress = null;
     invalidate();
   }

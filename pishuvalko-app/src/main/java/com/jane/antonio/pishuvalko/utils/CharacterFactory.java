@@ -1,8 +1,10 @@
 package com.jane.antonio.pishuvalko.utils;
 
+import android.graphics.PointF;
+
 import com.jane.antonio.pishuvalko.models.Arc;
 import com.jane.antonio.pishuvalko.models.Line;
-import com.jane.antonio.pishuvalko.models.Segment;
+import com.jane.antonio.pishuvalko.models.Step;
 import com.jane.antonio.pishuvalko.models.WritableCharacter;
 
 import java.util.ArrayList;
@@ -19,20 +21,21 @@ public class CharacterFactory {
   }
 
   public static WritableCharacter getA() {
-    List<Segment> segments = new ArrayList<>();
-    segments.add(new Line(0f, 2f, 1f, 0f));
-    segments.add(new Line(1f, 0f, 2f, 2f));
-    segments.add(new Line(0.5f, 1f, 1.5f, 1f));
-    return new WritableCharacter("A", segments, 2, 2);
+    List<Step> steps = new ArrayList<>();
+    steps.add(new Step(new Line(new PointF(0f, 2f), new PointF(1f, 0f))));
+    steps.add(new Step(new Line(new PointF(1f, 0f), new PointF(2f, 2f))));
+    steps.add(new Step(new Line(new PointF(0.5f, 1f), new PointF(1.5f, 1f))));
+    return new WritableCharacter("A", steps, 2, 2);
   }
 
   public static WritableCharacter getP() {
-    List<Segment> segments = new ArrayList<>();
-    segments.add(new Line(0f, 2f, 0f, 0f));
-    Line RsCircle = new Line(0f, 0f, 0.5f, 0f);
-    RsCircle.setConnectedSegment(new Arc(0.5f, 0f, 0.5f, 1f, Arc.Side.LEFT));
-    RsCircle.getConnectedSegment().setConnectedSegment(new Line(0.5f, 1f, 0f, 1f));
-    segments.add(RsCircle);
-    return new WritableCharacter("P", segments, 2, 2);
+    List<Step> steps = new ArrayList<>();
+    steps.add(new Step(new Line(new PointF(0f, 2f), new PointF(0f, 0f))));
+
+    Line s2s1 = new Line(new PointF(0f, 0f), new PointF(0.5f, 0f));
+    Arc s2s2 = new Arc(new PointF(0.5f, 0f), new PointF(0.5f, 1f), Arc.ARC_DIRECTION.CLOCKWISE, 180);
+    Line s2s3 = new Line(new PointF(0.5f, 1f), new PointF(0f, 1f));
+    steps.add(new Step(s2s1, s2s2, s2s3));
+    return new WritableCharacter("P", steps, 2, 2);
   }
 }

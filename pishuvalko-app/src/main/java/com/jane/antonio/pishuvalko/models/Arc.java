@@ -1,23 +1,48 @@
 package com.jane.antonio.pishuvalko.models;
 
 import android.graphics.Path;
-import android.graphics.RectF;
+import android.graphics.PointF;
 
-/** A {@link Segment} that represents a curved line - arc. */
+/**
+ * A {@link Segment} that represents a curved line - arc.
+ */
 public class Arc extends Segment {
-  private final float x1;
-  private final float y1;
-  private final float x2;
-  private final float y2;
-  private final float fromAngle;
-  private final float angleSweep;
+  private static final long serialVersionUID = 5399925238008475610L;
+  private final PointF secondPoint;
+  private final ARC_DIRECTION direction;
+  private final float swipeDegrees;
 
-  public Arc(float x1, float y1, float x2, float y2, Side direction) {
-    super(new Path());
-    this.x1 = x1;
-    this.y1 = y1;
-    this.x2 = x2;
-    this.y2 = y2;
+
+  public enum ARC_DIRECTION {
+    CLOCKWISE,
+    COUNTER_CLOCKWISE
+  }
+
+  public Arc(PointF firstPoint, PointF secondPoint, ARC_DIRECTION direction, float swipeDegrees) {
+    super(firstPoint);
+    this.secondPoint = secondPoint;
+    this.direction = direction;
+    this.swipeDegrees = swipeDegrees;
+  }
+
+  @Override
+  protected Path makeDrawablePath() {
+    return null;
+  }
+
+  public PointF getSecondPoint() {
+    return secondPoint;
+  }
+
+  public ARC_DIRECTION getDirection() {
+    return direction;
+  }
+
+  public float getSwipeDegrees() {
+    return swipeDegrees;
+  }
+
+  /*public void Arca(float x1, float y1, float x2, float y2, Side direction) {
     float centerX = x1 + ((x2 - x1) / 2);
     float centerY = y1 + ((y2 - y1) / 2);
 
@@ -37,10 +62,5 @@ public class Arc extends Segment {
     angleSweep = 180;
 
     getPath().addArc(oval, fromAngle, angleSweep);
-  }
-
-  public enum Side {
-    LEFT,
-    RIGHT
-  }
+  }*/
 }
