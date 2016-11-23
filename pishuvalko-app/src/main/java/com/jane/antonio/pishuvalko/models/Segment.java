@@ -31,7 +31,7 @@ public abstract class Segment implements Serializable {
    * @param lazy true if to use lazy loading. Lazy == drawing only the first time it is called.
    */
   public final Path getDrawablePath(boolean lazy) {
-    if (drawablePath == null && lazy) {
+    if (drawablePath == null || lazy) {
       drawablePath = makeDrawablePath();
     }
     return drawablePath;
