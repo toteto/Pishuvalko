@@ -84,13 +84,15 @@ public class WritingView extends View {
 
   @Override
   protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-    float maxScaleByWidth = w / currentCharacter.getWidth();
-    float maxScaleByHeight = h / currentCharacter.getHeight();
+    if (currentCharacter != null) {
+      float maxScaleByWidth = w / currentCharacter.getWidth();
+      float maxScaleByHeight = h / currentCharacter.getHeight();
 
-    float scale = Math.min(maxScaleByHeight, maxScaleByWidth);
-    scaleMatrix.setScale(scale, scale);
-    drawingPaths.clear();
-    drawingPaths.addAll(PishuvalkoUtils.scaleWritableCharacterStepPaths(currentCharacter, scaleMatrix));
+      float scale = Math.min(maxScaleByHeight, maxScaleByWidth);
+      scaleMatrix.setScale(scale, scale);
+      drawingPaths.clear();
+      drawingPaths.addAll(PishuvalkoUtils.scaleWritableCharacterStepPaths(currentCharacter, scaleMatrix));
+    }
   }
 
   public void setCurrentCharacter(WritableCharacter currentCharacter) {
