@@ -50,4 +50,6 @@ public abstract class Segment implements Serializable {
    * @return the merged segment, or null if it is not possible to be merged.
    */
   public abstract Segment mergeSegments(Segment other, float tolerance);
+
+  public abstract boolean approximatelyEquals(Segment other);
 }
