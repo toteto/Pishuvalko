@@ -84,24 +84,35 @@ public class WritingView extends View {
         invalidate();
         return true;
       case MotionEvent.ACTION_UP:
-        ListIterator<Segment> iterator = handDrawnSegments.listIterator();
-        Segment prevSegment = iterator.next();
-        while (iterator.hasNext()) {
-          Segment currSegment = iterator.next();
-          prevSegment = prevSegment.mergeSegments(currSegment, 1f);
-          if (prevSegment == null) {
-            break;
-          }
-        }
-        if (prevSegment != null) {
-          handDrawnPath.reset();
-          handDrawnPath.addPath(prevSegment.getDrawablePath(false));
-        }
+        mergeHandDrawnSegments();
         invalidate();
         return true;
     }
     if (onWritingChangeListener != null) {
       onWritingChangeListener.onWritingChange(currentCharacter, /*tmp*/ new Path());
+    }
+    return false;
+  }
+
+  /**
+   * Merges the hand drawn segments stored in this.handDrawnSegments.
+   *
+   * @return true  if it is successfully merged.
+   */
+  private boolean mergeHandDrawnSegments() {
+    ListIterator<Segment> iterator = handDrawnSegments.listIterator();
+    Segment prevSegment = iterator.next();
+    while (iterator.hasNext()) {
+      Segment currSegment = iterator.next();
+      prevSegment = prevSegment.mergeSegments(currSegment, 1f);
+      if (prevSegment == null) {
+        break;
+      }
+    }
+    if (prevSegment != null) {
+      handDrawnPath.reset();
+      handDrawnPath.addPath(prevSegment.getDrawablePath(false));
+      return true;
     }
     return false;
   }

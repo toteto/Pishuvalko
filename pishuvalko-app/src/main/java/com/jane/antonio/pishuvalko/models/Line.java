@@ -37,16 +37,20 @@ public class Line extends Segment {
       Line otherLine = ((Line) other);
       if (secondPoint.equals(otherLine.getFirstPoint())) {
         if (getFirstPoint().equals(getSecondPoint())) {
+          // this-> is not Line, it is point
           return other;
         }
-        if (other.getFirstPoint().equals(((Line) other).getSecondPoint())){
+        if (other.getFirstPoint().equals(((Line) other).getSecondPoint())) {
+          // other is not Line, it is a point
           return this;
         }
 
+        // calculate the angle of this-> line
         float delta_x = getFirstPoint().x - getSecondPoint().x;
         float delta_y = getFirstPoint().y - getSecondPoint().y;
         float thisAngle = (float) Math.atan2(delta_y, delta_x);
 
+        // calculate the angle of otherLine
         delta_x = otherLine.getFirstPoint().x - otherLine.getSecondPoint().x;
         delta_y = otherLine.getFirstPoint().y - otherLine.getSecondPoint().y;
         float otherAngle = (float) Math.atan2(delta_y, delta_x);
