@@ -41,4 +41,13 @@ public abstract class Segment implements Serializable {
    * Constructs the {@link Path} for the segment.
    */
   protected abstract Path makeDrawablePath();
+
+  /**
+   * Merges this segment with the one provided.
+   *
+   * @param tolerance the tolerance allowed for merging of segments
+   * @param other the other segment that will merge with this->
+   * @return the merged segment, or null if it is not possible to be merged.
+   */
+  public abstract Segment mergeSegments(Segment other, float tolerance);
 }

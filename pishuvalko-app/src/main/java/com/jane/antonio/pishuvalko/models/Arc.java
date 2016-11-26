@@ -28,6 +28,11 @@ public class Arc extends Segment {
     return path;
   }
 
+  @Override
+  public Segment mergeSegments(Segment other, float tolerance) {
+    return null;
+  }
+
   /** The points is storing the right and bottom bounds. */
   public PointF getSecondPoint() {
     return secondPoint;

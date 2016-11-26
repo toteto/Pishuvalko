@@ -5,6 +5,7 @@ import android.graphics.Path;
 import android.graphics.PointF;
 import android.support.annotation.NonNull;
 
+import com.jane.antonio.pishuvalko.models.Line;
 import com.jane.antonio.pishuvalko.models.Step;
 import com.jane.antonio.pishuvalko.models.WritableCharacter;
 
