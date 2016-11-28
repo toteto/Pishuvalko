@@ -33,6 +33,11 @@ public class Arc extends Segment {
     return null;
   }
 
+  @Override
+  public boolean approximatelyEquals(Segment other) {
+    return false;
+  }
+
   /** The points is storing the right and bottom bounds. */
   public PointF getSecondPoint() {
     return secondPoint;

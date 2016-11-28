@@ -30,13 +30,6 @@ public class WritingGameActivity extends AppCompatActivity {
     writingView.setCurrentCharacter(CharacterFactory.getF());
   }
 
-  private final OnWritingChangeListener writingChangeListener = new OnWritingChangeListener() {
-    @Override
-    public void onWritingChange(WritableCharacter character, Path pathDrawn) {
-
-    }
-  };
-
   public static Intent getStartingIntent(Context context, WritableCharacter writableCharacter) {
     Intent intent = new Intent(context, WritingGameActivity.class);
     intent.putExtra(WRITABLE_CHARACTER_INTENT_KEY, writableCharacter);

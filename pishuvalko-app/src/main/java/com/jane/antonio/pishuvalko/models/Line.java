@@ -71,4 +71,9 @@ public class Line extends Segment {
     }
     return null;
   }
+
+  @Override
+  public boolean approximatelyEquals(Segment other) {
+    return false;
+  }
 }

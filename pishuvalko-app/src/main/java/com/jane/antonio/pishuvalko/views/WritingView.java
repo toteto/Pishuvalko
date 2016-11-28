@@ -11,9 +11,8 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.jane.antonio.pishuvalko.controllers.OnWritingChangeListener;
+import com.jane.antonio.pishuvalko.controllers.WritingViewListener;
 import com.jane.antonio.pishuvalko.models.Line;
-import com.jane.antonio.pishuvalko.models.Progress;
 import com.jane.antonio.pishuvalko.models.Segment;
 import com.jane.antonio.pishuvalko.models.WritableCharacter;
 import com.jane.antonio.pishuvalko.utils.PishuvalkoUtils;
@@ -28,14 +27,13 @@ import java.util.ListIterator;
 public class WritingView extends View {
   private static final String LOG_TAG = WritingView.class.getSimpleName();
   private WritableCharacter currentCharacter;
-  private Progress currentProgress;
-  private OnWritingChangeListener onWritingChangeListener;
+  private WritingViewListener writingViewListener;
 
   private final Paint characterPaint;
   private final Paint writingPaint;
 
   private final Matrix scaleMatrix;
-  private final List<Path> drawingPaths;
+  private final List<Path> drawingSteps;
 
   private final Path handDrawnPath;
 
@@ -60,7 +58,7 @@ public class WritingView extends View {
     writingPaint.setStyle(Paint.Style.STROKE);
 
     scaleMatrix = new Matrix();
-    drawingPaths = new LinkedList<>();
+    drawingSteps = new LinkedList<>();
 
     handDrawnPath = new Path();
 
@@ -71,28 +69,57 @@ public class WritingView extends View {
   public boolean onTouchEvent(MotionEvent event) {
     switch (event.getAction()) {
       case MotionEvent.ACTION_DOWN:
-        handDrawnSegments.clear();
-        prevPoint = new PointF(event.getX(), event.getY());
-        handDrawnPath.moveTo(event.getX(), event.getY());
+        startedWriting(event.getX(), event.getY());
         invalidate();
         return true;
       case MotionEvent.ACTION_MOVE:
-        PointF currPoint = new PointF(event.getX(), event.getY());
-        handDrawnSegments.add(new Line(prevPoint, currPoint));
-        prevPoint = currPoint;
-        handDrawnPath.lineTo(event.getX(), event.getY());
+        writeSegment(event.getX(), event.getY());
         invalidate();
         return true;
       case MotionEvent.ACTION_UP:
-        mergeHandDrawnSegments();
+        endWriting();
         invalidate();
         return true;
     }
-    if (onWritingChangeListener != null) {
-      onWritingChangeListener.onWritingChange(currentCharacter, /*tmp*/ new Path());
-    }
     return false;
   }
+
+  /** Method responsible for handing when the user starts writing on the view. */
+  private void startedWriting(float x, float y) {
+    prevPoint = new PointF(x, y);
+    handDrawnPath.moveTo(x, y);
+    handDrawnSegments.clear();
+    if (writingViewListener != null) {
+      writingViewListener.onStartedWriting();
+    }
+  }
+
+  /** Method responsible for handing the writing writing movement on the view. */
+  private void writeSegment(float nextX, float nextY) {
+    PointF currPoint = new PointF(nextX, nextY);
+    double distance = PishuvalkoUtils.calculateDistance(prevPoint, currPoint);
+    // avoiding jitter by defining minimal size of one segment
+    if (distance < 20) {
+      return;
+    }
+    Segment drawnSegment = new Line(prevPoint, currPoint);
+    handDrawnSegments.add(drawnSegment);
+
+    prevPoint = currPoint;
+    handDrawnPath.lineTo(nextX, nextY);
+    if (writingViewListener != null) {
+      writingViewListener.onWroteSegment(drawnSegment);
+    }
+  }
+
+  /** Method responsible for handing when the user stops writing (ex. lifts up the finger). */
+  private void endWriting() {
+    mergeHandDrawnSegments();
+    if (writingViewListener != null) {
+      writingViewListener.onEndedWriting();
+    }
+  }
+
 
   /**
    * Merges the hand drawn segments stored in this.handDrawnSegments.
@@ -120,7 +147,7 @@ public class WritingView extends View {
 
   @Override
   protected void onDraw(Canvas canvas) {
-    for (Path path : drawingPaths) {
+    for (Path path : drawingSteps) {
       canvas.drawPath(path, characterPaint);
     }
     canvas.drawPath(handDrawnPath, writingPaint);
@@ -135,26 +162,20 @@ public class WritingView extends View {
 
       float scale = Math.min(maxScaleByHeight, maxScaleByWidth);
       scaleMatrix.setScale(scale, scale);
-      drawingPaths.clear();
-      drawingPaths.addAll(PishuvalkoUtils.scaleWritableCharacterStepPaths(currentCharacter, scaleMatrix));
+      drawingSteps.clear();
+      drawingSteps.addAll(PishuvalkoUtils.scaleWritableCharacterStepPaths(currentCharacter, scaleMatrix));
     }
   }
 
   public void setCurrentCharacter(WritableCharacter currentCharacter) {
     this.currentCharacter = currentCharacter;
-    drawingPaths.clear();
-    drawingPaths.addAll(PishuvalkoUtils.scaleWritableCharacterStepPaths(currentCharacter, scaleMatrix));
-    currentProgress = null;
+    drawingSteps.clear();
+    drawingSteps.addAll(PishuvalkoUtils.scaleWritableCharacterStepPaths(currentCharacter, scaleMatrix));
     invalidate();
   }
 
-  public void setCurrentProgress(Progress currentProgress) {
-    this.currentProgress = currentProgress;
-    invalidate();
-  }
-
-  public void setOnWritingChangeListener(OnWritingChangeListener onWritingChangeListener) {
-    this.onWritingChangeListener = onWritingChangeListener;
+  public void setWritingViewListener(WritingViewListener writingViewListener) {
+    this.writingViewListener = writingViewListener;
   }
 
 }
