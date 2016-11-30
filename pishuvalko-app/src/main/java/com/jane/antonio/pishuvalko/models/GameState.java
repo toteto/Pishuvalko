@@ -1,14 +1,21 @@
 package com.jane.antonio.pishuvalko.models;
 
+import android.support.annotation.IntDef;
+
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.util.ListIterator;
 
 public class GameState {
-  enum COMPLETION_RETURN_TYPE {
-    FAILED,
-    SEGMENT_COMPLETED,
-    STEP_COMPLETED,
-    CHARACTER_COMPLETED
-  }
+  @Retention(RetentionPolicy.SOURCE)
+
+  @IntDef({CT_FAILED, CT_SEGMENT_COMPLETED, CT_STEP_COMPLETED, CT_CHARACTER_COMPLETED})
+  public @interface CompleteType {  }
+
+  public static final int CT_FAILED = -1;
+  public static final int CT_SEGMENT_COMPLETED = 0;
+  public static final int CT_STEP_COMPLETED = 1;
+  public static final int CT_CHARACTER_COMPLETED = 2;
 
   private final WritableCharacter currentCharacter;
   private Step currentStep;
@@ -39,25 +46,27 @@ public class GameState {
     return currentsSegment;
   }
 
-  public COMPLETION_RETURN_TYPE completeSegment(Segment segment) {
+  @CompleteType
+  public int completeSegment(Segment segment) {
     if (currentsSegment.approximatelyEquals(segment)) {
       if (segmentsIterator.hasNext()) {
         currentsSegment = segmentsIterator.next();
-        return COMPLETION_RETURN_TYPE.SEGMENT_COMPLETED;
+        return CT_SEGMENT_COMPLETED;
       } else {
         return completeStep();
       }
     } else {
-      return COMPLETION_RETURN_TYPE.FAILED;
+      return CT_FAILED;
     }
   }
 
-  private COMPLETION_RETURN_TYPE completeStep() {
+  @CompleteType
+  private int completeStep() {
     if (stepsIterator.hasNext()) {
       currentStep = stepsIterator.next();
-      return COMPLETION_RETURN_TYPE.STEP_COMPLETED;
+      return CT_STEP_COMPLETED;
     } else {
-      return COMPLETION_RETURN_TYPE.CHARACTER_COMPLETED;
+      return CT_CHARACTER_COMPLETED;
     }
   }
 }
