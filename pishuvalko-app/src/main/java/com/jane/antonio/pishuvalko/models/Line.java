@@ -1,9 +1,12 @@
 package com.jane.antonio.pishuvalko.models;
 
 
+import android.graphics.Matrix;
 import android.graphics.Path;
 import android.graphics.PointF;
 import android.util.Log;
+
+import com.jane.antonio.pishuvalko.utils.PishuvalkoUtils;
 
 /**
  * A {@link Segment} implementation that represents a straight line.
@@ -46,16 +49,16 @@ public class Line extends Segment {
         }
 
         // calculate the angle of this-> line
-        float delta_x = getFirstPoint().x - getSecondPoint().x;
+        float delta_x = getSecondPoint().x - getFirstPoint().x;
         float delta_y = getFirstPoint().y - getSecondPoint().y;
-        float thisAngle = (float) Math.atan2(delta_y, delta_x);
+        double thisAngle = Math.toDegrees(Math.atan2(delta_y, delta_x));
 
         // calculate the angle of otherLine
-        delta_x = otherLine.getFirstPoint().x - otherLine.getSecondPoint().x;
+        delta_x = otherLine.getSecondPoint().x - otherLine.getFirstPoint().x;
         delta_y = otherLine.getFirstPoint().y - otherLine.getSecondPoint().y;
-        float otherAngle = (float) Math.atan2(delta_y, delta_x);
+        double otherAngle = Math.toDegrees(Math.atan2(delta_y, delta_x));
 
-        float diff = Math.abs((thisAngle - otherAngle) / ((thisAngle + otherAngle) / 2));
+        double diff = Math.abs(thisAngle - otherAngle) / 360;
         if (diff < tolerance) {
           return new Line(getFirstPoint(), otherLine.getSecondPoint());
         } else {
@@ -75,5 +78,12 @@ public class Line extends Segment {
   @Override
   public boolean approximatelyEquals(Segment other) {
     return false;
+  }
+
+  @Override
+  public Segment scaleSegment(Matrix scaleMatrix, boolean counter) {
+    PointF scaledFirst = PishuvalkoUtils.scalePoint(getFirstPoint(), scaleMatrix, counter);
+    PointF scaledSecond = PishuvalkoUtils.scalePoint(getSecondPoint(), scaleMatrix, counter);
+    return new Line(scaledFirst, scaledSecond);
   }
 }
