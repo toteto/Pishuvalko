@@ -1,5 +1,8 @@
 package com.jane.antonio.pishuvalko.controllers;
 
+import android.graphics.PointF;
+import android.support.annotation.Nullable;
+
 import com.jane.antonio.pishuvalko.models.Segment;
 
 /**
@@ -7,14 +10,15 @@ import com.jane.antonio.pishuvalko.models.Segment;
  */
 public interface WritingViewListener {
   /** Method that will be called when the user starts writing/drawing on the view. */
-  void onStartedWriting();
+  @Nullable
+  PointF onStartedWriting(PointF point);
 
   /**
    * Method that will be called when the user is writing on the screen. Note: It will be called very frequently so no
    * processor heavy operations allowed.
    */
-  void onWroteSegment(Segment segment);
+  boolean onWroteSegment(Segment segment);
 
   /** Method that will be called once the user ends drawing on the view. */
-  void onEndedWriting();
+  boolean onEndedWriting();
 }

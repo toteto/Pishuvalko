@@ -1,5 +1,6 @@
 package com.jane.antonio.pishuvalko.models;
 
+import android.graphics.Matrix;
 import android.graphics.Path;
 import android.graphics.PointF;
 
@@ -52,4 +53,6 @@ public abstract class Segment implements Serializable {
   public abstract Segment mergeSegments(Segment other, float tolerance);
 
   public abstract boolean approximatelyEquals(Segment other);
+
+  public abstract Segment scaleSegment(Matrix scaleMatrix, boolean counter);
 }

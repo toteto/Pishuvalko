@@ -1,5 +1,6 @@
 package com.jane.antonio.pishuvalko.models;
 
+import android.graphics.Matrix;
 import android.graphics.Path;
 import android.graphics.PointF;
 import android.graphics.RectF;
@@ -35,7 +36,14 @@ public class Arc extends Segment {
 
   @Override
   public boolean approximatelyEquals(Segment other) {
+    // TODO: 01.12.2016
     return false;
+  }
+
+  @Override
+  public Segment scaleSegment(Matrix scaleMatrix, boolean counter) {
+    // TODO: 01.12.2016
+    return null;
   }
 
   /** The points is storing the right and bottom bounds. */

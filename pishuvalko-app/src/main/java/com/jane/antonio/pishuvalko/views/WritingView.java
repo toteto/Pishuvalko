@@ -38,6 +38,8 @@ public class WritingView extends View {
   private final Path handDrawnPath;
 
   private PointF prevPoint;
+  float shiftX = 0;
+  float shiftY = 0;
   private final List<Segment> handDrawnSegments;
 
   public WritingView(Context context) {
@@ -87,16 +89,27 @@ public class WritingView extends View {
   /** Method responsible for handing when the user starts writing on the view. */
   private void startedWriting(float x, float y) {
     prevPoint = new PointF(x, y);
-    handDrawnPath.moveTo(x, y);
     handDrawnSegments.clear();
     if (writingViewListener != null) {
-      writingViewListener.onStartedWriting();
+      PointF newPrevPoint = writingViewListener.onStartedWriting(
+        PishuvalkoUtils.scalePoint(prevPoint, scaleMatrix, true));
+      if (newPrevPoint != null) {
+        newPrevPoint = PishuvalkoUtils.scalePoint(newPrevPoint, scaleMatrix, false);
+        handDrawnPath.moveTo(newPrevPoint.x, newPrevPoint.y);
+        shiftX = prevPoint.x - newPrevPoint.x;
+        shiftY = prevPoint.y - newPrevPoint.y;
+      }
+      prevPoint = newPrevPoint;
     }
   }
 
   /** Method responsible for handing the writing writing movement on the view. */
   private void writeSegment(float nextX, float nextY) {
-    PointF currPoint = new PointF(nextX, nextY);
+    if (prevPoint == null) {
+      return;
+    }
+
+    PointF currPoint = new PointF(nextX - shiftX, nextY - shiftY);
     double distance = PishuvalkoUtils.calculateDistance(prevPoint, currPoint);
     // avoiding jitter by defining minimal size of one segment
     if (distance < 20) {
@@ -106,9 +119,9 @@ public class WritingView extends View {
     handDrawnSegments.add(drawnSegment);
 
     prevPoint = currPoint;
-    handDrawnPath.lineTo(nextX, nextY);
+    handDrawnPath.lineTo(currPoint.x, currPoint.y);
     if (writingViewListener != null) {
-      writingViewListener.onWroteSegment(drawnSegment);
+      writingViewListener.onWroteSegment(drawnSegment.scaleSegment(scaleMatrix, true));
     }
   }
 
@@ -127,19 +140,21 @@ public class WritingView extends View {
    * @return true  if it is successfully merged.
    */
   private boolean mergeHandDrawnSegments() {
-    ListIterator<Segment> iterator = handDrawnSegments.listIterator();
-    Segment prevSegment = iterator.next();
-    while (iterator.hasNext()) {
-      Segment currSegment = iterator.next();
-      prevSegment = prevSegment.mergeSegments(currSegment, 1f);
-      if (prevSegment == null) {
-        break;
+    if (handDrawnSegments.size() > 0) {
+      ListIterator<Segment> iterator = handDrawnSegments.listIterator();
+      Segment prevSegment = iterator.next();
+      while (iterator.hasNext()) {
+        Segment currSegment = iterator.next();
+        prevSegment = prevSegment.mergeSegments(currSegment, 0.1f);
+        if (prevSegment == null) {
+          break;
+        }
       }
-    }
-    if (prevSegment != null) {
-      handDrawnPath.reset();
-      handDrawnPath.addPath(prevSegment.getDrawablePath(false));
-      return true;
+      if (prevSegment != null) {
+        handDrawnPath.reset();
+        handDrawnPath.addPath(prevSegment.getDrawablePath(false));
+        return true;
+      }
     }
     return false;
   }
