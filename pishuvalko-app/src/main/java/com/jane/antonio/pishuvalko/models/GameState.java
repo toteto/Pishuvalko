@@ -9,12 +9,21 @@ import java.util.ListIterator;
 public class GameState {
   @Retention(RetentionPolicy.SOURCE)
 
-  @IntDef({CT_FAILED, CT_SEGMENT_COMPLETED, CT_STEP_COMPLETED, CT_CHARACTER_COMPLETED})
-  public @interface CompleteType {  }
 
+  /**
+   * Values that will bbe used as feedback for the completion of the current state.
+   * */
+  @IntDef({CT_FAILED, CT_SEGMENT_COMPLETED, CT_STEP_COMPLETED, CT_CHARACTER_COMPLETED})
+  public @interface CompleteType {
+  }
+
+  /** Value representing that the writing of the character has failed, or it is invalid. */
   public static final int CT_FAILED = -1;
+  /** Value representing that the current segment has been successfully completed. */
   public static final int CT_SEGMENT_COMPLETED = 0;
+  /** Value representing that the current step has been successfully completed. */
   public static final int CT_STEP_COMPLETED = 1;
+  /** Value representing that the current character has been successfully completed. */
   public static final int CT_CHARACTER_COMPLETED = 2;
 
   private final WritableCharacter currentCharacter;
@@ -46,6 +55,12 @@ public class GameState {
     return currentsSegment;
   }
 
+  /**
+   * Try to complete the current segment.
+   *
+   * @param segment the segment that has been drawn. This will be compared with the current segment in the state.
+   * @return the validity and completion level of the drawn segment.
+   */
   @CompleteType
   public int completeSegment(Segment segment) {
     if (currentsSegment.approximatelyEquals(segment)) {

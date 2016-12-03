@@ -38,14 +38,19 @@ public class WritingView extends View {
   private final Path handDrawnPath;
 
   private PointF prevPoint;
-  float shiftX = 0;
-  float shiftY = 0;
+  private float shiftX = 0;
+  private float shiftY = 0;
   private final List<Segment> handDrawnSegments;
 
+  /** @param context the context. */
   public WritingView(Context context) {
     this(context, null);
   }
 
+  /**
+   * @param context the context
+   * @param attrs the view params
+   */
   public WritingView(Context context, AttributeSet attrs) {
     super(context, attrs);
 
@@ -88,17 +93,24 @@ public class WritingView extends View {
 
   /** Method responsible for handing when the user starts writing on the view. */
   private void startedWriting(float x, float y) {
-    prevPoint = new PointF(x, y);
-    handDrawnSegments.clear();
+    prevPoint = new PointF(x, y); // initial point
+    handDrawnSegments.clear(); // clearing the previously drawn segments
     if (writingViewListener != null) {
-      PointF newPrevPoint = writingViewListener.onStartedWriting(
-        PishuvalkoUtils.scalePoint(prevPoint, scaleMatrix, true));
+      // scale the point down to the scale how it is defined in the WritableCharacter
+      PointF newPrevPoint = PishuvalkoUtils.scalePoint(prevPoint, scaleMatrix, true);
+      // send the scaled point to the listener
+      newPrevPoint = writingViewListener.onStartedWriting(newPrevPoint);
       if (newPrevPoint != null) {
+        // the listener confirmed that the point is valid
+        // scale the point back to scale of the drawing view
         newPrevPoint = PishuvalkoUtils.scalePoint(newPrevPoint, scaleMatrix, false);
         handDrawnPath.moveTo(newPrevPoint.x, newPrevPoint.y);
+
+        // shift values used later for coordinates shift based on the feedback from the listener
         shiftX = prevPoint.x - newPrevPoint.x;
         shiftY = prevPoint.y - newPrevPoint.y;
       }
+      // updating the point that will be used for later. It can be null, meaning it is invalid prevPoint.
       prevPoint = newPrevPoint;
     }
   }
@@ -106,9 +118,11 @@ public class WritingView extends View {
   /** Method responsible for handing the writing writing movement on the view. */
   private void writeSegment(float nextX, float nextY) {
     if (prevPoint == null) {
+      // invalid prev point, we don't write anything
       return;
     }
 
+    // defining current point with the shift values
     PointF currPoint = new PointF(nextX - shiftX, nextY - shiftY);
     double distance = PishuvalkoUtils.calculateDistance(prevPoint, currPoint);
     // avoiding jitter by defining minimal size of one segment
@@ -117,10 +131,12 @@ public class WritingView extends View {
     }
     Segment drawnSegment = new Line(prevPoint, currPoint);
     handDrawnSegments.add(drawnSegment);
+    // drawing just a line path
+    handDrawnPath.lineTo(currPoint.x, currPoint.y);
 
     prevPoint = currPoint;
-    handDrawnPath.lineTo(currPoint.x, currPoint.y);
     if (writingViewListener != null) {
+      // sending the listener the drawn segment, scaled down to the scale of the Writable character
       writingViewListener.onWroteSegment(drawnSegment.scaleSegment(scaleMatrix, true));
     }
   }
@@ -182,9 +198,15 @@ public class WritingView extends View {
     }
   }
 
+  /**
+   * Sets the current character that the user will be writing. Also scales the steps defined in the character and sets
+   * the new scale matrix.
+   */
   public void setCurrentCharacter(WritableCharacter currentCharacter) {
     this.currentCharacter = currentCharacter;
     drawingSteps.clear();
+    // initialize the new scale matrix
+    onSizeChanged(getWidth(), getHeight(), getWidth(), getHeight());
     drawingSteps.addAll(PishuvalkoUtils.scaleWritableCharacterStepPaths(currentCharacter, scaleMatrix));
     invalidate();
   }
