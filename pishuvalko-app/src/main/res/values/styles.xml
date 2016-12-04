@@ -20,7 +20,7 @@
         <item name="android:gravity">center_vertical|center_horizontal</item>
         <item name="android:textColor">#FFFFFFFF</item>
         <item name="android:textSize">22sp</item>
-        <item name="android:padding">16dp</item>
+        <item name="android:padding">12dp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:background">@drawable/board_button</item>
         <item name="android:focusable">true</item>

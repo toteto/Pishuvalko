@@ -25,12 +25,14 @@ public class LevelSelectionActivity extends AppCompatActivity {
   public static final int SMALL_LETTERS = 1;
   public static final int BIG_LETTERS = 2;
   public static final int NUMBERS = 3;
+  public static final int FORMS = 4;
 
 
   private GridLayoutManager lLayout;
   private static final String PATH_CAPITAL_LETTERS = "characters/bigLetters";
   private static final String PATH_LOWERCASE_LETTERS = "characters/smallLetters";
   private static final String PATH_NUMBERS = "characters/numbers";
+  private static final String PATH_FORMS = "characters/forms";
 
   private List<LetterImageObject> imageList;
 
@@ -50,6 +52,9 @@ public class LevelSelectionActivity extends AppCompatActivity {
         break;
       case NUMBERS:
         imageList = getNumbers();
+        break;
+      case FORMS:
+        imageList = getForms();
         break;
     }
 
@@ -125,6 +130,33 @@ public class LevelSelectionActivity extends AppCompatActivity {
 
         // get input stream
         InputStream ims = assetManager.open(PATH_NUMBERS + "/" + image);
+
+        // create drawable from stream
+        Drawable d = Drawable.createFromStream(ims, null);
+
+        // set the drawable to imageview
+        allLetters.add(new LetterImageObject(d, true, getImageNameWithoutExtension(image)));
+      }
+
+    } catch (IOException ex) {
+      // ?
+    }
+    return allLetters;
+
+  }
+
+  public List<LetterImageObject> getForms() {
+    List<LetterImageObject> allLetters = new ArrayList<LetterImageObject>();
+    AssetManager assetManager = getAssets();
+    // load images
+    try {
+      String[] images = assetManager.list(PATH_FORMS);
+      for (String image : images) {
+
+        Log.i(LOG_TAG, "Forms : " + image);
+
+        // get input stream
+        InputStream ims = assetManager.open(PATH_FORMS + "/" + image);
 
         // create drawable from stream
         Drawable d = Drawable.createFromStream(ims, null);

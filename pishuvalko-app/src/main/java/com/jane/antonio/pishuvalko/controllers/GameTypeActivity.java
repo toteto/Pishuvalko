@@ -14,6 +14,7 @@ public class GameTypeActivity extends AppCompatActivity implements View.OnClickL
     private Button smallLetters;
     private Button bigLetters;
     private Button numbers;
+    private Button forms;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -22,10 +23,12 @@ public class GameTypeActivity extends AppCompatActivity implements View.OnClickL
         smallLetters = (Button) findViewById(R.id.bt_smallLetters);
         bigLetters = (Button) findViewById(R.id.bt_bigLetters);
         numbers = (Button) findViewById(R.id.bt_numbers);
+        forms = (Button) findViewById(R.id.bt_forms);
 
         smallLetters.setOnClickListener(this);
         bigLetters.setOnClickListener(this);
         numbers.setOnClickListener(this);
+        forms.setOnClickListener(this);
 
     }
 
@@ -45,6 +48,10 @@ public class GameTypeActivity extends AppCompatActivity implements View.OnClickL
             case R.id.bt_numbers:
                 // start activity with numbers
                 intent.putExtra(LevelSelectionActivity.GAME_TYPE_KEY, LevelSelectionActivity.NUMBERS);
+                break;
+            case R.id.bt_forms:
+                // start activity with forms
+                intent.putExtra(LevelSelectionActivity.GAME_TYPE_KEY, LevelSelectionActivity.FORMS);
                 break;
         }
         startActivity(intent);
