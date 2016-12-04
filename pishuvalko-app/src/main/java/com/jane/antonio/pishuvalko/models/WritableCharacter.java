@@ -2,32 +2,41 @@ package com.jane.antonio.pishuvalko.models;
 
 import android.content.Context;
 import android.content.res.AssetManager;
+import android.support.annotation.Nullable;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.List;
 
-public class WritableCharacter {
-  private final String characterPath;
-  private final String characterName;
-  private final List<String> steps;
+/** An abstract class for writable characters. */
+public abstract class WritableCharacter {
+  private final String displayName;
+  private final String fileName;
 
-  public WritableCharacter(String characterPath, String characterName, List<String> steps) {
-    this.characterPath = characterPath;
-    this.characterName = characterName;
-    this.steps = steps;
+  /**
+   * Base constructor.
+   *
+   * @param displayName the name that will be displayed to the user.
+   * @param fileName the name of the file in the assets folder.
+   */
+  public WritableCharacter(String displayName, String fileName) {
+    this.displayName = displayName;
+    this.fileName = fileName;
   }
 
-  public String getCharacterName() {
-    return characterName;
+  public String getDisplayName() {
+    return displayName;
   }
 
-  public List<String> getSteps() {
-    return steps;
-  }
+  /** Get the assets folder of the character. ex: "characters/bigLetters". */
+  public abstract String getCharacterFolder();
 
-  public String getCharacterPath() {
-    return characterPath;
+  /** Builds and returns the full path of the file for this writable character. */
+  public String buildCharacterPath() {
+    String charFolder = getCharacterFolder();
+    if (!charFolder.endsWith("/")) {
+      charFolder += "/";
+    }
+    return charFolder + fileName;
   }
 
   /**
@@ -35,9 +44,10 @@ public class WritableCharacter {
    *
    * @return the input stream if it is valid path. Null if the path can't be found.
    */
+  @Nullable
   public InputStream openInputStreamForCharacter(Context context) {
     try {
-      return context.getAssets().open(characterPath, AssetManager.ACCESS_STREAMING);
+      return context.getAssets().open(buildCharacterPath(), AssetManager.ACCESS_STREAMING);
     } catch (IOException e) {
       return null;
     }
