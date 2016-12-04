@@ -1,9 +1,9 @@
 <resources>
     <string name="app_name">Pishuvalko</string>
 
-    <string name="start_game">започни да учиш</string>
-    <string name="settings_game">подесувања</string>
-    <string name="exit_game">излез</string>
+    <string name="start_game">ЗАПОЧНИ ДА УЧИШ</string>
+    <string name="settings_game">ПОДЕСУВАЊА</string>
+    <string name="exit_game">ИЗЛЕЗ</string>
     <string name="close_board">Close board.</string>
     <string name="previous_level">Previous level</string>
     <string name="next_level">Next level</string>
