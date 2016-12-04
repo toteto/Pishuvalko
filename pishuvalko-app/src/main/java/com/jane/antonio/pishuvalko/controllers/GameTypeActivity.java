@@ -9,10 +9,6 @@ import android.widget.Button;
 
 import com.jane.antonio.pishuvalko.R;
 
-/**
- * Created by janedzumerko on 11/13/16.
- */
-
 public class GameTypeActivity extends AppCompatActivity implements View.OnClickListener {
 
     private Button smallLetters;
@@ -37,7 +33,7 @@ public class GameTypeActivity extends AppCompatActivity implements View.OnClickL
     public void onClick(View v) {
     // Perform action on click
         Intent intent = new Intent(getApplicationContext(), LevelSelectionActivity.class);
-        switch(v.getId()) {
+        switch (v.getId()) {
             case R.id.bt_smallLetters:
                 // start activity with small letters
                 intent.putExtra(LevelSelectionActivity.GAME_TYPE_KEY, LevelSelectionActivity.SMALL_LETTERS);

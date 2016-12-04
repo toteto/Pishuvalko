@@ -4,7 +4,7 @@
 
   <application
     android:name=".controllers.App"
-    android:allowBackup="true"
+    android:allowBackup="false"
     android:icon="@mipmap/ic_launcher"
     android:label="@string/app_name"
     android:supportsRtl="true"
@@ -16,11 +16,10 @@
         <category android:name="android.intent.category.LAUNCHER"/>
       </intent-filter>
     </activity>
-    <activity android:name=".controllers.WritingGameActivity">
-    </activity>
     <activity android:name=".controllers.LevelSelectionActivity"/>
     <activity android:name=".controllers.SettingsActivity"/>
-    <activity android:name=".controllers.GameTypeActivity" />
+    <activity android:name=".controllers.GameTypeActivity"/>
+    <activity android:name=".controllers.WritingGameActivity"/>
   </application>
 
 </manifest>

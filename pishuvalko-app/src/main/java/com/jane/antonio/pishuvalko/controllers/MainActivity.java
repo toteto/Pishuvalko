@@ -2,9 +2,9 @@ package com.jane.antonio.pishuvalko.controllers;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
@@ -27,54 +27,47 @@ public class MainActivity extends AppCompatActivity {
     exit = (Button) findViewById(R.id.bt_exit);
 
     startGame.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            Intent intent = new Intent(getApplicationContext(), GameTypeActivity.class);
-            startActivity(intent);
-        }
+      @Override
+      public void onClick(View v) {
+        Intent intent = new Intent(getApplicationContext(), GameTypeActivity.class);
+        startActivity(intent);
+      }
     });
 
     goToSettings.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
-            startActivity(intent);
-        }
+      @Override
+      public void onClick(View v) {
+        Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
+        startActivity(intent);
+      }
     });
 
     exit.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
+      @Override
+      public void onClick(View v) {
+        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+          @Override
+          public void onClick(DialogInterface dialog, int which) {
+            switch (which) {
+              case DialogInterface.BUTTON_POSITIVE:
+                Intent intent = new Intent(Intent.ACTION_MAIN);
+                intent.addCategory(Intent.CATEGORY_HOME);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                break;
+              case DialogInterface.BUTTON_NEGATIVE:
+                //No button clicked
+                break;
+            }
+          }
+        };
 
-            DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    switch (which){
-                        case DialogInterface.BUTTON_POSITIVE:
+        AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+        builder.setMessage("Are you sure?").setPositiveButton("Yes", dialogClickListener).setNegativeButton("No",
+          dialogClickListener).show();
 
-                            //System.exit(0);
-
-                            Intent intent = new Intent(Intent.ACTION_MAIN);
-                            intent.addCategory(Intent.CATEGORY_HOME);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            startActivity(intent);
-
-                            break;
-
-                        case DialogInterface.BUTTON_NEGATIVE:
-                            //No button clicked
-                            break;
-                    }
-                }
-            };
-
-            AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
-            builder.setMessage("Are you sure?").setPositiveButton("Yes", dialogClickListener)
-                    .setNegativeButton("No", dialogClickListener).show();
-
-        }
+      }
     });
-
 
   }
 }

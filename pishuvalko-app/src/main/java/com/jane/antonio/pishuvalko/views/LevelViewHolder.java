@@ -7,12 +7,14 @@ import android.widget.ImageView;
 import com.jane.antonio.pishuvalko.R;
 
 public class LevelViewHolder extends RecyclerView.ViewHolder {
-  public ImageView countryPhoto;
+  private final ImageView imageView;
 
   public LevelViewHolder(View itemView) {
     super(itemView);
-    countryPhoto = (ImageView) itemView.findViewById(R.id.letter_photo);
+    imageView = (ImageView) itemView.findViewById(R.id.letter_photo);
   }
 
-
+  public ImageView getImageView() {
+    return imageView;
+  }
 }

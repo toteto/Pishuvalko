@@ -7,8 +7,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
 import com.jane.antonio.pishuvalko.R;
-import com.jane.antonio.pishuvalko.models.WritableCharacter;
-import com.jane.antonio.pishuvalko.views.WritingView;
 
 /**
  * Activity that will be responsible for controlling and displaying of the writing game.
@@ -17,32 +15,24 @@ public class WritingGameActivity extends AppCompatActivity {
 
   protected static final String WRITABLE_CHARACTER_INTENT_KEY = "letter_select";
 
-  private WritingView writingView;
-  private GameHolder gameHolder;
-
   @Override
   protected void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.writing_game_activity);
-    writingView = (WritingView) findViewById(R.id.writingView);
-    gameHolder = new GameHolder(writingView);
   }
 
   @Override
   protected void onStart() {
     super.onStart();
-    gameHolder.onViewsAttached();
   }
 
   @Override
   protected void onDestroy() {
     super.onDestroy();
-    gameHolder.onViewsDetached();
   }
 
-  public static Intent getStartingIntent(Context context, WritableCharacter writableCharacter) {
+  public static Intent getStartingIntent(Context context) {
     Intent intent = new Intent(context, WritingGameActivity.class);
-    intent.putExtra(WRITABLE_CHARACTER_INTENT_KEY, writableCharacter);
     return intent;
   }
 }
