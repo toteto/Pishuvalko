@@ -3,6 +3,7 @@ package com.jane.antonio.pishuvalko.models;
 import android.graphics.Matrix;
 import android.graphics.Path;
 import android.graphics.PointF;
+import android.support.annotation.NonNull;
 
 import java.io.Serializable;
 
@@ -10,7 +11,7 @@ import java.io.Serializable;
  * Segment that should represent one part of the {@link WritableCharacter}. It has option to attach other segments to it
  * in order to make more complex segments.
  */
-public abstract class Segment implements Serializable {
+public abstract class Segment<T extends Segment> implements Serializable {
   private static final long serialVersionUID = 2702346901257766473L;
   private final PointF firstPoint;
   private Path drawablePath;
@@ -50,9 +51,9 @@ public abstract class Segment implements Serializable {
    * @param other the other segment that will merge with this->
    * @return the merged segment, or null if it is not possible to be merged.
    */
-  public abstract Segment mergeSegments(Segment other, float tolerance);
+  public abstract T mergeSegments(@NonNull Line other, float tolerance);
 
-  public abstract boolean approximatelyEquals(Segment other);
+  public abstract boolean approximatelyEquals(T other);
 
-  public abstract Segment scaleSegment(Matrix scaleMatrix, boolean counter);
+  public abstract T scaleSegment(@NonNull Matrix scaleMatrix, boolean counter);
 }

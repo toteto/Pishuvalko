@@ -4,11 +4,12 @@ import android.graphics.Matrix;
 import android.graphics.Path;
 import android.graphics.PointF;
 import android.graphics.RectF;
+import android.support.annotation.NonNull;
 
 /**
  * A {@link Segment} that represents a curved line - arc.
  */
-public class Arc extends Segment {
+public class Arc extends Segment<Arc> {
   private static final long serialVersionUID = 5399925238008475610L;
   private final PointF secondPoint;
   private final float swipeDegrees;
@@ -30,18 +31,17 @@ public class Arc extends Segment {
   }
 
   @Override
-  public Segment mergeSegments(Segment other, float tolerance) {
+  public Arc mergeSegments(@NonNull Line other, float tolerance) {
     return null;
   }
 
   @Override
-  public boolean approximatelyEquals(Segment other) {
-    // TODO: 01.12.2016
+  public boolean approximatelyEquals(Arc other) {
     return false;
   }
 
   @Override
-  public Segment scaleSegment(Matrix scaleMatrix, boolean counter) {
+  public Arc scaleSegment(@NonNull Matrix scaleMatrix, boolean counter) {
     // TODO: 01.12.2016
     return null;
   }

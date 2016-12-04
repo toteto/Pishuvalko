@@ -40,7 +40,7 @@ public class WritingView extends View {
   private PointF prevPoint;
   private float shiftX = 0;
   private float shiftY = 0;
-  private final List<Segment> handDrawnSegments;
+  private List<Segment> handDrawnSegments;
 
   /** @param context the context. */
   public WritingView(Context context) {
@@ -129,50 +129,22 @@ public class WritingView extends View {
     if (distance < 20) {
       return;
     }
-    Segment drawnSegment = new Line(prevPoint, currPoint);
-    handDrawnSegments.add(drawnSegment);
+    Line drawnSegment = new Line(prevPoint, currPoint);
     // drawing just a line path
     handDrawnPath.lineTo(currPoint.x, currPoint.y);
 
     prevPoint = currPoint;
     if (writingViewListener != null) {
       // sending the listener the drawn segment, scaled down to the scale of the Writable character
-      writingViewListener.onWroteSegment(drawnSegment.scaleSegment(scaleMatrix, true));
+      handDrawnSegments = writingViewListener.onWroteSegment(drawnSegment.scaleSegment(scaleMatrix, true));
     }
   }
 
   /** Method responsible for handing when the user stops writing (ex. lifts up the finger). */
   private void endWriting() {
-    mergeHandDrawnSegments();
     if (writingViewListener != null) {
       writingViewListener.onEndedWriting();
     }
-  }
-
-
-  /**
-   * Merges the hand drawn segments stored in this.handDrawnSegments.
-   *
-   * @return true  if it is successfully merged.
-   */
-  private boolean mergeHandDrawnSegments() {
-    if (handDrawnSegments.size() > 0) {
-      ListIterator<Segment> iterator = handDrawnSegments.listIterator();
-      Segment prevSegment = iterator.next();
-      while (iterator.hasNext()) {
-        Segment currSegment = iterator.next();
-        prevSegment = prevSegment.mergeSegments(currSegment, 0.1f);
-        if (prevSegment == null) {
-          break;
-        }
-      }
-      if (prevSegment != null) {
-        handDrawnPath.reset();
-        handDrawnPath.addPath(prevSegment.getDrawablePath(false));
-        return true;
-      }
-    }
-    return false;
   }
 
 
@@ -180,6 +152,9 @@ public class WritingView extends View {
   protected void onDraw(Canvas canvas) {
     for (Path path : drawingSteps) {
       canvas.drawPath(path, characterPaint);
+    }
+    for (Segment segment : handDrawnSegments) {
+      canvas.drawPath(segment.scaleSegment(scaleMatrix, false).getDrawablePath(false), writingPaint);
     }
     canvas.drawPath(handDrawnPath, writingPaint);
     super.onDraw(canvas);
