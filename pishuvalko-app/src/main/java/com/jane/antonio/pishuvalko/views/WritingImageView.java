@@ -10,6 +10,7 @@ import android.view.MotionEvent;
 import android.widget.ImageView;
 
 import com.jane.antonio.pishuvalko.R;
+import com.jane.antonio.pishuvalko.models.WritableCharacter;
 
 /** ImageView with writable surface. */
 public class WritingImageView extends ImageView {
@@ -53,5 +54,9 @@ public class WritingImageView extends ImageView {
   protected void onDraw(Canvas canvas) {
     super.onDraw(canvas);
     canvas.drawPath(drawPath, drawPaint);
+  }
+
+  public void setWritableCharacter(WritableCharacter character) {
+
   }
 }
