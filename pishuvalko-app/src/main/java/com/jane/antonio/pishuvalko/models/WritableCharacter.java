@@ -2,6 +2,7 @@ package com.jane.antonio.pishuvalko.models;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
 import java.io.IOException;
@@ -53,6 +54,7 @@ public abstract class WritableCharacter {
    *
    * @return the drawable, or NULL if no file found with the provided name.
    */
+  @Nullable
   public Drawable getOutlineDrawable(Context context) {
     return getDrawable(context, OUTLINE_SUFFIX);
   }
@@ -62,12 +64,14 @@ public abstract class WritableCharacter {
    *
    * @return the drawable, or NULL if no file found with the provided name.
    */
+  @Nullable
   public Drawable getStepsDrawable(Context context) {
     return getDrawable(context, STEPS_SUFFIX);
   }
 
 
   /** Gets drawables for this {@link WritableCharacter} based on the provided suffix. */
+  @Nullable
   private Drawable getDrawable(Context context, String suffix) {
     final String fullPath = getCharacterPathBuilder().append(suffix).append(".").append(fileFormat).toString();
     try (InputStream is = context.getAssets().open(fullPath)) {

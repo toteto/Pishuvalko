@@ -32,6 +32,8 @@ public final class CharacterFetcher {
   }
 
   /**
+   * Gets the config file for the provided path.
+   *
    * @param path to the folder of the config.csv. Ex: {@link WritableCapitalLetter#PATH}
    */
   @NonNull
