@@ -61,7 +61,7 @@ public class WritingGameActivity extends AppCompatActivity implements View.OnCli
     if (btnNext.equals(view)) {
       gameController.onNextClicked();
     } else if (btnPrevious.equals(view)) {
-      gameController.onPreviusClicked();
+      gameController.onPreviousClicked();
     } else if (btnClose.equals(view)) {
       gameController.onCloseClicked();
     }

@@ -1,26 +1,32 @@
 package com.jane.antonio.pishuvalko.models;
 
 import android.content.Context;
-import android.content.res.AssetManager;
-import android.support.annotation.Nullable;
+import android.graphics.drawable.Drawable;
+import android.util.Log;
 
 import java.io.IOException;
 import java.io.InputStream;
 
 /** An abstract class for writable characters. */
 public abstract class WritableCharacter {
+  private static final String LOG_TAG = WritableCharacter.class.getSimpleName();
+  private static final String STEPS_SUFFIX = "_steps";
+  private static final String OUTLINE_SUFFIX = "_shape";
   private final String displayName;
-  private final String fileName;
+  private final String baseFileName;
+  private final String fileFormat;
 
   /**
    * Base constructor.
    *
    * @param displayName the name that will be displayed to the user.
-   * @param fileName the name of the file in the assets folder.
+   * @param baseFileName the name of the file in the assets folder.
+   * @param fileFormat the file format of the images
    */
-  public WritableCharacter(String displayName, String fileName) {
+  public WritableCharacter(String displayName, String baseFileName, String fileFormat) {
     this.displayName = displayName;
-    this.fileName = fileName;
+    this.baseFileName = baseFileName;
+    this.fileFormat = fileFormat;
   }
 
   public String getDisplayName() {
@@ -30,25 +36,44 @@ public abstract class WritableCharacter {
   /** Get the assets folder of the character. ex: "characters/bigLetters". */
   public abstract String getCharacterFolder();
 
-  /** Builds and returns the full path of the file for this writable character. */
-  public String buildCharacterPath() {
-    String charFolder = getCharacterFolder();
+  /** Returns a general path leading to the images of the instance type. */
+  private StringBuilder getCharacterPathBuilder() {
+    final StringBuilder stringBuilder = new StringBuilder();
+    final String charFolder = getCharacterFolder();
+    stringBuilder.append(charFolder);
     if (!charFolder.endsWith("/")) {
-      charFolder += "/";
+      stringBuilder.append("/");
     }
-    return charFolder + fileName;
+    stringBuilder.append(baseFileName);
+    return stringBuilder;
   }
 
   /**
-   * Tries to open an input stream for the path of the character.
+   * Get the character outline drawable for this {@link WritableCharacter}.
    *
-   * @return the input stream if it is valid path. Null if the path can't be found.
+   * @return the drawable, or NULL if no file found with the provided name.
    */
-  @Nullable
-  public InputStream openInputStreamForCharacter(Context context) {
-    try {
-      return context.getAssets().open(buildCharacterPath(), AssetManager.ACCESS_STREAMING);
+  public Drawable getOutlineDrawable(Context context) {
+    return getDrawable(context, OUTLINE_SUFFIX);
+  }
+
+  /**
+   * Get the character steps drawable for this {@link WritableCharacter}.
+   *
+   * @return the drawable, or NULL if no file found with the provided name.
+   */
+  public Drawable getStepsDrawable(Context context) {
+    return getDrawable(context, STEPS_SUFFIX);
+  }
+
+
+  /** Gets drawables for this {@link WritableCharacter} based on the provided suffix. */
+  private Drawable getDrawable(Context context, String suffix) {
+    final String fullPath = getCharacterPathBuilder().append(suffix).append(".").append(fileFormat).toString();
+    try (InputStream is = context.getAssets().open(fullPath)) {
+      return Drawable.createFromStream(is, null);
     } catch (IOException e) {
+      Log.e(LOG_TAG, "getStepsDrawable: No file found with name: " + fullPath, e);
       return null;
     }
   }

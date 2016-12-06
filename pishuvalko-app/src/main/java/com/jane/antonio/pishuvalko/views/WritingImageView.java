@@ -13,8 +13,6 @@ import android.widget.ImageView;
 import com.jane.antonio.pishuvalko.R;
 import com.jane.antonio.pishuvalko.models.WritableCharacter;
 
-import java.io.InputStream;
-
 /** ImageView with writable surface. */
 public class WritingImageView extends ImageView {
   private final Path drawPath;
@@ -61,13 +59,7 @@ public class WritingImageView extends ImageView {
   /** Sets a writable character that the user will be drawing on. */
   public void setWritableCharacter(WritableCharacter character) {
     drawPath.reset();
-    InputStream inputStream = character.openInputStreamForCharacter(getContext());
-    Drawable drawable;
-    if (inputStream != null) {
-      drawable = Drawable.createFromStream(inputStream, null);
-    } else {
-      drawable = ContextCompat.getDrawable(getContext(), R.mipmap.ic_launcher);
-    }
-    setImageDrawable(drawable);
+    Drawable drawable = character.getOutlineDrawable(getContext());
+    setImageDrawable(drawable != null ? drawable : ContextCompat.getDrawable(getContext(), R.mipmap.ic_launcher));
   }
 }

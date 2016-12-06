@@ -8,10 +8,11 @@ public class WritableCapitalLetter extends WritableCharacter {
    * Base constructor.
    *
    * @param displayName the name that will be displayed to the user.
-   * @param fileName the name of the file in the assets folder.
+   * @param baseFileName the name of the file in the assets folder.
+   * @param fileFormat the file format of the images
    */
-  public WritableCapitalLetter(String displayName, String fileName) {
-    super(displayName, fileName);
+  public WritableCapitalLetter(String displayName, String baseFileName, String fileFormat) {
+    super(displayName, baseFileName, fileFormat);
   }
 
   @Override

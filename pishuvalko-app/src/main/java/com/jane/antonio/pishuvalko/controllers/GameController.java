@@ -27,7 +27,7 @@ public class GameController {
    */
   public void onStart(@Nullable final WritableCharacter writableCharacter) {
     if (writableCharacter == null) {
-      gameInterface.showCharacter(new WritableCapitalLetter("A", "A.png"));
+      gameInterface.showCharacter(new WritableCapitalLetter("A", "A", "png"));
     } else {
       gameInterface.showCharacter(writableCharacter);
     }
@@ -44,7 +44,7 @@ public class GameController {
   }
 
   /** called from the user when he click previous. Should display the previous level. */
-  public void onPreviusClicked() {
+  public void onPreviousClicked() {
 
   }
 
