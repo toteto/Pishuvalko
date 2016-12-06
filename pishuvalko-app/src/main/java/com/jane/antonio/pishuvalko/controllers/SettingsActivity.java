@@ -6,16 +6,11 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.jane.antonio.pishuvalko.R;
 
-/**
- * Created by janedzumerko on 11/13/16.
- */
-
 public class SettingsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
-
     }
 }

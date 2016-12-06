@@ -25,14 +25,16 @@ public class LevelSelectionActivity extends AppCompatActivity {
   public static final int SMALL_LETTERS = 1;
   public static final int BIG_LETTERS = 2;
   public static final int NUMBERS = 3;
+  public static final int FORMS = 4;
 
 
   private GridLayoutManager lLayout;
-  private final static String bigLettersCharactersPath = "characters/bigLetters";
-  private final static String smallLettersCharactersPath = "characters/smallLetters";
-  private final static String numbersCharactersPath = "characters/numbers";
+  private static final String PATH_CAPITAL_LETTERS = "characters/bigLetters";
+  private static final String PATH_LOWERCASE_LETTERS = "characters/smallLetters";
+  private static final String PATH_NUMBERS = "characters/numbers";
+  private static final String PATH_FORMS = "characters/forms";
 
-  List<LetterImageObject> imageList;
+  private List<LetterImageObject> imageList;
 
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -51,6 +53,9 @@ public class LevelSelectionActivity extends AppCompatActivity {
       case NUMBERS:
         imageList = getNumbers();
         break;
+      case FORMS:
+        imageList = getForms();
+        break;
     }
 
     RecyclerView rView = (RecyclerView) findViewById(R.id.recycler_view_level_selection);
@@ -65,13 +70,13 @@ public class LevelSelectionActivity extends AppCompatActivity {
     AssetManager assetManager = getAssets();
     // load images
     try {
-      String[] images = assetManager.list(bigLettersCharactersPath);
+      String[] images = assetManager.list(PATH_CAPITAL_LETTERS);
       for (String image : images) {
 
         Log.i(LOG_TAG, "Big letters : " + image);
 
         // get input stream
-        InputStream ims = assetManager.open(bigLettersCharactersPath + "/" + image);
+        InputStream ims = assetManager.open(PATH_CAPITAL_LETTERS + "/" + image);
 
         // create drawable from stream
         Drawable d = Drawable.createFromStream(ims, null);
@@ -91,13 +96,13 @@ public class LevelSelectionActivity extends AppCompatActivity {
     AssetManager assetManager = getAssets();
     // load images
     try {
-      String[] images = assetManager.list(smallLettersCharactersPath);
+      String[] images = assetManager.list(PATH_LOWERCASE_LETTERS);
       for (String image : images) {
 
         Log.i(LOG_TAG, "Small letters : " + image);
 
         // get input stream
-        InputStream ims = assetManager.open(smallLettersCharactersPath + "/" + image);
+        InputStream ims = assetManager.open(PATH_LOWERCASE_LETTERS + "/" + image);
 
         // create drawable from stream
         Drawable d = Drawable.createFromStream(ims, null);
@@ -118,13 +123,40 @@ public class LevelSelectionActivity extends AppCompatActivity {
     AssetManager assetManager = getAssets();
     // load images
     try {
-      String[] images = assetManager.list(numbersCharactersPath);
+      String[] images = assetManager.list(PATH_NUMBERS);
       for (String image : images) {
 
         Log.i(LOG_TAG, "Numbers : " + image);
 
         // get input stream
-        InputStream ims = assetManager.open(numbersCharactersPath + "/" + image);
+        InputStream ims = assetManager.open(PATH_NUMBERS + "/" + image);
+
+        // create drawable from stream
+        Drawable d = Drawable.createFromStream(ims, null);
+
+        // set the drawable to imageview
+        allLetters.add(new LetterImageObject(d, true, getImageNameWithoutExtension(image)));
+      }
+
+    } catch (IOException ex) {
+      // ?
+    }
+    return allLetters;
+
+  }
+
+  public List<LetterImageObject> getForms() {
+    List<LetterImageObject> allLetters = new ArrayList<LetterImageObject>();
+    AssetManager assetManager = getAssets();
+    // load images
+    try {
+      String[] images = assetManager.list(PATH_FORMS);
+      for (String image : images) {
+
+        Log.i(LOG_TAG, "Forms : " + image);
+
+        // get input stream
+        InputStream ims = assetManager.open(PATH_FORMS + "/" + image);
 
         // create drawable from stream
         Drawable d = Drawable.createFromStream(ims, null);

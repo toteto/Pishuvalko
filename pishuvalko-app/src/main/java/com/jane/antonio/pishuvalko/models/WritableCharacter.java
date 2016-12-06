@@ -1,39 +1,80 @@
 package com.jane.antonio.pishuvalko.models;
 
-import java.io.Serializable;
-import java.util.List;
+import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.util.Log;
 
-/**
- * Model that describes the character that will be written by the user.
- */
-public class WritableCharacter implements Serializable {
-  private static final long serialVersionUID = -7117773315662436706L;
+import java.io.IOException;
+import java.io.InputStream;
 
-  private final String name;
-  private final List<Step> steps;
-  private final float height;
-  private final float width;
+/** An abstract class for writable characters. */
+public abstract class WritableCharacter {
+  private static final String LOG_TAG = WritableCharacter.class.getSimpleName();
+  private static final String STEPS_SUFFIX = "_steps";
+  private static final String OUTLINE_SUFFIX = "_shape";
+  private final String displayName;
+  private final String baseFileName;
+  private final String fileFormat;
 
-  public WritableCharacter(String name, List<Step> steps, float height, float width) {
-    this.name = name;
-    this.steps = steps;
-    this.height = height;
-    this.width = width;
+  /**
+   * Base constructor.
+   *
+   * @param displayName the name that will be displayed to the user.
+   * @param baseFileName the name of the file in the assets folder.
+   * @param fileFormat the file format of the images
+   */
+  public WritableCharacter(String displayName, String baseFileName, String fileFormat) {
+    this.displayName = displayName;
+    this.baseFileName = baseFileName;
+    this.fileFormat = fileFormat;
   }
 
-  public String getName() {
-    return name;
+  public String getDisplayName() {
+    return displayName;
   }
 
-  public float getHeight() {
-    return height;
+  /** Get the assets folder of the character. ex: "characters/bigLetters". */
+  public abstract String getCharacterFolder();
+
+  /** Returns a general path leading to the images of the instance type. */
+  private StringBuilder getCharacterPathBuilder() {
+    final StringBuilder stringBuilder = new StringBuilder();
+    final String charFolder = getCharacterFolder();
+    stringBuilder.append(charFolder);
+    if (!charFolder.endsWith("/")) {
+      stringBuilder.append("/");
+    }
+    stringBuilder.append(baseFileName);
+    return stringBuilder;
   }
 
-  public float getWidth() {
-    return width;
+  /**
+   * Get the character outline drawable for this {@link WritableCharacter}.
+   *
+   * @return the drawable, or NULL if no file found with the provided name.
+   */
+  public Drawable getOutlineDrawable(Context context) {
+    return getDrawable(context, OUTLINE_SUFFIX);
   }
 
-  public List<Step> getSteps() {
-    return steps;
+  /**
+   * Get the character steps drawable for this {@link WritableCharacter}.
+   *
+   * @return the drawable, or NULL if no file found with the provided name.
+   */
+  public Drawable getStepsDrawable(Context context) {
+    return getDrawable(context, STEPS_SUFFIX);
+  }
+
+
+  /** Gets drawables for this {@link WritableCharacter} based on the provided suffix. */
+  private Drawable getDrawable(Context context, String suffix) {
+    final String fullPath = getCharacterPathBuilder().append(suffix).append(".").append(fileFormat).toString();
+    try (InputStream is = context.getAssets().open(fullPath)) {
+      return Drawable.createFromStream(is, null);
+    } catch (IOException e) {
+      Log.e(LOG_TAG, "getStepsDrawable: No file found with name: " + fullPath, e);
+      return null;
+    }
   }
 }
