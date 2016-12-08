@@ -1,14 +1,18 @@
 package com.jane.antonio.pishuvalko.controllers;
 
-import android.support.annotation.Nullable;
-
 import com.jane.antonio.pishuvalko.WritingGameInterface;
-import com.jane.antonio.pishuvalko.models.WritableCapitalLetter;
 import com.jane.antonio.pishuvalko.models.WritableCharacter;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ListIterator;
 
 /** Controller/presenter for the state of the game and responsible for handing the user inputs. */
 public class GameController {
   private final WritingGameInterface gameInterface;
+  private final List<WritableCharacter> characterList;
+  private ListIterator<WritableCharacter> characterIterator;
+  private WritableCharacter currentCharacter;
 
   /**
    * Constructor.
@@ -17,19 +21,21 @@ public class GameController {
    */
   public GameController(WritingGameInterface gameInterface) {
     this.gameInterface = gameInterface;
+    characterList = new ArrayList<>();
   }
 
 
   /**
    * Should be called when the activity is ready and visible.
-   *
-   * @param writableCharacter test parameter for now
    */
-  public void onStart(@Nullable final WritableCharacter writableCharacter) {
-    if (writableCharacter == null) {
-      gameInterface.showCharacter(new WritableCapitalLetter("A", "A", "png"));
+  public void onStart(List<WritableCharacter> writableCharacters, int index) {
+    if (writableCharacters.size() < index) {
+      characterList.clear();
+      characterList.addAll(writableCharacters);
+      characterIterator = characterList.listIterator(index);
+      currentCharacter = characterIterator.next();
     } else {
-      gameInterface.showCharacter(writableCharacter);
+      throw new IndexOutOfBoundsException("The provided list contains less items than the provided index");
     }
   }
 
