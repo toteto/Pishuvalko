@@ -25,6 +25,7 @@ public final class CharacterFetcher {
   private CharacterFetcher() {
   }
 
+  /** Get list of {@link WritableCharacter} for the provided gametype. */
   @NonNull
   public static List<WritableCharacter> getCharacters(@NonNull Context context,
     @LevelSelectionActivity.GameType int type) {
@@ -37,8 +38,9 @@ public final class CharacterFetcher {
         // TODO: 08.12.2016 getAllNumbers
       case FORMS:
         // TODO: 08.12.2016 getAllForms
-        default:
-          return getAllCapitalLetters(context); // FIXME: 08.12.2016 to be removed when the rest of the methods are defined
+      default:
+        return getAllCapitalLetters(
+          context); // FIXME: 08.12.2016 to be removed when the rest of the methods are defined
     }
   }
 
