@@ -71,7 +71,7 @@ public abstract class WritableCharacter {
   }
 
   /**
-   * Get the character display drawable.
+   * Get the character display drawable for level screen.
    *
    * @return the drawable, or NULL if no file found with the provided name.
    */
