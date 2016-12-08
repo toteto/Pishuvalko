@@ -1,28 +1,29 @@
 package com.jane.antonio.pishuvalko.controllers;
 
-import android.content.res.AssetManager;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.annotation.IntDef;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 
 import com.jane.antonio.pishuvalko.R;
 import com.jane.antonio.pishuvalko.models.CharacterFetcher;
-import com.jane.antonio.pishuvalko.models.LetterImageObject;
 import com.jane.antonio.pishuvalko.models.WritableCharacter;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.util.List;
 
 public class LevelSelectionActivity extends AppCompatActivity {
   private static final String LOG_TAG = LevelSelectionActivity.class.getSimpleName();
 
   public static final String GAME_TYPE_KEY = "game_type";
+
+  @Retention(RetentionPolicy.SOURCE)
+  @IntDef({SMALL_LETTERS, BIG_LETTERS, NUMBERS, FORMS})
+  public @interface GameType {
+  }
 
   public static final int SMALL_LETTERS = 1;
   public static final int BIG_LETTERS = 2;

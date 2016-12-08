@@ -25,6 +25,7 @@ public final class CharacterFetcher {
   private CharacterFetcher() {
   }
 
+  @NonNull
   public static List<WritableCharacter> getCharacters(@NonNull Context context,
     @LevelSelectionActivity.GameType int type) {
     switch (type) {
