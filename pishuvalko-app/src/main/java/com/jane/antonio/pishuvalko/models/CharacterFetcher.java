@@ -68,8 +68,9 @@ public final class CharacterFetcher {
     try (BufferedReader reader = new BufferedReader(
       new InputStreamReader(context.getAssets().open(path + "config.csv")))) {
       String line = reader.readLine();
-      while (!line.isEmpty()) {
+      while (line != null && !line.isEmpty()) {
         lines.add(line.split(","));
+        line = reader.readLine();
       }
     } catch (IOException e) {
       Log.e(LOG_TAG, "getConfig: No config file found in this path: " + path + "/" + "config.csv", e);
