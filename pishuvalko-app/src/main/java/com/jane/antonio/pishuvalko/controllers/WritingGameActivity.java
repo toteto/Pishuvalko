@@ -1,5 +1,6 @@
 package com.jane.antonio.pishuvalko.controllers;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -69,7 +70,13 @@ public class WritingGameActivity extends AppCompatActivity implements View.OnCli
 
   @Override
   public void showCharacter(WritableCharacter character) {
-    writingImageView.setWritableCharacter(character);
+    Drawable shape = character.getOutlineDrawable(this);
+    Drawable steps = character.getStepsDrawable(this);
+    if (shape != null && steps != null) {
+      writingImageView.setShapeAndStepsLayers(shape, steps);
+    } else {
+      throw new RuntimeException("No images found to display in the writing view.");
+    }
   }
 
   @Override
