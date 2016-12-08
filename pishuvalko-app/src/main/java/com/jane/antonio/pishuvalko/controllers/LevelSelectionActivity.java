@@ -45,16 +45,16 @@ public class LevelSelectionActivity extends AppCompatActivity {
 
     switch (gameChoice) {
       case SMALL_LETTERS:
-        imageList = getSmallLetters();
+        imageList = getImageObjects(PATH_LOWERCASE_LETTERS);
         break;
       case BIG_LETTERS:
-        imageList = getBigLetters();
+        imageList = getImageObjects(PATH_CAPITAL_LETTERS);
         break;
       case NUMBERS:
-        imageList = getNumbers();
+        imageList = getImageObjects(PATH_NUMBERS);
         break;
       case FORMS:
-        imageList = getForms();
+        imageList = getImageObjects(PATH_FORMS);
         break;
     }
 
@@ -65,98 +65,18 @@ public class LevelSelectionActivity extends AppCompatActivity {
     rView.setAdapter(rcAdapter);
   }
 
-  public List<LetterImageObject> getBigLetters() {
-    List<LetterImageObject> allLetters = new ArrayList<>();
-    AssetManager assetManager = getAssets();
-    // load images
-    try {
-      String[] images = assetManager.list(PATH_CAPITAL_LETTERS);
-      for (String image : images) {
-
-        Log.i(LOG_TAG, "Big letters : " + image);
-
-        // get input stream
-        InputStream ims = assetManager.open(PATH_CAPITAL_LETTERS + "/" + image);
-
-        // create drawable from stream
-        Drawable d = Drawable.createFromStream(ims, null);
-
-        // set the drawable to imageview
-        allLetters.add(new LetterImageObject(d, false, getImageNameWithoutExtension(image)));
-      }
-
-    } catch (IOException ex) {
-      // ?
-    }
-    return allLetters;
-  }
-
-  public List<LetterImageObject> getSmallLetters() {
+  public List<LetterImageObject> getImageObjects (String PATH) {
     List<LetterImageObject> allLetters = new ArrayList<LetterImageObject>();
     AssetManager assetManager = getAssets();
     // load images
     try {
-      String[] images = assetManager.list(PATH_LOWERCASE_LETTERS);
+      String[] images = assetManager.list(PATH);
       for (String image : images) {
 
-        Log.i(LOG_TAG, "Small letters : " + image);
+        Log.i(LOG_TAG, "Object : " + image);
 
         // get input stream
-        InputStream ims = assetManager.open(PATH_LOWERCASE_LETTERS + "/" + image);
-
-        // create drawable from stream
-        Drawable d = Drawable.createFromStream(ims, null);
-
-        // set the drawable to imageview
-        allLetters.add(new LetterImageObject(d, true, getImageNameWithoutExtension(image)));
-      }
-
-    } catch (IOException ex) {
-      // ?
-    }
-    return allLetters;
-
-  }
-
-  public List<LetterImageObject> getNumbers() {
-    List<LetterImageObject> allLetters = new ArrayList<LetterImageObject>();
-    AssetManager assetManager = getAssets();
-    // load images
-    try {
-      String[] images = assetManager.list(PATH_NUMBERS);
-      for (String image : images) {
-
-        Log.i(LOG_TAG, "Numbers : " + image);
-
-        // get input stream
-        InputStream ims = assetManager.open(PATH_NUMBERS + "/" + image);
-
-        // create drawable from stream
-        Drawable d = Drawable.createFromStream(ims, null);
-
-        // set the drawable to imageview
-        allLetters.add(new LetterImageObject(d, true, getImageNameWithoutExtension(image)));
-      }
-
-    } catch (IOException ex) {
-      // ?
-    }
-    return allLetters;
-
-  }
-
-  public List<LetterImageObject> getForms() {
-    List<LetterImageObject> allLetters = new ArrayList<LetterImageObject>();
-    AssetManager assetManager = getAssets();
-    // load images
-    try {
-      String[] images = assetManager.list(PATH_FORMS);
-      for (String image : images) {
-
-        Log.i(LOG_TAG, "Forms : " + image);
-
-        // get input stream
-        InputStream ims = assetManager.open(PATH_FORMS + "/" + image);
+        InputStream ims = assetManager.open(PATH + "/" + image);
 
         // create drawable from stream
         Drawable d = Drawable.createFromStream(ims, null);
