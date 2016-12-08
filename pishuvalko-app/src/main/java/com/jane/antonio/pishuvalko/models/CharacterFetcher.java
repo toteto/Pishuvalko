@@ -58,6 +58,19 @@ public final class CharacterFetcher {
   }
 
   /**
+   * @return a list of all capital letters that are defined in the corresponding config.csv file. If no file was defined
+   * or it was empty, an empty list is returned.
+   */
+  @NonNull
+  public static List<WritableCharacter> getAllSmallLetters(@NonNull Context context) {
+    List<WritableCharacter> list = new ArrayList<>(40);
+    for (String[] attrs : getConfig(context, WritableCapitalLetter.PATH)) {
+      list.add(new WritableCapitalLetter(attrs[0], attrs[1], attrs[2]));
+    }
+    return list;
+  }
+
+  /**
    * Gets the config file for the provided path.
    *
    * @param path to the folder of the config.csv. Ex: {@link WritableCapitalLetter#PATH}

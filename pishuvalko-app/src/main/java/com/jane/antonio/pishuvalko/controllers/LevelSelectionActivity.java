@@ -48,10 +48,10 @@ public class LevelSelectionActivity extends AppCompatActivity {
 
     switch (gameChoice) {
       case SMALL_LETTERS:
-        imageList = CharacterFetcher.getAllCapitalLetters(getApplicationContext());
+        imageList = CharacterFetcher.getAllSmallLetters(getApplicationContext());
         break;
       case BIG_LETTERS:
-        //imageList = getImageObjects(PATH_CAPITAL_LETTERS);
+        imageList = CharacterFetcher.getAllCapitalLetters(getApplicationContext());
         break;
       case NUMBERS:
         //imageList = getImageObjects(PATH_NUMBERS);
