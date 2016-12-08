@@ -11,8 +11,11 @@ import android.view.View;
 
 import com.jane.antonio.pishuvalko.R;
 import com.jane.antonio.pishuvalko.WritingGameInterface;
+import com.jane.antonio.pishuvalko.models.CharacterFetcher;
 import com.jane.antonio.pishuvalko.models.WritableCharacter;
 import com.jane.antonio.pishuvalko.views.WritingImageView;
+
+import java.util.List;
 
 /**
  * Activity that will be responsible for controlling and displaying of the writing game.
@@ -52,7 +55,9 @@ public class WritingGameActivity extends AppCompatActivity implements View.OnCli
   @Override
   protected void onStart() {
     super.onStart();
-    gameController.onStart(null);
+    List<WritableCharacter> list = CharacterFetcher.getCharacters(this, readGameType(getIntent()));
+    int index = readCharacterIndex(getIntent());
+    gameController.onStart(list, index);
   }
 
   @Override
@@ -97,6 +102,8 @@ public class WritingGameActivity extends AppCompatActivity implements View.OnCli
    * Reads the {@link com.jane.antonio.pishuvalko.controllers.LevelSelectionActivity.GameType} from the provided
    * intent.
    */
+  @SuppressWarnings("ResourceType")
+  @LevelSelectionActivity.GameType
   private static int readGameType(@NonNull Intent intent) {
     return intent.getIntExtra(GAME_TYPE_KEY, LevelSelectionActivity.BIG_LETTERS);
   }

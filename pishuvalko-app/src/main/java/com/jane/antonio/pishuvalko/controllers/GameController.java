@@ -29,11 +29,12 @@ public class GameController {
    * Should be called when the activity is ready and visible.
    */
   public void onStart(List<WritableCharacter> writableCharacters, int index) {
-    if (writableCharacters.size() < index) {
+    if (writableCharacters.size() > index) {
       characterList.clear();
       characterList.addAll(writableCharacters);
       characterIterator = characterList.listIterator(index);
       currentCharacter = characterIterator.next();
+      gameInterface.showCharacter(currentCharacter);
     } else {
       throw new IndexOutOfBoundsException("The provided list contains less items than the provided index");
     }
