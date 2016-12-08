@@ -4,6 +4,8 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.jane.antonio.pishuvalko.controllers.LevelSelectionActivity;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -11,11 +13,32 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import static com.jane.antonio.pishuvalko.controllers.LevelSelectionActivity.BIG_LETTERS;
+import static com.jane.antonio.pishuvalko.controllers.LevelSelectionActivity.FORMS;
+import static com.jane.antonio.pishuvalko.controllers.LevelSelectionActivity.NUMBERS;
+import static com.jane.antonio.pishuvalko.controllers.LevelSelectionActivity.SMALL_LETTERS;
+
 /** Class that will generate the character objects. */
 public final class CharacterFetcher {
   private static final String LOG_TAG = CharacterFetcher.class.getSimpleName();
 
   private CharacterFetcher() {
+  }
+
+  public static List<WritableCharacter> getCharacters(@NonNull Context context,
+    @LevelSelectionActivity.GameType int type) {
+    switch (type) {
+      case SMALL_LETTERS:
+        // TODO: 08.12.2016 getAllLowerCaseLetters
+      case BIG_LETTERS:
+        return getAllCapitalLetters(context);
+      case NUMBERS:
+        // TODO: 08.12.2016 getAllNumbers
+      case FORMS:
+        // TODO: 08.12.2016 getAllForms
+        default:
+          return getAllCapitalLetters(context); // FIXME: 08.12.2016 to be removed when the rest of the methods are defined
+    }
   }
 
   /**
