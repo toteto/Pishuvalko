@@ -13,6 +13,7 @@ public abstract class WritableCharacter {
   private static final String LOG_TAG = WritableCharacter.class.getSimpleName();
   private static final String STEPS_SUFFIX = "_steps";
   private static final String OUTLINE_SUFFIX = "_shape";
+  private static final String DISPLAY_SUFFIX = "_display";
   private final String displayName;
   private final String baseFileName;
   private final String fileFormat;
@@ -67,6 +68,16 @@ public abstract class WritableCharacter {
   @Nullable
   public Drawable getStepsDrawable(Context context) {
     return getDrawable(context, STEPS_SUFFIX);
+  }
+
+  /**
+   * Get the character display drawable.
+   *
+   * @return the drawable, or NULL if no file found with the provided name.
+   */
+  @Nullable
+  public Drawable getDisplayDrawable(Context context) {
+    return getDrawable(context, DISPLAY_SUFFIX);
   }
 
 
