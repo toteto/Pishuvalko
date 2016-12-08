@@ -9,16 +9,17 @@ import android.widget.Toast;
 
 import com.jane.antonio.pishuvalko.R;
 import com.jane.antonio.pishuvalko.models.LetterImageObject;
+import com.jane.antonio.pishuvalko.models.WritableCharacter;
 import com.jane.antonio.pishuvalko.views.LevelViewHolder;
 
 import java.util.List;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<LevelViewHolder> {
 
-  private List<LetterImageObject> imageList;
+  private List<WritableCharacter> imageList;
   private Context context;
 
-  public RecyclerViewAdapter(Context context, List<LetterImageObject> imageList) {
+  public RecyclerViewAdapter(Context context, List<WritableCharacter> imageList) {
     this.imageList = imageList;
     this.context = context;
   }
@@ -32,8 +33,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<LevelViewHolder> {
 
   @Override
   public void onBindViewHolder(LevelViewHolder holder, int position) {
-    LetterImageObject letterImageObject = imageList.get(position);
-    holder.getImageView().setImageDrawable(letterImageObject.getImage());
+    WritableCharacter writableCharacter = imageList.get(position);
+    holder.getImageView().setImageDrawable(writableCharacter.getDisplayDrawable(context));
     holder.getImageView().setOnClickListener(clickListener);
     holder.getImageView().setTag(position);
   }
