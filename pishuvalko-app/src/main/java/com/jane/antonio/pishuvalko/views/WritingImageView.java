@@ -5,16 +5,20 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.LayerDrawable;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
-import android.view.View;
+import android.widget.ImageView;
 
 import com.jane.antonio.pishuvalko.R;
 
+import java.util.LinkedList;
+import java.util.List;
+
 /** ImageView with writable surface. */
-public class WritingImageView extends View {
+public class WritingImageView extends ImageView {
   private final Path drawPath;
   private final Paint drawPaint;
 
@@ -56,16 +60,6 @@ public class WritingImageView extends View {
   @Override
   protected void onDraw(Canvas canvas) {
     super.onDraw(canvas);
-    if (characterShape != null) {
-      characterShape.setBounds(getLeft(), getTop(), getRight(), getBottom());
-      characterShape.draw(canvas);
-    }
-
-    if (characterSteps != null) {
-      characterSteps.setBounds(getLeft(), getTop(), getRight(), getBottom());
-      characterSteps.draw(canvas);
-    }
-
     canvas.drawPath(drawPath, drawPaint);
   }
 
@@ -74,33 +68,20 @@ public class WritingImageView extends View {
     drawPath.reset();
     this.characterShape = shape;
     this.characterSteps = steps;
-    invalidate();
+    setShapeAndStepsVisibility(false, false);
   }
 
-  /**
-   * Sets the visibility of the shape for the current {@link com.jane.antonio.pishuvalko.models.WritableCharacter}. If
-   * there is no shape drawable set previously, this method will be ignored.
-   */
-  @NonNull
-  public WritingImageView withShape(boolean with) {
-    if (characterShape != null) {
-      characterShape.setVisible(with, false);
-      invalidate();
+  /** Sets the visibility of the shape and steps for the current character. */
+  public void setShapeAndStepsVisibility(boolean shapeVisible, boolean stepsVisible) {
+    List<Drawable> layers = new LinkedList<>();
+    if (shapeVisible && characterShape != null) {
+      layers.add(characterShape);
     }
-    return this;
-  }
-
-  /**
-   * Sets the visibility of the steps for the current {@link com.jane.antonio.pishuvalko.models.WritableCharacter}. If
-   * there is no shape drawable set previously, this method will be ignored.
-   */
-  @NonNull
-  public WritingImageView withSteps(boolean with) {
-    if (characterSteps != null) {
-      characterSteps.setVisible(with, false);
-      invalidate();
+    if (stepsVisible && characterSteps != null) {
+      layers.add(characterSteps);
     }
-    return this;
+    LayerDrawable layerDrawable = new LayerDrawable(layers.toArray(new Drawable[layers.size()]));
+    setImageDrawable(layerDrawable);
   }
 
 }
