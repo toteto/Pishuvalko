@@ -66,7 +66,7 @@ public final class CharacterFetcher {
   private static List<String[]> getConfig(@NonNull Context context, @NonNull String path) {
     List<String[]> lines = new LinkedList<>();
     try (BufferedReader reader = new BufferedReader(
-      new InputStreamReader(context.getAssets().open(path + "/" + "config.csv")))) {
+      new InputStreamReader(context.getAssets().open(path + "config.csv")))) {
       String line = reader.readLine();
       while (!line.isEmpty()) {
         lines.add(line.split(","));
