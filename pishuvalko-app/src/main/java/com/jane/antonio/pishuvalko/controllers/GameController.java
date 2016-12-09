@@ -13,6 +13,7 @@ import java.util.ListIterator;
 
 /** Controller/presenter for the state of the game and responsible for handing the user inputs. */
 public class GameController {
+  @NonNull
   private final WritingGameInterface gameInterface;
   private WritingImageView writingImageView;
   private final List<WritableCharacter> characterList;
@@ -24,11 +25,10 @@ public class GameController {
    *
    * @param gameInterface the UI where the user is interacting with the game.
    */
-  public GameController(WritingGameInterface gameInterface) {
+  public GameController(@NonNull WritingGameInterface gameInterface) {
     this.gameInterface = gameInterface;
     characterList = new ArrayList<>();
   }
-
 
   /**
    * Should be called when the activity is ready and visible.
@@ -40,8 +40,7 @@ public class GameController {
       characterList.clear();
       characterList.addAll(writableCharacters);
       characterIterator = characterList.listIterator(index);
-      currentCharacter = characterIterator.next();
-      writingImageView.showCharacter(currentCharacter, true, true);
+      onNext();
     } else {
       throw new IndexOutOfBoundsException("The provided list contains less items than the provided index");
     }
@@ -53,18 +52,31 @@ public class GameController {
   }
 
   /** Called from the user when he clicks next. Should display next level if there is available one. */
-  public void onNextClicked() {
-
+  public void onNext() {
+    if (characterIterator.hasNext()) {
+      currentCharacter = characterIterator.next();
+      writingImageView.showCharacter(currentCharacter, true, true);
+    }
+    updateNavigation();
   }
 
   /** called from the user when he click previous. Should display the previous level. */
-  public void onPreviousClicked() {
+  public void onPrevious() {
+    if (characterIterator.hasPrevious()) {
+      currentCharacter = characterIterator.previous();
+      writingImageView.showCharacter(currentCharacter, true, true);
+    }
+    updateNavigation();
+  }
 
+  private void updateNavigation() {
+    gameInterface.setPreviousEnabled(characterIterator != null && characterIterator.hasPrevious());
+    gameInterface.setNextEnabled(characterIterator != null && characterIterator.hasNext());
   }
 
 
   /** Called when the user click the close button. */
-  public void onCloseClicked() {
+  public void onClose() {
 
   }
 }

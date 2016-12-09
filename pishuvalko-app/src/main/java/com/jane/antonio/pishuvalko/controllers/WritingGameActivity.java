@@ -67,11 +67,11 @@ public class WritingGameActivity extends AppCompatActivity implements View.OnCli
   @Override
   public void onClick(View view) {
     if (btnNext.equals(view)) {
-      gameController.onNextClicked();
+      gameController.onNext();
     } else if (btnPrevious.equals(view)) {
-      gameController.onPreviousClicked();
+      gameController.onPrevious();
     } else if (btnClose.equals(view)) {
-      gameController.onCloseClicked();
+      gameController.onClose();
     }
   }
 
