@@ -31,13 +31,13 @@ public final class CharacterFetcher {
     @LevelSelectionActivity.GameType int type) {
     switch (type) {
       case SMALL_LETTERS:
-        // TODO: 08.12.2016 getAllLowerCaseLetters
+        return getAllSmallLetters(context);
       case BIG_LETTERS:
         return getAllCapitalLetters(context);
       case NUMBERS:
-        // TODO: 08.12.2016 getAllNumbers
+        return getAllNumbers(context);
       case FORMS:
-        // TODO: 08.12.2016 getAllForms
+        return getAllForms(context);
       default:
         return getAllCapitalLetters(
           context); // FIXME: 08.12.2016 to be removed when the rest of the methods are defined
@@ -58,14 +58,40 @@ public final class CharacterFetcher {
   }
 
   /**
-   * @return a list of all capital letters that are defined in the corresponding config.csv file. If no file was defined
+   * @return a list of all small letters that are defined in the corresponding config.csv file. If no file was defined
    * or it was empty, an empty list is returned.
    */
   @NonNull
   public static List<WritableCharacter> getAllSmallLetters(@NonNull Context context) {
     List<WritableCharacter> list = new ArrayList<>(40);
-    for (String[] attrs : getConfig(context, WritableCapitalLetter.PATH)) {
-      list.add(new WritableCapitalLetter(attrs[0], attrs[1], attrs[2]));
+    for (String[] attrs : getConfig(context, WritableSmallLetter.PATH)) {
+      list.add(new WritableSmallLetter(attrs[0], attrs[1], attrs[2]));
+    }
+    return list;
+  }
+
+  /**
+   * @return a list of all numbers that are defined in the corresponding config.csv file. If no file was defined
+   * or it was empty, an empty list is returned.
+   */
+  @NonNull
+  public static List<WritableCharacter> getAllNumbers(@NonNull Context context) {
+    List<WritableCharacter> list = new ArrayList<>(40);
+    for (String[] attrs : getConfig(context, WritableNumbers.PATH)) {
+      list.add(new WritableNumbers(attrs[0], attrs[1], attrs[2]));
+    }
+    return list;
+  }
+
+  /**
+   * @return a list of all forms that are defined in the corresponding config.csv file. If no file was defined
+   * or it was empty, an empty list is returned.
+   */
+  @NonNull
+  public static List<WritableCharacter> getAllForms(@NonNull Context context) {
+    List<WritableCharacter> list = new ArrayList<>(40);
+    for (String[] attrs : getConfig(context, WritableForm.PATH)) {
+      list.add(new WritableForm(attrs[0], attrs[1], attrs[2]));
     }
     return list;
   }
