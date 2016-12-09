@@ -38,6 +38,10 @@ public abstract class WritableCharacter {
   /** Get the assets folder of the character. ex: "characters/bigLetters". */
   public abstract String getCharacterFolder();
 
+  public String getBaseFileName() {
+    return baseFileName;
+  }
+
   /** Returns a general path leading to the images of the instance type. */
   private StringBuilder getCharacterPathBuilder() {
     final StringBuilder stringBuilder = new StringBuilder();
