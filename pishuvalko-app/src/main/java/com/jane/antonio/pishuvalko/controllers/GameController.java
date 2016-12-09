@@ -1,9 +1,11 @@
 package com.jane.antonio.pishuvalko.controllers;
 
+import android.graphics.Bitmap;
 import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
 
 import com.jane.antonio.pishuvalko.WritingGameInterface;
+import com.jane.antonio.pishuvalko.models.ISolutionStorage;
 import com.jane.antonio.pishuvalko.models.WritableCharacter;
 import com.jane.antonio.pishuvalko.views.WritingImageView;
 
@@ -15,6 +17,8 @@ import java.util.ListIterator;
 public class GameController {
   @NonNull
   private final WritingGameInterface gameInterface;
+  @NonNull
+  private final ISolutionStorage solutionStorage;
   private WritingImageView writingImageView;
   private final List<WritableCharacter> characterList;
   private ListIterator<WritableCharacter> characterIterator;
@@ -24,9 +28,11 @@ public class GameController {
    * Constructor.
    *
    * @param gameInterface the UI where the user is interacting with the game.
+   * @param solutionStorage the storage that will keep the solutions
    */
-  public GameController(@NonNull WritingGameInterface gameInterface) {
+  public GameController(@NonNull WritingGameInterface gameInterface, @NonNull ISolutionStorage solutionStorage) {
     this.gameInterface = gameInterface;
+    this.solutionStorage = solutionStorage;
     characterList = new ArrayList<>();
   }
 
@@ -40,7 +46,10 @@ public class GameController {
       characterList.clear();
       characterList.addAll(writableCharacters);
       characterIterator = characterList.listIterator(index);
-      onNext();
+
+      currentCharacter = characterIterator.next();
+      writingImageView.showCharacter(currentCharacter, true, true);
+      updateNavigation();
     } else {
       throw new IndexOutOfBoundsException("The provided list contains less items than the provided index");
     }
@@ -54,6 +63,7 @@ public class GameController {
   /** Called from the user when he clicks next. Should display next level if there is available one. */
   public void onNext() {
     if (characterIterator.hasNext()) {
+      saveCurrentSolution();
       currentCharacter = characterIterator.next();
       writingImageView.showCharacter(currentCharacter, true, true);
     }
@@ -63,6 +73,7 @@ public class GameController {
   /** called from the user when he click previous. Should display the previous level. */
   public void onPrevious() {
     if (characterIterator.hasPrevious()) {
+      saveCurrentSolution();
       currentCharacter = characterIterator.previous();
       writingImageView.showCharacter(currentCharacter, true, true);
     }
@@ -78,5 +89,13 @@ public class GameController {
   /** Called when the user click the close button. */
   public void onClose() {
 
+  }
+
+  /** Saves the {@link GameController#currentCharacter} solution to  {@link GameController#solutionStorage} */
+  private void saveCurrentSolution() {
+    final Bitmap solution = writingImageView.getSolution();
+    if (!solutionStorage.saveSolution(currentCharacter, solution)) {
+      throw new RuntimeException("Unable to save current solution.");
+    }
   }
 }

@@ -7,6 +7,7 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
+import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -93,7 +94,8 @@ public class WritingImageView extends ImageView {
   }
 
   /** Retrieve the image that the user has drawn on the screen. */
-  public Bitmap retrieveDrawnImage() {
+  @NonNull
+  public Bitmap getSolution() {
     final Bitmap bitmap = Bitmap.createBitmap(getWidth(), getHeight(), Bitmap.Config.RGB_565);
     final Canvas canvas = new Canvas(bitmap);
     canvas.drawPath(drawPath, drawPaint);

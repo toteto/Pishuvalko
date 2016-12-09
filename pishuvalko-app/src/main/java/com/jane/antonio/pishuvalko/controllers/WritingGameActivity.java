@@ -11,6 +11,7 @@ import android.view.View;
 import com.jane.antonio.pishuvalko.R;
 import com.jane.antonio.pishuvalko.WritingGameInterface;
 import com.jane.antonio.pishuvalko.models.CharacterFetcher;
+import com.jane.antonio.pishuvalko.models.SolutionStorage;
 import com.jane.antonio.pishuvalko.models.WritableCharacter;
 import com.jane.antonio.pishuvalko.views.WritingImageView;
 
@@ -33,7 +34,7 @@ public class WritingGameActivity extends AppCompatActivity implements View.OnCli
   @Override
   protected void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    gameController = new GameController(this);
+    gameController = new GameController(this, new SolutionStorage(this));
     setContentView(R.layout.writing_game_activity);
     writingImageView = (WritingImageView) findViewById(R.id.writingImageView);
     btnPrevious = findViewById(R.id.btn_prev_level);
