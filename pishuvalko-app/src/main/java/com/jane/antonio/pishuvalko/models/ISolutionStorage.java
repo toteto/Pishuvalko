@@ -23,4 +23,11 @@ public interface ISolutionStorage {
    */
   @Nullable
   Bitmap readSolution(@NonNull WritableCharacter character);
+
+  /**
+   * Tries to remove previously saved solution.
+   *
+   * @return true if it has been successfully removed or it hasnt been found. False otherwise.
+   */
+  boolean removeSolution(@NonNull WritableCharacter character);
 }

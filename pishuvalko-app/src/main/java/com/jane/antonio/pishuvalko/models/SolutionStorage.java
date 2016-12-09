@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.util.Arrays;
 
 public class SolutionStorage implements ISolutionStorage {
-  private final String SOLUTION_SUFIX = "_solution";
+  private final String SOLUTION_SUFFIX = "_solution";
   private final Context context;
 
   public SolutionStorage(Context context) {
@@ -21,7 +21,7 @@ public class SolutionStorage implements ISolutionStorage {
 
   @Override
   public boolean saveSolution(@NonNull WritableCharacter character, @NonNull Bitmap solution) {
-    try (FileOutputStream outputStream = context.openFileOutput(character.getBaseFileName() + SOLUTION_SUFIX,
+    try (FileOutputStream outputStream = context.openFileOutput(character.getBaseFileName() + SOLUTION_SUFFIX,
       Context.MODE_PRIVATE)) {
       return solution.compress(Bitmap.CompressFormat.WEBP, 90, outputStream);
     } catch (IOException e) {
@@ -32,17 +32,22 @@ public class SolutionStorage implements ISolutionStorage {
 
   @Override
   public boolean solutionExists(@NonNull WritableCharacter character) {
-    return Arrays.binarySearch(context.fileList(), character.getBaseFileName() + SOLUTION_SUFIX) >= 0;
+    return Arrays.binarySearch(context.fileList(), character.getBaseFileName() + SOLUTION_SUFFIX) >= 0;
   }
 
   @Nullable
   @Override
   public Bitmap readSolution(@NonNull WritableCharacter character) {
-    try (FileInputStream fis = context.openFileInput(character.getBaseFileName() + SOLUTION_SUFIX)) {
+    try (FileInputStream fis = context.openFileInput(character.getBaseFileName() + SOLUTION_SUFFIX)) {
       return BitmapFactory.decodeStream(fis);
     } catch (IOException e) {
       e.printStackTrace();
       return null;
     }
+  }
+
+  @Override
+  public boolean removeSolution(@NonNull WritableCharacter character) {
+    return !solutionExists(character) || context.deleteFile(character.getBaseFileName() + SOLUTION_SUFFIX);
   }
 }
