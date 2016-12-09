@@ -2,7 +2,6 @@ package com.jane.antonio.pishuvalko.controllers;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -48,7 +47,6 @@ public class WritingGameActivity extends AppCompatActivity implements View.OnCli
 
   @Override
   protected void onResume() {
-
     super.onResume();
   }
 
@@ -57,7 +55,7 @@ public class WritingGameActivity extends AppCompatActivity implements View.OnCli
     super.onStart();
     List<WritableCharacter> list = CharacterFetcher.getCharacters(this, readGameType(getIntent()));
     int index = readCharacterIndex(getIntent());
-    gameController.onStart(list, index);
+    gameController.onStart(writingImageView, list, index);
   }
 
   @Override
@@ -74,17 +72,6 @@ public class WritingGameActivity extends AppCompatActivity implements View.OnCli
       gameController.onPreviousClicked();
     } else if (btnClose.equals(view)) {
       gameController.onCloseClicked();
-    }
-  }
-
-  @Override
-  public void showCharacter(WritableCharacter character) {
-    Drawable shape = character.getOutlineDrawable(this);
-    Drawable steps = character.getStepsDrawable(this);
-    if (shape != null && steps != null) {
-      writingImageView.setShapeAndStepsLayers(shape, steps);
-    } else {
-      throw new RuntimeException("No images found to display in the writing view.");
     }
   }
 

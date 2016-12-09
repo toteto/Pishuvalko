@@ -1,18 +1,19 @@
 package com.jane.antonio.pishuvalko.views;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
-import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.widget.ImageView;
 
 import com.jane.antonio.pishuvalko.R;
+import com.jane.antonio.pishuvalko.models.WritableCharacter;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -63,25 +64,40 @@ public class WritingImageView extends ImageView {
     canvas.drawPath(drawPath, drawPaint);
   }
 
-  /** Sets a writable character that the user will be drawing on. */
-  public void setShapeAndStepsLayers(@NonNull Drawable shape, @NonNull Drawable steps) {
-    drawPath.reset();
-    this.characterShape = shape;
-    this.characterSteps = steps;
-    setShapeAndStepsVisibility(false, false);
-  }
+  /**
+   * Display the provided character on the view.
+   *
+   * @param currentCharacter the character to get the drawables from
+   * @param showShape if true, shape layer will be shown
+   * @param showSteps if true, steps layer will be shown
+   */
+  public void showCharacter(WritableCharacter currentCharacter, boolean showShape, boolean showSteps) {
+    this.characterShape = currentCharacter.getOutlineDrawable(getContext());
+    this.characterSteps = currentCharacter.getStepsDrawable(getContext());
 
-  /** Sets the visibility of the shape and steps for the current character. */
-  public void setShapeAndStepsVisibility(boolean shapeVisible, boolean stepsVisible) {
     List<Drawable> layers = new LinkedList<>();
-    if (shapeVisible && characterShape != null) {
+    if (showShape && characterShape != null) {
       layers.add(characterShape);
     }
-    if (stepsVisible && characterSteps != null) {
+    if (showSteps && characterSteps != null) {
       layers.add(characterSteps);
     }
     LayerDrawable layerDrawable = new LayerDrawable(layers.toArray(new Drawable[layers.size()]));
     setImageDrawable(layerDrawable);
   }
 
+  /** Erases the writing made by the user. */
+  public void eraseWriting() {
+    drawPath.reset();
+    invalidate();
+  }
+
+  /** Retrieve the image that the user has drawn on the screen. */
+  public Bitmap retrieveDrawnImage() {
+    final Bitmap bitmap = Bitmap.createBitmap(getWidth(), getHeight(), Bitmap.Config.RGB_565);
+    final Canvas canvas = new Canvas(bitmap);
+    canvas.drawPath(drawPath, drawPaint);
+
+    return Bitmap.createBitmap(bitmap);
+  }
 }
