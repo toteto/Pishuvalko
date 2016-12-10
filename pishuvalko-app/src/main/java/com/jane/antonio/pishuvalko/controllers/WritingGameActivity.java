@@ -2,6 +2,7 @@ package com.jane.antonio.pishuvalko.controllers;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -15,7 +16,9 @@ import com.jane.antonio.pishuvalko.models.SolutionStorage;
 import com.jane.antonio.pishuvalko.models.WritableCharacter;
 import com.jane.antonio.pishuvalko.views.WritingImageView;
 
+import java.security.SecureRandom;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Activity that will be responsible for controlling and displaying of the writing game.
@@ -44,6 +47,9 @@ public class WritingGameActivity extends AppCompatActivity implements View.OnCli
     btnColors = findViewById(R.id.btnColors);
 
     btnClose.setOnClickListener(this);
+    btnConfirm.setOnClickListener(this);
+    btnColors.setOnClickListener(this);
+    btnErase.setOnClickListener(this);
   }
 
   @Override
@@ -79,7 +85,9 @@ public class WritingGameActivity extends AppCompatActivity implements View.OnCli
   }
 
   private void showColorSelector() {
-
+    Random rnd = new SecureRandom();
+    int color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
+    gameController.onColorSelected(color);
   }
 
   @Override

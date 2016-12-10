@@ -20,7 +20,7 @@ public class SolutionStorage implements ISolutionStorage {
   }
 
   @Override
-  public boolean saveSolution(@NonNull WritableCharacter character, @NonNull Bitmap solution) {
+  public boolean saveSolution(@NonNull Bitmap solution, @NonNull WritableCharacter character, int currentGuideType) {
     try (FileOutputStream outputStream = context.openFileOutput(character.getBaseFileName() + SOLUTION_SUFFIX,
       Context.MODE_PRIVATE)) {
       return solution.compress(Bitmap.CompressFormat.WEBP, 90, outputStream);

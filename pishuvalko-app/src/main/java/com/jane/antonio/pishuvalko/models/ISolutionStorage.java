@@ -11,7 +11,8 @@ public interface ISolutionStorage {
    *
    * @return the success of the saving process
    */
-  boolean saveSolution(@NonNull WritableCharacter character, @NonNull Bitmap solution);
+  boolean saveSolution(@NonNull Bitmap solution, @NonNull WritableCharacter character,
+    @WritableCharacter.GuidesType int currentGuideType);
 
   /** Check if there is a solution for the provided character. */
   boolean solutionExists(@NonNull WritableCharacter character);

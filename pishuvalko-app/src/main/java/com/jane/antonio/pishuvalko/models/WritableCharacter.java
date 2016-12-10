@@ -2,18 +2,32 @@ package com.jane.antonio.pishuvalko.models;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.IntDef;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 
 /** An abstract class for writable characters. */
 public abstract class WritableCharacter {
   private static final String LOG_TAG = WritableCharacter.class.getSimpleName();
+
+  @Retention(RetentionPolicy.SOURCE)
+  @IntDef({SHAPE_AND_STEPS, ONLY_SHAPE, NOR_SHAPE_NOR_STEPS})
+  public @interface GuidesType {
+  }
+
+  public static final int SHAPE_AND_STEPS = 1;
+  public static final int ONLY_SHAPE = 2;
+  public static final int NOR_SHAPE_NOR_STEPS = 3;
+
   private static final String STEPS_SUFFIX = "_steps";
   private static final String OUTLINE_SUFFIX = "_shape";
   private static final String DISPLAY_SUFFIX = "_display";
+
   private final String displayName;
   private final String baseFileName;
   private final String fileFormat;

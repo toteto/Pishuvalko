@@ -7,6 +7,7 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
+import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
@@ -69,18 +70,16 @@ public class WritingImageView extends ImageView {
    * Display the provided character on the view.
    *
    * @param currentCharacter the character to get the drawables from
-   * @param showShape if true, shape layer will be shown
-   * @param showSteps if true, steps layer will be shown
    */
-  public void showCharacter(WritableCharacter currentCharacter, boolean showShape, boolean showSteps) {
+  public void showCharacter(WritableCharacter currentCharacter, @WritableCharacter.GuidesType int guideType) {
     this.characterShape = currentCharacter.getOutlineDrawable(getContext());
     this.characterSteps = currentCharacter.getStepsDrawable(getContext());
 
     List<Drawable> layers = new LinkedList<>();
-    if (showShape && characterShape != null) {
+    if (characterShape != null && guideType != WritableCharacter.NOR_SHAPE_NOR_STEPS) {
       layers.add(characterShape);
     }
-    if (showSteps && characterSteps != null) {
+    if (characterSteps != null && guideType == WritableCharacter.SHAPE_AND_STEPS) {
       layers.add(characterSteps);
     }
     LayerDrawable layerDrawable = new LayerDrawable(layers.toArray(new Drawable[layers.size()]));
@@ -101,5 +100,10 @@ public class WritingImageView extends ImageView {
     canvas.drawPath(drawPath, drawPaint);
 
     return Bitmap.createBitmap(bitmap);
+  }
+
+  /** Sets the drawing color of the {@link WritingImageView#drawPaint}. */
+  public void setDrawingColor(@ColorInt int color) {
+    drawPaint.setColor(color);
   }
 }
