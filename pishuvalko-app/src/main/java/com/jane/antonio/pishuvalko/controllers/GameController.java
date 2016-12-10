@@ -1,6 +1,7 @@
 package com.jane.antonio.pishuvalko.controllers;
 
 import android.graphics.Bitmap;
+import android.support.annotation.ColorRes;
 import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
 
@@ -49,7 +50,6 @@ public class GameController {
 
       currentCharacter = characterIterator.next();
       writingImageView.showCharacter(currentCharacter, true, true);
-      updateNavigation();
     } else {
       throw new IndexOutOfBoundsException("The provided list contains less items than the provided index");
     }
@@ -67,7 +67,6 @@ public class GameController {
       currentCharacter = characterIterator.next();
       writingImageView.showCharacter(currentCharacter, true, true);
     }
-    updateNavigation();
   }
 
   /** called from the user when he click previous. Should display the previous level. */
@@ -77,14 +76,7 @@ public class GameController {
       currentCharacter = characterIterator.previous();
       writingImageView.showCharacter(currentCharacter, true, true);
     }
-    updateNavigation();
   }
-
-  private void updateNavigation() {
-    gameInterface.setPreviousEnabled(characterIterator != null && characterIterator.hasPrevious());
-    gameInterface.setNextEnabled(characterIterator != null && characterIterator.hasNext());
-  }
-
 
   /** Called when the user click the close button. */
   public void onClose() {
@@ -97,5 +89,20 @@ public class GameController {
     if (!solutionStorage.saveSolution(currentCharacter, solution)) {
       throw new RuntimeException("Unable to save current solution.");
     }
+  }
+
+  /** When there is a confirmation of the current showing game. */
+  public void onConfirm() {
+
+  }
+
+  /** On change of the default drawing color. */
+  public void onColorSelected(@ColorRes int color) {
+
+  }
+
+  /** On erase action. */
+  public void onErase() {
+
   }
 }

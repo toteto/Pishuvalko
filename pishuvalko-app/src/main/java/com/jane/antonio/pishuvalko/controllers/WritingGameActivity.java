@@ -26,8 +26,9 @@ public class WritingGameActivity extends AppCompatActivity implements View.OnCli
   private static final String CHARACTER_INDEX_KEY = "index";
   private WritingImageView writingImageView;
   private View btnClose;
-  private View btnPrevious;
-  private View btnNext;
+  private View btnErase;
+  private View btnConfirm;
+  private View btnColors;
 
   private GameController gameController;
 
@@ -37,12 +38,11 @@ public class WritingGameActivity extends AppCompatActivity implements View.OnCli
     gameController = new GameController(this, new SolutionStorage(this));
     setContentView(R.layout.writing_game_activity);
     writingImageView = (WritingImageView) findViewById(R.id.writingImageView);
-    btnPrevious = findViewById(R.id.btn_prev_level);
-    btnNext = findViewById(R.id.btn_next_level);
     btnClose = findViewById(R.id.btn_close);
+    btnErase = findViewById(R.id.btnErase);
+    btnConfirm = findViewById(R.id.btnConfirm);
+    btnColors = findViewById(R.id.btnColors);
 
-    btnPrevious.setOnClickListener(this);
-    btnNext.setOnClickListener(this);
     btnClose.setOnClickListener(this);
   }
 
@@ -67,23 +67,29 @@ public class WritingGameActivity extends AppCompatActivity implements View.OnCli
 
   @Override
   public void onClick(View view) {
-    if (btnNext.equals(view)) {
-      gameController.onNext();
-    } else if (btnPrevious.equals(view)) {
-      gameController.onPrevious();
+    if (btnConfirm.equals(view)) {
+      gameController.onConfirm();
+    } else if (btnColors.equals(view)) {
+      showColorSelector();
     } else if (btnClose.equals(view)) {
       gameController.onClose();
+    } else if (btnErase.equals(view)) {
+      gameController.onErase();
     }
   }
 
-  @Override
-  public void setNextEnabled(boolean toEnable) {
-    btnNext.setEnabled(toEnable);
+  private void showColorSelector() {
+
   }
 
   @Override
-  public void setPreviousEnabled(boolean toEnable) {
-    btnPrevious.setEnabled(toEnable);
+  public void setEraseEnabled(boolean toEnable) {
+    btnErase.setEnabled(toEnable);
+  }
+
+  @Override
+  public void exit() {
+    finish();
   }
 
   /**
