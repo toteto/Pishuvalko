@@ -20,6 +20,7 @@
     <activity android:name=".controllers.SettingsActivity"/>
     <activity android:name=".controllers.GameTypeActivity"/>
     <activity android:name=".controllers.WritingGameActivity"/>
+    <activity android:name=".controllers.ParentsActivity"/>
   </application>
 
 </manifest>

@@ -1,66 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_main"
+<FrameLayout android:id="@+id/activity_main"
+             xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             tools:context="com.jane.antonio.pishuvalko.controllers.MainActivity">
+
+  <ImageView
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.jane.antonio.pishuvalko.controllers.MainActivity">
+    android:background="@drawable/greenboardfinal"
+    android:scaleType="fitCenter"/>
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="fitCenter"
-        android:background="@drawable/greenboardfinal" />
+  <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:orientation="vertical">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+      android:layout_width="match_parent"
+      android:layout_height="0dp"
+      android:layout_weight="1"
+      android:gravity="center">
+
+      <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:orientation="vertical">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:gravity="center"
-        android:layout_weight="1">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="PISHUVALKO"/>
+        android:text="PISHUVALKO"/>
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
+      android:layout_width="match_parent"
+      android:layout_height="0dp"
+      android:layout_gravity="center"
+      android:layout_weight="2"
+      android:orientation="vertical">
+
+      <Button
+        android:id="@+id/bt_startGame"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_weight="2"
-        android:orientation="vertical">
+        android:layout_margin="10dp"
+        android:text="@string/start_game"/>
 
-        <Button
-            android:id="@+id/bt_startGame"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="10dp"
-            android:text="@string/start_game" />
+      <Button
+        android:id="@+id/bt_goToSettings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="10dp"
+        android:text="@string/settings_game"/>
 
-        <Button
-            android:id="@+id/bt_goToSettings"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="10dp"
-            android:text="@string/settings_game" />
+      <Button
+        android:id="@+id/bt_exit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="10dp"
+        android:text="@string/exit_game"/>
 
-        <Button
-            android:id="@+id/bt_exit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="10dp"
-            android:text="@string/exit_game"/>
-        </LinearLayout>
+      <Button
+        android:id="@+id/btnParents"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/parents"
+        android:textAllCaps="true"/>
     </LinearLayout>
+  </LinearLayout>
 </FrameLayout>

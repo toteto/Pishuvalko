@@ -8,4 +8,5 @@
     <string name="previous_level">Previous level</string>
     <string name="next_level">Next level</string>
     <string name="choose_color">Избери боја</string>
+    <string name="parents">Родители</string>
 </resources>
