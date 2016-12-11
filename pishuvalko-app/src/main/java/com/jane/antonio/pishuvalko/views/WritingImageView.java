@@ -48,7 +48,7 @@ public class WritingImageView extends ImageView {
     drawingPaints = new ArrayList<>();
 
     basePaint = new Paint();
-    basePaint.setColor(ContextCompat.getColor(getContext(), R.color.colorAccent));
+    basePaint.setColor(ContextCompat.getColor(getContext(), android.R.color.white));
     basePaint.setStyle(Paint.Style.STROKE);
     basePaint.setStrokeWidth(context.getResources().getInteger(R.integer.draw_stroke_width));
   }

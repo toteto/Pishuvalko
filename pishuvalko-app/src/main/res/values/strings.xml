@@ -7,4 +7,5 @@
     <string name="close_board">Close board.</string>
     <string name="previous_level">Previous level</string>
     <string name="next_level">Next level</string>
+    <string name="choose_color">Избери боја</string>
 </resources>
