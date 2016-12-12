@@ -42,9 +42,9 @@ public class WritingGameActivity extends AppCompatActivity
     setContentView(R.layout.writing_game_activity);
     writingImageView = (WritingImageView) findViewById(R.id.writingImageView);
     btnClose = findViewById(R.id.btn_close);
-    btnErase = findViewById(R.id.btnErase);
-    btnConfirm = findViewById(R.id.btnConfirm);
-    btnColors = findViewById(R.id.btnColors);
+    btnErase = findViewById(R.id.ivErase);
+    btnConfirm = findViewById(R.id.ivConfirm);
+    btnColors = findViewById(R.id.ivColors);
 
     btnClose.setOnClickListener(this);
     btnConfirm.setOnClickListener(this);

@@ -7,12 +7,12 @@
   android:orientation="vertical"
   android:padding="@dimen/board_borders">
 
-  <ImageButton
+  <ImageView
     android:id="@+id/btn_close"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_width="70dp"
+    android:layout_height="50dp"
     android:contentDescription="@string/close_board"
-    android:src="@drawable/ic_close"/>
+    android:src="@drawable/exit_arrow"/>
 
   <com.jane.antonio.pishuvalko.views.WritingImageView
     android:id="@+id/writingImageView"
@@ -25,30 +25,30 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <Button
-      android:id="@+id/btnErase"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:filterTouchesWhenObscured="true"
-      android:text="Бриши"/>
+    <ImageView
+      android:id="@+id/ivErase"
+      android:layout_width="80dp"
+      android:layout_height="80dp"
+      android:cropToPadding="true"
+      android:src="@drawable/eraser"/>
 
-    <Button
-      android:id="@+id/btnConfirm"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
+    <ImageView
+      android:id="@+id/ivConfirm"
+      android:layout_width="80dp"
+      android:layout_height="80dp"
       android:layout_alignParentTop="true"
       android:layout_centerHorizontal="true"
       android:filterTouchesWhenObscured="true"
-      android:text="Потврди"/>
+      android:src="@drawable/check_mark"/>
 
-    <Button
-      android:id="@+id/btnColors"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
+    <ImageView
+      android:id="@+id/ivColors"
+      android:layout_width="80dp"
+      android:layout_height="80dp"
       android:layout_alignParentEnd="true"
       android:layout_alignParentTop="true"
       android:filterTouchesWhenObscured="true"
-      android:text="Боички"/>
+      android:src="@drawable/pencils"/>
 
   </RelativeLayout>
 </LinearLayout>
