@@ -1,7 +1,9 @@
 package com.jane.antonio.pishuvalko.controllers;
 
+import android.content.Context;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +23,8 @@ import java.util.List;
 
 /** Adapter that is capable of displaying {@link HeaderItem} and {@link SolutionItem}. */
 public class SolutionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+
+
   @Retention(RetentionPolicy.SOURCE)
   @IntDef({SOLUTION, HEADER})
   public @interface ViewType {
@@ -30,10 +34,14 @@ public class SolutionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
   private static final int HEADER = 2;
 
   private final List<Object> items;
+  private final GridLayoutManager layoutManager;
+  private int itemsPerRow = 3;
 
   /** . */
-  public SolutionAdapter() {
+  public SolutionAdapter(Context context) {
     items = new ArrayList<>();
+    layoutManager = new GridLayoutManager(context, itemsPerRow);
+    layoutManager.setSpanSizeLookup(spanSizeLookup);
   }
 
   @Override
@@ -84,6 +92,23 @@ public class SolutionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
       return HEADER;
     }
     throw new InvalidParameterException("Unsupported viewType at position:" + position);
+  }
+
+  @SuppressWarnings("FieldCanBeLocal")
+  private final GridLayoutManager.SpanSizeLookup spanSizeLookup = new GridLayoutManager.SpanSizeLookup() {
+    @Override
+    public int getSpanSize(int position) {
+      return getItemViewType(position) == HEADER ? itemsPerRow : 1;
+    }
+  };
+
+  @NonNull
+  public GridLayoutManager getLayoutManager() {
+    return layoutManager;
+  }
+
+  public void setItemsPerRow(int itemsPerRow) {
+    this.itemsPerRow = itemsPerRow;
   }
 
   public static class SolutionViewHolder extends RecyclerView.ViewHolder {
