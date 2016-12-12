@@ -32,15 +32,6 @@ public class LevelSelectionActivity extends AppCompatActivity implements LevelSe
   public static final int NUMBERS = 3;
   public static final int FORMS = 4;
 
-
-  private GridLayoutManager lLayout;
-  private static final String PATH_CAPITAL_LETTERS = "characters/bigLetters";
-  private static final String PATH_LOWERCASE_LETTERS = "characters/smallLetters";
-  private static final String PATH_NUMBERS = "characters/numbers";
-  private static final String PATH_FORMS = "characters/forms";
-
-  private List<WritableCharacter> characterList;
-
   @GameType
   private int selectedGameType = BIG_LETTERS;
 
@@ -51,8 +42,8 @@ public class LevelSelectionActivity extends AppCompatActivity implements LevelSe
 
     //noinspection WrongConstant
     selectedGameType = getIntent().getIntExtra(GAME_TYPE_KEY, BIG_LETTERS);
-    characterList = CharacterFetcher.getCharacters(this, selectedGameType);
 
+    final List<WritableCharacter> characterList = CharacterFetcher.getCharacters(this, selectedGameType);
     final LevelsAdapter levelsAdapter = new LevelsAdapter(this, characterList);
     final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view_level_selection);
     recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
@@ -65,9 +56,5 @@ public class LevelSelectionActivity extends AppCompatActivity implements LevelSe
   public void onLevelSelected(int characterIndex) {
     final Intent intent = new Intent(WritingGameActivity.getStartingIntent(this, selectedGameType, characterIndex));
     startActivity(intent);
-  }
-
-  public String getImageNameWithoutExtension(String imageNameWithExtension) {
-    return imageNameWithExtension.split("\\.")[0];
   }
 }
