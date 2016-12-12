@@ -6,6 +6,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.jane.antonio.pishuvalko.R;
 import com.jane.antonio.pishuvalko.models.HeaderItem;
@@ -17,6 +19,7 @@ import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
 
+/** Adapter that is capable of displaying {@link HeaderItem} and {@link SolutionItem}. */
 public class SolutionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
   @Retention(RetentionPolicy.SOURCE)
   @IntDef({SOLUTION, HEADER})
@@ -28,6 +31,7 @@ public class SolutionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
   private final List<Object> items;
 
+  /** . */
   public SolutionAdapter() {
     items = new ArrayList<>();
   }
@@ -36,6 +40,7 @@ public class SolutionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
   public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
     if (HEADER == viewType) {
       View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.header_item, parent, false);
+      view.setClickable(false);
       return new HeaderViewHolder(view);
     } else if (SOLUTION == viewType) {
       View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.solution_item, parent, false);
@@ -62,6 +67,7 @@ public class SolutionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     return items.size();
   }
 
+  /** Set the items that will be used in this adapter. */
   public void setItems(@NonNull List<Object> newItems) {
     items.clear();
     items.addAll(newItems);
@@ -81,24 +87,35 @@ public class SolutionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
   }
 
   public static class SolutionViewHolder extends RecyclerView.ViewHolder {
+    private final ImageView ivSolution;
+    private final TextView tvLabel;
 
+    /** . */
     public SolutionViewHolder(@NonNull View itemView) {
       super(itemView);
+      ivSolution = (ImageView) itemView.findViewById(R.id.imageView);
+      tvLabel = (TextView) itemView.findViewById(R.id.textView);
     }
 
-    public SolutionViewHolder bind(@NonNull SolutionItem solution) {
-      return this;
+    /** Bind the views in this viewholder to the provided item. */
+    public void bind(@NonNull SolutionItem solution) {
+      ivSolution.setImageDrawable(solution.getSolution());
+      tvLabel.setText(solution.getDisplayName());
     }
   }
 
   public static class HeaderViewHolder extends RecyclerView.ViewHolder {
+    private final TextView tvTitle;
 
+    /** . */
     public HeaderViewHolder(@NonNull View itemView) {
       super(itemView);
+      tvTitle = (TextView) itemView.findViewById(R.id.textView);
     }
 
-    public HeaderViewHolder bind(@NonNull HeaderItem header) {
-      return this;
+    /** Bind the views in this viewholder to the provided item. */
+    public void bind(@NonNull HeaderItem header) {
+      tvTitle.setText(header.getTitle());
     }
   }
 }
