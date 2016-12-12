@@ -1,27 +1,26 @@
 package com.jane.antonio.pishuvalko.controllers;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.jane.antonio.pishuvalko.R;
-import com.jane.antonio.pishuvalko.models.LetterImageObject;
 import com.jane.antonio.pishuvalko.models.WritableCharacter;
 import com.jane.antonio.pishuvalko.views.LevelViewHolder;
 
 import java.util.List;
 
-public class RecyclerViewAdapter extends RecyclerView.Adapter<LevelViewHolder> {
+public class LevelsAdapter extends RecyclerView.Adapter<LevelViewHolder> {
 
-  private List<WritableCharacter> imageList;
-  private Context context;
+  private final List<WritableCharacter> characters;
+  private final Context context;
+  private LevelSelectedListener levelSelectedListener;
 
-  public RecyclerViewAdapter(Context context, List<WritableCharacter> imageList) {
-    this.imageList = imageList;
+  public LevelsAdapter(@NonNull Context context, @NonNull List<WritableCharacter> characters) {
+    this.characters = characters;
     this.context = context;
   }
 
@@ -34,7 +33,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<LevelViewHolder> {
 
   @Override
   public void onBindViewHolder(LevelViewHolder holder, int position) {
-    WritableCharacter writableCharacter = imageList.get(position);
+    WritableCharacter writableCharacter = characters.get(position);
     holder.getImageView().setImageDrawable(writableCharacter.getDisplayDrawable(context));
     holder.getImageView().setOnClickListener(clickListener);
     holder.getImageView().setTag(position);
@@ -44,12 +43,18 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<LevelViewHolder> {
     @Override
     public void onClick(View view) {
       int position = (Integer) view.getTag();
-      Toast.makeText(context, "Item on position " + position + " clicked", Toast.LENGTH_SHORT).show();
+      if (levelSelectedListener != null) {
+        levelSelectedListener.onLevelSelected(position);
+      }
     }
   };
 
+  public void setLevelSelectedListener(LevelSelectedListener levelSelectedListener) {
+    this.levelSelectedListener = levelSelectedListener;
+  }
+
   @Override
   public int getItemCount() {
-    return this.imageList.size();
+    return characters.size();
   }
 }

@@ -1,5 +1,6 @@
 package com.jane.antonio.pishuvalko.controllers;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.IntDef;
 import android.support.annotation.Nullable;
@@ -15,10 +16,11 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.List;
 
-public class LevelSelectionActivity extends AppCompatActivity {
+public class LevelSelectionActivity extends AppCompatActivity implements LevelSelectedListener {
   private static final String LOG_TAG = LevelSelectionActivity.class.getSimpleName();
 
   public static final String GAME_TYPE_KEY = "game_type";
+
 
   @Retention(RetentionPolicy.SOURCE)
   @IntDef({SMALL_LETTERS, BIG_LETTERS, NUMBERS, FORMS})
@@ -37,37 +39,33 @@ public class LevelSelectionActivity extends AppCompatActivity {
   private static final String PATH_NUMBERS = "characters/numbers";
   private static final String PATH_FORMS = "characters/forms";
 
-  private List<WritableCharacter> imageList;
+  private List<WritableCharacter> characterList;
+
+  @GameType
+  private int selectedGameType = BIG_LETTERS;
 
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_level_selection);
 
-    int gameChoice = getIntent().getIntExtra(GAME_TYPE_KEY, 2);
+    //noinspection WrongConstant
+    selectedGameType = getIntent().getIntExtra(GAME_TYPE_KEY, BIG_LETTERS);
+    characterList = CharacterFetcher.getCharacters(this, selectedGameType);
 
-    switch (gameChoice) {
-      case SMALL_LETTERS:
-        imageList = CharacterFetcher.getAllSmallLetters(getApplicationContext());
-        break;
-      case BIG_LETTERS:
-        imageList = CharacterFetcher.getAllCapitalLetters(getApplicationContext());
-        break;
-      case NUMBERS:
-        //imageList = getImageObjects(PATH_NUMBERS);
-        break;
-      case FORMS:
-        //imageList = getImageObjects(PATH_FORMS);
-        break;
-    }
+    final LevelsAdapter levelsAdapter = new LevelsAdapter(this, characterList);
+    final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view_level_selection);
+    recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
+    recyclerView.setAdapter(levelsAdapter);
 
-    RecyclerView rView = (RecyclerView) findViewById(R.id.recycler_view_level_selection);
-    rView.setLayoutManager(new GridLayoutManager(LevelSelectionActivity.this, 3));
-
-    RecyclerViewAdapter rcAdapter = new RecyclerViewAdapter(LevelSelectionActivity.this, imageList);
-    rView.setAdapter(rcAdapter);
+    levelsAdapter.setLevelSelectedListener(this);
   }
 
+  @Override
+  public void onLevelSelected(int characterIndex) {
+    final Intent intent = new Intent(WritingGameActivity.getStartingIntent(this, selectedGameType, characterIndex));
+    startActivity(intent);
+  }
 
   public String getImageNameWithoutExtension(String imageNameWithExtension) {
     return imageNameWithExtension.split("\\.")[0];
