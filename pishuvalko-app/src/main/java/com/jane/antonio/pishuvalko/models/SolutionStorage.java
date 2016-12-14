@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.util.Arrays;
 
 public class SolutionStorage implements ISolutionStorage {
-  private final String SOLUTION_SUFFIX = "_solution";
+  private static final String SOLUTION_SUFFIX = "_solution";
   private final Context context;
 
   public SolutionStorage(Context context) {
@@ -20,8 +20,9 @@ public class SolutionStorage implements ISolutionStorage {
   }
 
   @Override
-  public boolean saveSolution(@NonNull Bitmap solution, @NonNull WritableCharacter character, int currentGuideType) {
-    try (FileOutputStream outputStream = context.openFileOutput(character.getBaseFileName() + SOLUTION_SUFFIX,
+  public boolean saveSolution(@NonNull Bitmap solution, @NonNull WritableCharacter character,
+    @WritableCharacter.GuidesType int guideType) {
+    try (FileOutputStream outputStream = context.openFileOutput(generateFilename(character, guideType),
       Context.MODE_PRIVATE)) {
       return solution.compress(Bitmap.CompressFormat.WEBP, 90, outputStream);
     } catch (IOException e) {
@@ -37,8 +38,8 @@ public class SolutionStorage implements ISolutionStorage {
 
   @Nullable
   @Override
-  public Bitmap readSolution(@NonNull WritableCharacter character) {
-    try (FileInputStream fis = context.openFileInput(character.getBaseFileName() + SOLUTION_SUFFIX)) {
+  public Bitmap readSolution(@NonNull WritableCharacter character, int guideType) {
+    try (FileInputStream fis = context.openFileInput(generateFilename(character, guideType))) {
       return BitmapFactory.decodeStream(fis);
     } catch (IOException e) {
       e.printStackTrace();
@@ -49,5 +50,9 @@ public class SolutionStorage implements ISolutionStorage {
   @Override
   public boolean removeSolution(@NonNull WritableCharacter character) {
     return !solutionExists(character) || context.deleteFile(character.getBaseFileName() + SOLUTION_SUFFIX);
+  }
+
+  private String generateFilename(@NonNull WritableCharacter character, @WritableCharacter.GuidesType int guideType) {
+    return character.getBaseFileName() + guideType + SOLUTION_SUFFIX;
   }
 }

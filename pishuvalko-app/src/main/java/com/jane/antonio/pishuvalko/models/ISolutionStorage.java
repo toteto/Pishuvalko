@@ -23,7 +23,7 @@ public interface ISolutionStorage {
    * @return the solution, null if no solution is found
    */
   @Nullable
-  Bitmap readSolution(@NonNull WritableCharacter character);
+  Bitmap readSolution(@NonNull WritableCharacter character, @WritableCharacter.GuidesType int guideType);
 
   /**
    * Tries to remove previously saved solution.

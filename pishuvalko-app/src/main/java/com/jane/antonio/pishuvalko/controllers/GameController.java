@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 
-import static com.jane.antonio.pishuvalko.models.WritableCharacter.NOR_SHAPE_NOR_STEPS;
 import static com.jane.antonio.pishuvalko.models.WritableCharacter.ONLY_SHAPE;
 import static com.jane.antonio.pishuvalko.models.WritableCharacter.SHAPE_AND_STEPS;
 
@@ -28,8 +27,9 @@ public class GameController {
   private final List<WritableCharacter> characterList;
   private ListIterator<WritableCharacter> characterIterator;
   private WritableCharacter currentCharacter;
+  private int currentGuideTypeIndex = 0;
   @WritableCharacter.GuidesType
-  private int currentGuideType = SHAPE_AND_STEPS;
+  public static final int[] GAME_GUIDE_TYPES = {SHAPE_AND_STEPS, ONLY_SHAPE};
 
   /**
    * Constructor.
@@ -74,7 +74,7 @@ public class GameController {
   /** Saves the {@link GameController#currentCharacter} solution to  {@link GameController#solutionStorage} */
   private void saveCurrentSolution() {
     final Bitmap solution = writingImageView.getSolution();
-    if (!solutionStorage.saveSolution(solution, currentCharacter, currentGuideType)) {
+    if (!solutionStorage.saveSolution(solution, currentCharacter, getCurrentGuideType())) {
       throw new RuntimeException("Unable to save current solution.");
     }
   }
@@ -85,31 +85,34 @@ public class GameController {
    */
   public void onConfirm() {
     saveCurrentSolution();
-    switch (currentGuideType) {
-      case SHAPE_AND_STEPS:
-        currentGuideType = ONLY_SHAPE;
-        break;
-      case WritableCharacter.ONLY_SHAPE:
-        currentGuideType = NOR_SHAPE_NOR_STEPS;
-        break;
-      case WritableCharacter.NOR_SHAPE_NOR_STEPS:
-        if (characterIterator.hasNext()) {
-          onNext();
-        } else {
-          onClose();
-        }
-        return;
+    if (currentGuideTypeIndex + 1 < GAME_GUIDE_TYPES.length) {
+      showNextGuideType();
+    } else if (characterIterator.hasNext()) {
+      showNextCharacter();
+    } else {
+      onClose();
     }
-    writingImageView.showCharacter(currentCharacter, currentGuideType);
   }
 
-  /** Request next character. */
-  public void onNext() {
-    if (characterIterator.hasNext()) {
-      currentCharacter = characterIterator.next();
-      currentGuideType = SHAPE_AND_STEPS;
-      writingImageView.showCharacter(currentCharacter, currentGuideType);
-    }
+  /**
+   * Shows the next guide type.
+   *
+   * @throws IndexOutOfBoundsException if there is no more guide types available.
+   */
+  private void showNextGuideType() {
+    currentGuideTypeIndex += 1;
+    writingImageView.showCharacter(currentCharacter, getCurrentGuideType());
+  }
+
+  /**
+   * Request next character.
+   *
+   * @throws java.util.NoSuchElementException when no next character is available.
+   */
+  public void showNextCharacter() {
+    currentCharacter = characterIterator.next();
+    currentGuideTypeIndex = 0;
+    writingImageView.showCharacter(currentCharacter, getCurrentGuideType());
   }
 
   /** On change of the default drawing color. */
@@ -120,5 +123,14 @@ public class GameController {
   /** On erase action. */
   public void onErase() {
     writingImageView.eraseWriting();
+  }
+
+  public int[] getGameGuideTypes() {
+    return GAME_GUIDE_TYPES;
+  }
+
+  @WritableCharacter.GuidesType
+  public int getCurrentGuideType() {
+    return GAME_GUIDE_TYPES[currentGuideTypeIndex];
   }
 }

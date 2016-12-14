@@ -65,9 +65,11 @@ public class ParentsActivity extends AppCompatActivity {
     List<Object> res = new LinkedList<>();
     Bitmap solution;
     for (WritableCharacter character : characters) {
-      solution = solutionStorage.readSolution(character);
-      if (solution != null) {
-        res.add(new SolutionItem(new BitmapDrawable(getResources(), solution), character.getDisplayName()));
+      for (@WritableCharacter.GuidesType int guideType : GameController.GAME_GUIDE_TYPES) {
+        solution = solutionStorage.readSolution(character, guideType);
+        if (solution != null) {
+          res.add(new SolutionItem(new BitmapDrawable(getResources(), solution), character.getDisplayName()));
+        }
       }
     }
     if (res.size() > 0) {
