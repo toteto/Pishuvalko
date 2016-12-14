@@ -87,7 +87,7 @@ public class ParentsActivity extends AppCompatActivity implements SolutionSelect
   private void showSolutionPopUp(@NonNull Drawable solution) {
     final ImageView solutionView = new ImageView(this);
     solutionView.setImageDrawable(solution);
-    new AlertDialog.Builder(this).setView(solutionView).setPositiveButton("Потврди",
+    new AlertDialog.Builder(this, R.style.SolutionPopupTheme).setView(solutionView).setPositiveButton("Потврди",
       new DialogInterface.OnClickListener() {
         @Override
         public void onClick(DialogInterface dialog, int which) {
