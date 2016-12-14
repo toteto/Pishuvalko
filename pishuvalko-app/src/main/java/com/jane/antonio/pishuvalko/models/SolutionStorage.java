@@ -38,8 +38,8 @@ public class SolutionStorage implements ISolutionStorage {
 
   @Nullable
   @Override
-  public Bitmap readSolution(@NonNull WritableCharacter character) {
-    try (FileInputStream fis = context.openFileInput(character.getBaseFileName() + SOLUTION_SUFFIX)) {
+  public Bitmap readSolution(@NonNull WritableCharacter character, int guideType) {
+    try (FileInputStream fis = context.openFileInput(generateFilename(character, guideType))) {
       return BitmapFactory.decodeStream(fis);
     } catch (IOException e) {
       e.printStackTrace();
