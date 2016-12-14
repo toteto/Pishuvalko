@@ -1,6 +1,5 @@
 package com.jane.antonio.pishuvalko.controllers;
 
-import android.animation.Animator;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -87,17 +86,22 @@ public class ParentsActivity extends AppCompatActivity implements SolutionSelect
   private void showSolutionPopUp(@NonNull Drawable solution) {
     final ImageView solutionView = new ImageView(this);
     solutionView.setImageDrawable(solution);
-    new AlertDialog.Builder(this, R.style.SolutionPopupTheme).setView(solutionView).setPositiveButton("Потврди",
+    new AlertDialog.Builder(this, R.style.SolutionPopupTheme).setView(solutionView).setPositiveButton(R.string.confirm,
       new DialogInterface.OnClickListener() {
         @Override
         public void onClick(DialogInterface dialog, int which) {
           // TODO: 14.12.2016 write to storage that the solution has been accepted
           dialog.dismiss();
         }
-      }).setNegativeButton("Одбиј", new DialogInterface.OnClickListener() {
+      }).setNegativeButton(R.string.reject, new DialogInterface.OnClickListener() {
       @Override
       public void onClick(DialogInterface dialog, int which) {
         // TODO: 14.12.2016 write to storage that the solution has been denied
+      }
+    }).setNeutralButton(R.string.close, new DialogInterface.OnClickListener() {
+      @Override
+      public void onClick(DialogInterface dialog, int which) {
+        dialog.dismiss();
       }
     }).show();
   }
