@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.util.Arrays;
 
 public class SolutionStorage implements ISolutionStorage {
-  private final String SOLUTION_SUFFIX = "_solution";
+  private static final String SOLUTION_SUFFIX = "_solution";
   private final Context context;
 
   public SolutionStorage(Context context) {
@@ -20,8 +20,9 @@ public class SolutionStorage implements ISolutionStorage {
   }
 
   @Override
-  public boolean saveSolution(@NonNull Bitmap solution, @NonNull WritableCharacter character, int currentGuideType) {
-    try (FileOutputStream outputStream = context.openFileOutput(character.getBaseFileName() + SOLUTION_SUFFIX,
+  public boolean saveSolution(@NonNull Bitmap solution, @NonNull WritableCharacter character,
+    @WritableCharacter.GuidesType int guideType) {
+    try (FileOutputStream outputStream = context.openFileOutput(generateFilename(character, guideType),
       Context.MODE_PRIVATE)) {
       return solution.compress(Bitmap.CompressFormat.WEBP, 90, outputStream);
     } catch (IOException e) {
@@ -49,5 +50,9 @@ public class SolutionStorage implements ISolutionStorage {
   @Override
   public boolean removeSolution(@NonNull WritableCharacter character) {
     return !solutionExists(character) || context.deleteFile(character.getBaseFileName() + SOLUTION_SUFFIX);
+  }
+
+  private String generateFilename(@NonNull WritableCharacter character, @WritableCharacter.GuidesType int guideType) {
+    return character.getBaseFileName() + guideType + SOLUTION_SUFFIX;
   }
 }

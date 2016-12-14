@@ -120,7 +120,7 @@ public class WritingImageView extends ImageView {
   /** Retrieve the image that the user has drawn on the screen. */
   @NonNull
   public Bitmap getSolution() {
-    final Bitmap bitmap = Bitmap.createBitmap(getWidth(), getHeight(), Bitmap.Config.RGB_565);
+    final Bitmap bitmap = Bitmap.createBitmap(getWidth(), getHeight(), Bitmap.Config.ARGB_8888);
     final Canvas canvas = new Canvas(bitmap);
     drawPaths(canvas);
 
