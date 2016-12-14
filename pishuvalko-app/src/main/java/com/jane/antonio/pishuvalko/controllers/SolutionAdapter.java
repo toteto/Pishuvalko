@@ -1,7 +1,7 @@
 package com.jane.antonio.pishuvalko.controllers;
 
 import android.content.Context;
-import android.support.annotation.IntDef;
+import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,30 +15,21 @@ import com.jane.antonio.pishuvalko.R;
 import com.jane.antonio.pishuvalko.models.HeaderItem;
 import com.jane.antonio.pishuvalko.models.SolutionItem;
 
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
 
 /** Adapter that is capable of displaying {@link HeaderItem} and {@link SolutionItem}. */
 public class SolutionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-
-
-  @Retention(RetentionPolicy.SOURCE)
-  @IntDef({SOLUTION, HEADER})
-  public @interface ViewType {
-  }
-
-  private static final int SOLUTION = 1;
-  private static final int HEADER = 2;
+  private final SolutionSelectedListener listener;
 
   private final List<Object> items;
   private final GridLayoutManager layoutManager;
   private int itemsPerRow = 3;
 
   /** . */
-  public SolutionAdapter(Context context) {
+  public SolutionAdapter(Context context, SolutionSelectedListener listener) {
+    this.listener = listener;
     items = new ArrayList<>();
     layoutManager = new GridLayoutManager(context, itemsPerRow);
     layoutManager.setSpanSizeLookup(spanSizeLookup);
@@ -46,13 +37,20 @@ public class SolutionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
   @Override
   public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-    if (HEADER == viewType) {
-      View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.header_item, parent, false);
+    final View view = LayoutInflater.from(parent.getContext()).inflate(viewType, parent, false);
+    if (R.layout.header_item == viewType) {
       view.setClickable(false);
       return new HeaderViewHolder(view);
-    } else if (SOLUTION == viewType) {
-      View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.solution_item, parent, false);
-      return new SolutionViewHolder(view);
+    } else if (R.layout.solution_item == viewType) {
+      final SolutionViewHolder holder = new SolutionViewHolder(view);
+      view.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+          final SolutionItem item = ((SolutionItem) items.get(holder.getAdapterPosition()));
+          listener.onSolutionSelected(item.getSolution());
+        }
+      });
+      return holder;
     } else {
       throw new InvalidParameterException("Unsupported viewType:" + viewType);
     }
@@ -61,10 +59,10 @@ public class SolutionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
   @Override
   public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
     switch (getItemViewType(position)) {
-      case HEADER:
+      case R.layout.header_item:
         ((HeaderViewHolder) holder).bind((HeaderItem) items.get(position));
         break;
-      case SOLUTION:
+      case R.layout.solution_item:
         ((SolutionViewHolder) holder).bind((SolutionItem) items.get(position));
         break;
     }
@@ -81,15 +79,15 @@ public class SolutionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     items.addAll(newItems);
   }
 
-  @ViewType
+  @LayoutRes
   @Override
   public int getItemViewType(int position) {
     final Object item = items.get(position);
     if (item instanceof SolutionItem) {
-      return SOLUTION;
+      return R.layout.solution_item;
     }
     if (item instanceof HeaderItem) {
-      return HEADER;
+      return R.layout.header_item;
     }
     throw new InvalidParameterException("Unsupported viewType at position:" + position);
   }
@@ -98,7 +96,7 @@ public class SolutionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
   private final GridLayoutManager.SpanSizeLookup spanSizeLookup = new GridLayoutManager.SpanSizeLookup() {
     @Override
     public int getSpanSize(int position) {
-      return getItemViewType(position) == HEADER ? itemsPerRow : 1;
+      return getItemViewType(position) == R.layout.header_item ? itemsPerRow : 1;
     }
   };
 
@@ -126,6 +124,10 @@ public class SolutionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public void bind(@NonNull SolutionItem solution) {
       ivSolution.setImageDrawable(solution.getSolution());
       tvLabel.setText(solution.getDisplayName());
+    }
+
+    public ImageView getIvSolution() {
+      return ivSolution;
     }
   }
 

@@ -1,12 +1,17 @@
 package com.jane.antonio.pishuvalko.controllers;
 
+import android.animation.Animator;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.widget.ImageView;
 
 import com.jane.antonio.pishuvalko.R;
 import com.jane.antonio.pishuvalko.models.CharacterFetcher;
@@ -18,14 +23,15 @@ import com.jane.antonio.pishuvalko.models.WritableCharacter;
 import java.util.LinkedList;
 import java.util.List;
 
-public class ParentsActivity extends AppCompatActivity {
+public class ParentsActivity extends AppCompatActivity implements SolutionSelectedListener {
+
   private RecyclerView recyclerView;
   private SolutionAdapter adapter;
 
   @Override
   protected void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    adapter = new SolutionAdapter(this);
+    adapter = new SolutionAdapter(this, this);
 
     setContentView(R.layout.parents_activity);
 
@@ -76,5 +82,28 @@ public class ParentsActivity extends AppCompatActivity {
       res.add(0, new HeaderItem(title));
     }
     return res;
+  }
+
+  private void showSolutionPopUp(@NonNull Drawable solution) {
+    final ImageView solutionView = new ImageView(this);
+    solutionView.setImageDrawable(solution);
+    new AlertDialog.Builder(this).setView(solutionView).setPositiveButton("Потврди",
+      new DialogInterface.OnClickListener() {
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+          // TODO: 14.12.2016 write to storage that the solution has been accepted
+          dialog.dismiss();
+        }
+      }).setNegativeButton("Одбиј", new DialogInterface.OnClickListener() {
+      @Override
+      public void onClick(DialogInterface dialog, int which) {
+        // TODO: 14.12.2016 write to storage that the solution has been denied
+      }
+    }).show();
+  }
+
+  @Override
+  public void onSolutionSelected(@NonNull Drawable solution) {
+    showSolutionPopUp(solution);
   }
 }

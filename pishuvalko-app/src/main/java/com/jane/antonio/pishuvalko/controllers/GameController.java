@@ -28,6 +28,7 @@ public class GameController {
   private ListIterator<WritableCharacter> characterIterator;
   private WritableCharacter currentCharacter;
   private int currentGuideTypeIndex = 0;
+  /** Game types that are available for this game. Now are made static, should be converted to dynamic types later. */
   @WritableCharacter.GuidesType
   public static final int[] GAME_GUIDE_TYPES = {SHAPE_AND_STEPS, ONLY_SHAPE};
 
@@ -85,6 +86,7 @@ public class GameController {
    */
   public void onConfirm() {
     saveCurrentSolution();
+    onErase();
     if (currentGuideTypeIndex + 1 < GAME_GUIDE_TYPES.length) {
       showNextGuideType();
     } else if (characterIterator.hasNext()) {
