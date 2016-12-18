@@ -1,98 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:padding="0dip"
+             tools:context="com.jane.antonio.pishuvalko.controllers.GameTypeActivity">
+
+  <ImageView
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="0dip"
-    tools:context="com.jane.antonio.pishuvalko.controllers.GameTypeActivity">
+    android:background="@drawable/greenboardfinal"
+    android:scaleType="fitCenter"/>
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="fitCenter"
-        android:background="@drawable/greenboardfinal" />
-
+  <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="@dimen/board_borders"
+    android:orientation="vertical">
 
     <LinearLayout
-        android:orientation="horizontal"
-        android:padding="@dimen/board_borders"
-        android:layout_height="fill_parent"
-        android:layout_width="fill_parent">
+      android:layout_width="match_parent"
+      android:layout_height="0dp"
+      android:layout_weight="1"
+      android:orientation="horizontal">
 
-        <LinearLayout
-            android:layout_weight="1"
-            android:layout_height="fill_parent"
-            android:orientation="vertical"
-            android:layout_width="0dp">
+      <Button
+        android:id="@+id/bt_bigLetters"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_margin="16dp"
+        android:layout_weight="1"
+        android:text="@string/capital_letters"/>
 
-            <LinearLayout
-                android:layout_weight="1"
-                android:layout_width="match_parent"
-                android:layout_height="0dp">
-
-                <Button
-                    android:id="@+id/bt_bigLetters"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="BIG" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_weight="1"
-                android:layout_width="match_parent"
-                android:layout_height="0dp">
-
-                <Button
-                    android:id="@+id/bt_numbers"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="NUMBERS" />
-
-            </LinearLayout>
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_weight="1"
-            android:layout_height="fill_parent"
-            android:orientation="vertical"
-            android:layout_width="0dp">
-
-            <LinearLayout
-                android:layout_weight="1"
-                android:layout_width="match_parent"
-                android:layout_height="0dp">
-
-                <Button
-                    android:id="@+id/bt_smallLetters"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="SMALL" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_weight="1"
-                android:layout_width="match_parent"
-                android:layout_height="0dp">
-
-                <Button
-                    android:id="@+id/bt_forms"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="FORMS" />
-
-            </LinearLayout>
-
-        </LinearLayout>
+      <Button
+        android:id="@+id/bt_smallLetters"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_margin="16dp"
+        android:layout_weight="1"
+        android:text="@string/lower_case_letters"/>
 
     </LinearLayout>
+
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="0dp"
+      android:layout_weight="1"
+      android:orientation="horizontal">
+
+      <Button
+        android:id="@+id/bt_numbers"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_margin="16dp"
+        android:layout_weight="1"
+        android:text="@string/numbers"/>
+
+
+      <Button
+        android:id="@+id/bt_forms"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_margin="16dp"
+        android:layout_weight="1"
+        android:text="@string/forms"/>
+    </LinearLayout>
+
+  </LinearLayout>
 
 
 </FrameLayout>
