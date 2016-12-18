@@ -93,13 +93,19 @@ public class ParentsActivity extends AppCompatActivity implements CharacterSelec
       new DialogInterface.OnClickListener() {
         @Override
         public void onClick(DialogInterface dialog, int which) {
-          new SolutionStorage(ParentsActivity.this).approveSolution(character);
+          final SolutionStorage solutionStorage = new SolutionStorage(ParentsActivity.this);
+          solutionStorage.approveSolution(character);
+          adapter.removeCharacter(character);
+          // solutionStorage.removeSolution(character)
           dialog.dismiss();
         }
       }).setNegativeButton(R.string.reject, new DialogInterface.OnClickListener() {
       @Override
       public void onClick(DialogInterface dialog, int which) {
-        new SolutionStorage(ParentsActivity.this).declineSolution(character);
+        final SolutionStorage solutionStorage = new SolutionStorage(ParentsActivity.this);
+        solutionStorage.declineSolution(character);
+        adapter.removeCharacter(character);
+        // solutionStorage.removeSolution(character)
       }
     }).setNeutralButton(R.string.close, new DialogInterface.OnClickListener() {
       @Override
