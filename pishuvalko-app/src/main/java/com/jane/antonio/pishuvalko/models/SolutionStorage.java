@@ -52,6 +52,22 @@ public class SolutionStorage implements ISolutionStorage {
     return !solutionExists(character, guideType) || context.deleteFile(generateFilename(character, guideType));
   }
 
+  @Override
+  public void approveSolution(@NonNull WritableCharacter character) {
+
+  }
+
+  @Override
+  public void declineSolution(@NonNull WritableCharacter character) {
+
+  }
+
+  @Nullable
+  @Override
+  public Boolean isSolutionApproved(@NonNull WritableCharacter character) {
+    return null;
+  }
+
   private String generateFilename(@NonNull WritableCharacter character, @WritableCharacter.GuidesType int guideType) {
     return character.getBaseFileName() + guideType + SOLUTION_SUFFIX;
   }

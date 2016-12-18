@@ -31,4 +31,19 @@ public interface ISolutionStorage {
    * @return true if it has been successfully removed or it hasnt been found. False otherwise.
    */
   boolean removeSolution(@NonNull WritableCharacter character, @WritableCharacter.GuidesType int guideType);
+
+  /** Write to storage approve status for the provided character. */
+  void approveSolution(@NonNull WritableCharacter character);
+
+  /** Write to storage decline status for the provided character. */
+  void declineSolution(@NonNull WritableCharacter character);
+
+  /**
+   * Get the approval status of the solution.
+   *
+   * @return true if the solution has been approved. False if the solution has been declined by the parent. Null if the
+   * provided character hasn't been nor approved nor declined.
+   */
+  @Nullable
+  Boolean isSolutionApproved(@NonNull WritableCharacter character);
 }
