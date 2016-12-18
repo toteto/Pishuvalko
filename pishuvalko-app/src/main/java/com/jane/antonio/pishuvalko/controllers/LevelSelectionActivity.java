@@ -1,11 +1,11 @@
 package com.jane.antonio.pishuvalko.controllers;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.jane.antonio.pishuvalko.R;
@@ -57,9 +57,7 @@ public class LevelSelectionActivity extends AppCompatActivity implements Charact
 
   @Override
   public void onCharacterSelected(@NonNull WritableCharacter writableCharacter) {
-    // TODO: 18.12.2016
-    //    final Intent intent = new Intent(WritingGameActivity.getStartingIntent(this, selectedGameType,
-    // characterIndex));
-    //    startActivity(intent);
+    final Intent intent = new Intent(WritingGameActivity.getStartingIntent(this, selectedGameType, writableCharacter));
+    startActivity(intent);
   }
 }

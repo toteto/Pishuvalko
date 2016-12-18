@@ -8,11 +8,12 @@ import android.util.Log;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Serializable;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 /** An abstract class for writable characters. */
-public abstract class WritableCharacter {
+public abstract class WritableCharacter implements Serializable {
   private static final String LOG_TAG = WritableCharacter.class.getSimpleName();
 
   @Retention(RetentionPolicy.SOURCE)
@@ -109,5 +110,15 @@ public abstract class WritableCharacter {
       Log.e(LOG_TAG, "getStepsDrawable: No file found with name: " + fullPath, e);
       return null;
     }
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    return obj instanceof WritableCharacter && baseFileName.equals(((WritableCharacter) obj).baseFileName);
+  }
+
+  @Override
+  public int hashCode() {
+    return baseFileName.hashCode();
   }
 }

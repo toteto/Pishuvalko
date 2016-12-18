@@ -26,7 +26,7 @@ public class WritingGameActivity extends AppCompatActivity
   implements View.OnClickListener, WritingGameInterface, ColorDialog.OnColorSelectedListener {
   /** Key used for storing the character that will be displayed. */
   private static final String GAME_TYPE_KEY = "game_type";
-  private static final String CHARACTER_INDEX_KEY = "index";
+  private static final String SELECTED_CHARACTER_KEY = "index";
   private WritingImageView writingImageView;
   private View btnClose;
   private View btnErase;
@@ -61,7 +61,8 @@ public class WritingGameActivity extends AppCompatActivity
   protected void onStart() {
     super.onStart();
     List<WritableCharacter> list = CharacterFetcher.getCharacters(this, readGameType(getIntent()));
-    int index = readCharacterIndex(getIntent());
+    WritableCharacter character = readCharacter(getIntent());
+    int index = list.indexOf(character);
     gameController.onStart(writingImageView, list, index);
   }
 
@@ -114,22 +115,21 @@ public class WritingGameActivity extends AppCompatActivity
   }
 
   /** Reads the char index from the provided intent. */
-  private static int readCharacterIndex(@NonNull Intent intent) {
-    return intent.getIntExtra(CHARACTER_INDEX_KEY, 0);
+  private static WritableCharacter readCharacter(@NonNull Intent intent) {
+    return (WritableCharacter) intent.getSerializableExtra(SELECTED_CHARACTER_KEY);
   }
 
   /**
    * Get the starting intent for this activity with all needed parameters.
    *
    * @param gameType the type of the game that the user has selected
-   * @param index the character index of the gameType list user has selected
    * @return intent that is ready to start this activity
    */
   public static Intent getStartingIntent(@NonNull Context context, @LevelSelectionActivity.GameType int gameType,
-    int index) {
+    @NonNull WritableCharacter character) {
     final Intent intent = new Intent(context, WritingGameActivity.class);
     intent.putExtra(GAME_TYPE_KEY, gameType);
-    intent.putExtra(CHARACTER_INDEX_KEY, index);
+    intent.putExtra(SELECTED_CHARACTER_KEY, character);
     return intent;
   }
 }
