@@ -1,8 +1,10 @@
 package com.jane.antonio.pishuvalko.models;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
@@ -33,7 +35,9 @@ public class SolutionStorage implements ISolutionStorage {
 
   @Override
   public boolean solutionExists(@NonNull WritableCharacter character, @WritableCharacter.GuidesType int guideType) {
-    return Arrays.binarySearch(context.fileList(), generateFilename(character, guideType)) >= 0;
+    final String[] solutions = context.fileList();
+    Arrays.sort(solutions);
+    return Arrays.binarySearch(solutions, generateFilename(character, guideType)) >= 0;
   }
 
   @Nullable
@@ -54,21 +58,30 @@ public class SolutionStorage implements ISolutionStorage {
 
   @Override
   public void approveSolution(@NonNull WritableCharacter character) {
-
+    getDefaultSharedPreferencesEditor().putBoolean(character.getBaseFileName() + SOLUTION_SUFFIX, true).commit();
   }
 
   @Override
   public void declineSolution(@NonNull WritableCharacter character) {
-
+    getDefaultSharedPreferencesEditor().putBoolean(character.getBaseFileName() + SOLUTION_SUFFIX, false).commit();
   }
 
   @Nullable
   @Override
   public Boolean isSolutionApproved(@NonNull WritableCharacter character) {
-    return null;
+    SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+    if (sp.contains(character.getBaseFileName() + SOLUTION_SUFFIX)) {
+      return sp.getBoolean(character.getBaseFileName() + SOLUTION_SUFFIX, false);
+    } else {
+      return null;
+    }
   }
 
   private String generateFilename(@NonNull WritableCharacter character, @WritableCharacter.GuidesType int guideType) {
     return character.getBaseFileName() + guideType + SOLUTION_SUFFIX;
+  }
+
+  private SharedPreferences.Editor getDefaultSharedPreferencesEditor() {
+    return PreferenceManager.getDefaultSharedPreferences(context).edit();
   }
 }

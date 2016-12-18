@@ -7,6 +7,8 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.jane.antonio.pishuvalko.R;
@@ -83,20 +85,21 @@ public class ParentsActivity extends AppCompatActivity implements CharacterSelec
     return res;
   }
 
-  private void showSolutionPopUp(WritableCharacter character) {
-    // TODO: 18.12.2016 display solution_popup layout
-    final ImageView solutionView = new ImageView(this);
-    new AlertDialog.Builder(this, R.style.SolutionPopupTheme).setView(solutionView).setPositiveButton(R.string.confirm,
+  private void showSolutionPopUp(final WritableCharacter character) {
+    View popupView = LayoutInflater.from(this).inflate(R.layout.solution_popup_view, null, false);
+    ((ImageView) popupView.findViewById(R.id.imageView1)).setImageDrawable(character.getDisplayDrawable(this));
+    ((ImageView) popupView.findViewById(R.id.imageView2)).setImageDrawable(character.getOutlineDrawable(this));
+    new AlertDialog.Builder(this, R.style.SolutionPopupTheme).setView(popupView).setPositiveButton(R.string.confirm,
       new DialogInterface.OnClickListener() {
         @Override
         public void onClick(DialogInterface dialog, int which) {
-          // TODO: 14.12.2016 write to storage that the solution has been accepted
+          new SolutionStorage(ParentsActivity.this).approveSolution(character);
           dialog.dismiss();
         }
       }).setNegativeButton(R.string.reject, new DialogInterface.OnClickListener() {
       @Override
       public void onClick(DialogInterface dialog, int which) {
-        // TODO: 14.12.2016 write to storage that the solution has been denied
+        new SolutionStorage(ParentsActivity.this).declineSolution(character);
       }
     }).setNeutralButton(R.string.close, new DialogInterface.OnClickListener() {
       @Override
@@ -108,6 +111,6 @@ public class ParentsActivity extends AppCompatActivity implements CharacterSelec
 
   @Override
   public void onCharacterSelected(@NonNull WritableCharacter writableCharacter) {
-    // TODO: 18.12.2016 implement listenre
+    showSolutionPopUp(writableCharacter);
   }
 }
