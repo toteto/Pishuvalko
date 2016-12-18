@@ -18,6 +18,7 @@ public class SettingsActivity extends AppCompatActivity {
 
     Switch sound_switch;
     TextView sound;
+    TextView language;
     ImageView share_view;
     private View btnClose;
 
@@ -27,14 +28,13 @@ public class SettingsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_settings);
 
         sound = (TextView) findViewById(R.id.txtv_sound);
-
+        language = (TextView) findViewById(R.id.txtv_langauge);
         share_view = (ImageView) findViewById(R.id.share_button);
         sound_switch = (Switch) findViewById(R.id.soundSwitch);
         btnClose = findViewById(R.id.btn_close);
 
         //set the switch to last choice
         //sound_switch.setChecked(true);
-
 
         //attach a listener to check for changes in state
         sound_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

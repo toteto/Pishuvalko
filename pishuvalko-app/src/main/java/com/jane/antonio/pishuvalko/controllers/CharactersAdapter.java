@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.jane.antonio.pishuvalko.R;
 import com.jane.antonio.pishuvalko.models.HeaderItem;
+import com.jane.antonio.pishuvalko.models.LevelItem;
 import com.jane.antonio.pishuvalko.models.WritableCharacter;
 
 import java.security.InvalidParameterException;
@@ -96,7 +97,11 @@ public class CharactersAdapter extends RecyclerView.Adapter {
       return R.layout.header_item;
     } else if (item instanceof WritableCharacter) {
       return R.layout.character_item;
-    } else {
+    } else if (item instanceof LevelItem) {
+      return R.layout.level_item;
+    }
+    else
+    {
       return super.getItemViewType(position);
     }
   }
