@@ -15,7 +15,7 @@ public interface ISolutionStorage {
     @WritableCharacter.GuidesType int currentGuideType);
 
   /** Check if there is a solution for the provided character. */
-  boolean solutionExists(@NonNull WritableCharacter character);
+  boolean solutionExists(@NonNull WritableCharacter character, @WritableCharacter.GuidesType int guideType);
 
   /**
    * Tries to read solution for the provided character.
@@ -30,5 +30,5 @@ public interface ISolutionStorage {
    *
    * @return true if it has been successfully removed or it hasnt been found. False otherwise.
    */
-  boolean removeSolution(@NonNull WritableCharacter character);
+  boolean removeSolution(@NonNull WritableCharacter character, @WritableCharacter.GuidesType int guideType);
 }

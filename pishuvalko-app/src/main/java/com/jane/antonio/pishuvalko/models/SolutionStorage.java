@@ -32,8 +32,8 @@ public class SolutionStorage implements ISolutionStorage {
   }
 
   @Override
-  public boolean solutionExists(@NonNull WritableCharacter character) {
-    return Arrays.binarySearch(context.fileList(), character.getBaseFileName() + SOLUTION_SUFFIX) >= 0;
+  public boolean solutionExists(@NonNull WritableCharacter character, @WritableCharacter.GuidesType int guideType) {
+    return Arrays.binarySearch(context.fileList(), generateFilename(character, guideType)) >= 0;
   }
 
   @Nullable
@@ -48,8 +48,8 @@ public class SolutionStorage implements ISolutionStorage {
   }
 
   @Override
-  public boolean removeSolution(@NonNull WritableCharacter character) {
-    return !solutionExists(character) || context.deleteFile(character.getBaseFileName() + SOLUTION_SUFFIX);
+  public boolean removeSolution(@NonNull WritableCharacter character, @WritableCharacter.GuidesType int guideType) {
+    return !solutionExists(character, guideType) || context.deleteFile(generateFilename(character, guideType));
   }
 
   private String generateFilename(@NonNull WritableCharacter character, @WritableCharacter.GuidesType int guideType) {

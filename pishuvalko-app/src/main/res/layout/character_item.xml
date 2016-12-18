@@ -7,13 +7,13 @@
               tools:background="@drawable/greenboardfinal">
 
   <ImageView
-    android:id="@+id/imageView"
+    android:id="@+id/tvDisplayImage"
     android:layout_width="match_parent"
     android:layout_height="150dp"
     tools:src="@mipmap/ic_launcher"/>
 
   <TextView
-    android:id="@+id/textView"
+    android:id="@+id/tvLabel"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:textAlignment="center"
