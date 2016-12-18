@@ -137,4 +137,14 @@ public class WritingImageView extends ImageView {
     drawingPaths.add(currPath);
     drawingPaints.add(currPaint);
   }
+
+  /** Return true if there is anything drawn by the user on the view. False otherwise. */
+  public boolean isAnytingDrawn() {
+    for (Path path : drawingPaths) {
+      if (!path.isEmpty()) {
+        return true;
+      }
+    }
+    return false;
+  }
 }

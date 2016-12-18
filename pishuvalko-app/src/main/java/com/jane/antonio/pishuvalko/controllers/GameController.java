@@ -85,14 +85,16 @@ public class GameController {
    * the current guide type.
    */
   public void onConfirm() {
-    saveCurrentSolution();
-    onErase();
-    if (currentGuideTypeIndex + 1 < GAME_GUIDE_TYPES.length) {
-      showNextGuideType();
-    } else if (characterIterator.hasNext()) {
-      showNextCharacter();
-    } else {
-      onClose();
+    if (writingImageView.isAnytingDrawn()) {
+      saveCurrentSolution();
+      onErase();
+      if (currentGuideTypeIndex + 1 < GAME_GUIDE_TYPES.length) {
+        showNextGuideType();
+      } else if (characterIterator.hasNext()) {
+        showNextCharacter();
+      } else {
+        onClose();
+      }
     }
   }
 
