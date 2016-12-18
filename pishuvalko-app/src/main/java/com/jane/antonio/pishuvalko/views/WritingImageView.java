@@ -51,22 +51,21 @@ public class WritingImageView extends ImageView {
     basePaint.setColor(ContextCompat.getColor(getContext(), android.R.color.white));
     basePaint.setStyle(Paint.Style.STROKE);
     basePaint.setStrokeWidth(context.getResources().getInteger(R.integer.draw_stroke_width));
+
+    currPath = new Path();
+    currPaint = new Paint(basePaint);
+    drawingPaths.add(currPath);
+    drawingPaints.add(currPaint);
   }
 
   @Override
   public boolean onTouchEvent(MotionEvent event) {
     switch (event.getAction()) {
       case MotionEvent.ACTION_DOWN:
-        if (currPath == null) {
-          initPathAndPaint();
-        }
         currPath.moveTo(event.getX(), event.getY());
         invalidate();
         return true;
       case MotionEvent.ACTION_MOVE:
-        if (currPath == null) {
-          initPathAndPaint();
-        }
         currPath.lineTo(event.getX(), event.getY());
         invalidate();
         return true;
@@ -82,7 +81,7 @@ public class WritingImageView extends ImageView {
   }
 
   private void drawPaths(@NonNull Canvas canvas) {
-    for (int i = 0; i < drawingPaths.size(); i++) {
+    for (int i = 0; i < Math.min(drawingPaths.size(), drawingPaints.size()); i++) {
       canvas.drawPath(drawingPaths.get(i), drawingPaints.get(i));
     }
   }
@@ -111,9 +110,11 @@ public class WritingImageView extends ImageView {
   public void eraseWriting() {
     drawingPaths.clear();
     drawingPaints.clear();
+
     currPath = new Path();
     drawingPaths.add(currPath);
     drawingPaints.add(currPaint);
+
     invalidate();
   }
 
@@ -129,13 +130,10 @@ public class WritingImageView extends ImageView {
 
   /** Sets the drawing color of the {@link WritingImageView#currPaint}. */
   public void setDrawingColor(@ColorInt int color) {
-    initPathAndPaint();
-    currPaint.setColor(color);
-  }
-
-  private void initPathAndPaint() {
     currPath = new Path();
     currPaint = new Paint(basePaint);
+    currPaint.setColor(color);
+
     drawingPaths.add(currPath);
     drawingPaints.add(currPaint);
   }
