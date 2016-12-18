@@ -1,8 +1,8 @@
 package com.jane.antonio.pishuvalko.controllers;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.IntDef;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
@@ -14,24 +14,26 @@ import com.jane.antonio.pishuvalko.models.WritableCharacter;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import java.util.LinkedList;
 import java.util.List;
 
-public class LevelSelectionActivity extends AppCompatActivity implements LevelSelectedListener {
+public class LevelSelectionActivity extends AppCompatActivity implements CharacterSelectedListener {
   private static final String LOG_TAG = LevelSelectionActivity.class.getSimpleName();
 
   public static final String GAME_TYPE_KEY = "game_type";
 
-
   @Retention(RetentionPolicy.SOURCE)
   @IntDef({SMALL_LETTERS, BIG_LETTERS, NUMBERS, FORMS})
   public @interface GameType {
+
+
   }
 
   public static final int SMALL_LETTERS = 1;
+
   public static final int BIG_LETTERS = 2;
   public static final int NUMBERS = 3;
   public static final int FORMS = 4;
-
   @GameType
   private int selectedGameType = BIG_LETTERS;
 
@@ -43,18 +45,21 @@ public class LevelSelectionActivity extends AppCompatActivity implements LevelSe
     //noinspection WrongConstant
     selectedGameType = getIntent().getIntExtra(GAME_TYPE_KEY, BIG_LETTERS);
 
-    final List<WritableCharacter> characterList = CharacterFetcher.getCharacters(this, selectedGameType);
-    final LevelsAdapter levelsAdapter = new LevelsAdapter(this, characterList);
+    final CharactersAdapter charactersAdapter = new CharactersAdapter(this, 3);
+    List<Object> list = new LinkedList<>();
+    list.addAll(CharacterFetcher.getCharacters(this, selectedGameType));
+    charactersAdapter.setItems(list);
     final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view_level_selection);
-    recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
-    recyclerView.setAdapter(levelsAdapter);
-
-    levelsAdapter.setLevelSelectedListener(this);
+    recyclerView.setLayoutManager(charactersAdapter.getLayoutManager());
+    recyclerView.setAdapter(charactersAdapter);
+    charactersAdapter.setOnCharacterSelectedListener(this);
   }
 
   @Override
-  public void onLevelSelected(int characterIndex) {
-    final Intent intent = new Intent(WritingGameActivity.getStartingIntent(this, selectedGameType, characterIndex));
-    startActivity(intent);
+  public void onCharacterSelected(@NonNull WritableCharacter writableCharacter) {
+    // TODO: 18.12.2016
+    //    final Intent intent = new Intent(WritingGameActivity.getStartingIntent(this, selectedGameType,
+    // characterIndex));
+    //    startActivity(intent);
   }
 }
