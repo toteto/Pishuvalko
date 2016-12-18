@@ -15,6 +15,7 @@ public class GameTypeActivity extends AppCompatActivity implements View.OnClickL
     private Button bigLetters;
     private Button numbers;
     private Button forms;
+    private View btnClose;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -24,11 +25,21 @@ public class GameTypeActivity extends AppCompatActivity implements View.OnClickL
         bigLetters = (Button) findViewById(R.id.bt_bigLetters);
         numbers = (Button) findViewById(R.id.bt_numbers);
         forms = (Button) findViewById(R.id.bt_forms);
+        btnClose = findViewById(R.id.btn_close);
+
 
         smallLetters.setOnClickListener(this);
         bigLetters.setOnClickListener(this);
         numbers.setOnClickListener(this);
         forms.setOnClickListener(this);
+
+        btnClose.setOnClickListener(new View.OnClickListener() {
+            // go back to previous activity
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
 
     }
 
@@ -53,6 +64,7 @@ public class GameTypeActivity extends AppCompatActivity implements View.OnClickL
                 // start activity with forms
                 intent.putExtra(LevelSelectionActivity.GAME_TYPE_KEY, LevelSelectionActivity.FORMS);
                 break;
+
         }
         startActivity(intent);
     }

@@ -19,6 +19,7 @@ public class SettingsActivity extends AppCompatActivity {
     Switch sound_switch;
     TextView sound;
     ImageView share_view;
+    private View btnClose;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -29,6 +30,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         share_view = (ImageView) findViewById(R.id.share_button);
         sound_switch = (Switch) findViewById(R.id.soundSwitch);
+        btnClose = findViewById(R.id.btn_close);
 
         //set the switch to last choice
         //sound_switch.setChecked(true);
@@ -59,6 +61,13 @@ public class SettingsActivity extends AppCompatActivity {
                 sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, appLink);
                 sharingIntent.setType("text/plain");
                 startActivity(Intent.createChooser(sharingIntent, "Spodeli preku ..."));
+            }
+        });
+
+        btnClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
             }
         });
 
