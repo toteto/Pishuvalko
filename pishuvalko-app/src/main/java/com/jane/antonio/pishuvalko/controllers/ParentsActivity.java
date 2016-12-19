@@ -72,7 +72,6 @@ public class ParentsActivity extends AppCompatActivity implements CharacterSelec
     for (WritableCharacter character : characters) {
       if (solutionStorage.solutionExists(character)) {
         res.add(character);
-        break; // at least one solution found, we add the curr character and continue to the next one
       }
     }
     if (res.size() > 0) {

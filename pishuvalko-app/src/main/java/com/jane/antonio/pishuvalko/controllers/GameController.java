@@ -86,13 +86,14 @@ public class GameController {
    */
   public void onConfirm() {
     if (writingImageView.isAnytingDrawn()) {
-      onErase();
       if (currentGuideTypeIndex + 1 < GAME_GUIDE_TYPES.length) {
         // there is more guide types for the current character
+        onErase();
         showNextGuideType();
       } else if (characterIterator.hasNext()) {
         // no more guide types for the current character
         saveCurrentSolution(); // save the solution
+        onErase();
         showNextCharacter(); // go to the next character
       } else {
         onClose(); // no more characters, close the writing game
