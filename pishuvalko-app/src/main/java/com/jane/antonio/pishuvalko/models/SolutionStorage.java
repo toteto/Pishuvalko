@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
@@ -23,8 +22,7 @@ public class SolutionStorage implements ISolutionStorage {
 
   @Override
   public boolean saveSolution(@NonNull Bitmap solution, @NonNull WritableCharacter character) {
-    try (FileOutputStream outputStream = context.openFileOutput(generateFilename(character),
-      Context.MODE_PRIVATE)) {
+    try (FileOutputStream outputStream = context.openFileOutput(generateFilename(character), Context.MODE_PRIVATE)) {
       return solution.compress(Bitmap.CompressFormat.WEBP, 90, outputStream);
     } catch (IOException e) {
       e.printStackTrace();
@@ -57,20 +55,30 @@ public class SolutionStorage implements ISolutionStorage {
 
   @Override
   public void approveSolution(@NonNull WritableCharacter character) {
-    getDefaultSharedPreferencesEditor().putBoolean(character.getBaseFileName() + SOLUTION_SUFFIX, true).commit();
+    getSharedPreferences(character).edit().putBoolean(generateFilename(character), true).apply();
+  }
+
+  /** Calls the appropriate accept and decline methods based on the provided values. */
+  public void approveSolution(@NonNull WritableCharacter character, boolean approved) {
+    if (approved) {
+      approveSolution(character);
+    } else {
+      declineSolution(character);
+    }
   }
 
   @Override
   public void declineSolution(@NonNull WritableCharacter character) {
-    getDefaultSharedPreferencesEditor().putBoolean(character.getBaseFileName() + SOLUTION_SUFFIX, false).commit();
+    getSharedPreferences(character).edit().putBoolean(generateFilename(character), false).apply();
   }
 
   @Nullable
   @Override
   public Boolean isSolutionApproved(@NonNull WritableCharacter character) {
-    SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
-    if (sp.contains(character.getBaseFileName() + SOLUTION_SUFFIX)) {
-      return sp.getBoolean(character.getBaseFileName() + SOLUTION_SUFFIX, false);
+    SharedPreferences sp = getSharedPreferences(character);
+    final String charFilename = generateFilename(character);
+    if (sp.contains(charFilename)) {
+      return sp.getBoolean(charFilename, false);
     } else {
       return null;
     }
@@ -80,7 +88,7 @@ public class SolutionStorage implements ISolutionStorage {
     return character.getBaseFileName() + SOLUTION_SUFFIX;
   }
 
-  private SharedPreferences.Editor getDefaultSharedPreferencesEditor() {
-    return PreferenceManager.getDefaultSharedPreferences(context).edit();
+  private SharedPreferences getSharedPreferences(@NonNull WritableCharacter character) {
+    return context.getSharedPreferences(SOLUTION_SUFFIX, Context.MODE_PRIVATE);
   }
 }
