@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 
 import com.jane.antonio.pishuvalko.R;
 import com.jane.antonio.pishuvalko.models.CharacterFetcher;
+import com.jane.antonio.pishuvalko.models.LevelItem;
 import com.jane.antonio.pishuvalko.models.WritableCharacter;
 
 import java.lang.annotation.Retention;
@@ -25,8 +26,6 @@ public class LevelSelectionActivity extends AppCompatActivity implements Charact
   @Retention(RetentionPolicy.SOURCE)
   @IntDef({SMALL_LETTERS, BIG_LETTERS, NUMBERS, FORMS})
   public @interface GameType {
-
-
   }
 
   public static final int SMALL_LETTERS = 1;
@@ -47,12 +46,19 @@ public class LevelSelectionActivity extends AppCompatActivity implements Charact
 
     final CharactersAdapter charactersAdapter = new CharactersAdapter(this, 3);
     List<Object> list = new LinkedList<>();
-    list.addAll(CharacterFetcher.getCharacters(this, selectedGameType));
+    list.addAll(buildLevelItems(CharacterFetcher.getCharacters(this, selectedGameType)));
     charactersAdapter.setItems(list);
     final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view_level_selection);
     recyclerView.setLayoutManager(charactersAdapter.getLayoutManager());
     recyclerView.setAdapter(charactersAdapter);
     charactersAdapter.setOnCharacterSelectedListener(this);
+  }
+
+  @NonNull
+  private List<LevelItem> buildLevelItems(@NonNull List<WritableCharacter> characters) {
+    List<LevelItem> items = new LinkedList<>();
+    // TODO: 19.12.2016 build level items here
+    return items;
   }
 
   @Override

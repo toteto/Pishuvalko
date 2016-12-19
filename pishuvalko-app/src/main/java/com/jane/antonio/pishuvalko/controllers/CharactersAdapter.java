@@ -73,6 +73,15 @@ public class CharactersAdapter extends RecyclerView.Adapter {
         }
       });
       return holder;
+    } else if (R.layout.level_item == viewType) {
+      final LevelViewHolder levelViewHolder = new LevelViewHolder(view);
+      view.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+          // TODO: 19.12.2016 call onCharacterSelectedListener
+        }
+      });
+      return levelViewHolder;
     } else {
       throw new InvalidParameterException("Unsupported viewType:" + viewType);
     }
@@ -87,6 +96,9 @@ public class CharactersAdapter extends RecyclerView.Adapter {
       case R.layout.character_item:
         ((CharacterViewHolder) holder).bind((WritableCharacter) items.get(position));
         break;
+      case R.layout.level_item:
+        ((LevelViewHolder) holder).bind((LevelItem) items.get(position));
+        break;
     }
   }
 
@@ -99,9 +111,7 @@ public class CharactersAdapter extends RecyclerView.Adapter {
       return R.layout.character_item;
     } else if (item instanceof LevelItem) {
       return R.layout.level_item;
-    }
-    else
-    {
+    } else {
       return super.getItemViewType(position);
     }
   }
@@ -149,6 +159,19 @@ public class CharactersAdapter extends RecyclerView.Adapter {
     /** Bind the views in this viewholder to the provided item. */
     public void bind(@NonNull HeaderItem header) {
       tvTitle.setText(header.getTitle());
+    }
+  }
+
+  public static class LevelViewHolder extends RecyclerView.ViewHolder {
+    // TODO: 19.12.2016 views of the layout 
+    public LevelViewHolder(View itemView) {
+      super(itemView);
+      // TODO: 19.12.2016 findViewById of the views 
+    }
+
+    public void bind(@NonNull LevelItem levelItem) {
+      // TODO: 19.12.2016 bind the views to the levelItem (display drawable, show locked, completed and approved 
+      // icons)  
     }
   }
 }
