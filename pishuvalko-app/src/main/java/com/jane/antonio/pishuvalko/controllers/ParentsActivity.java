@@ -84,28 +84,27 @@ public class ParentsActivity extends AppCompatActivity implements CharacterSelec
     final ImageView popupView = new ImageView(this);
     final SolutionStorage solutionStorage = new SolutionStorage(this);
     popupView.setImageBitmap(solutionStorage.readSolution(character));
-    new AlertDialog.Builder(this, R.style.SolutionPopupTheme).setView(popupView).setPositiveButton(R.string.confirm,
-      new DialogInterface.OnClickListener() {
-        @Override
-        public void onClick(DialogInterface dialog, int which) {
-          solutionStorage.approveSolution(character);
-          adapter.removeCharacter(character);
-          // solutionStorage.removeSolution(character)
-          dialog.dismiss();
-        }
-      }).setNegativeButton(R.string.reject, new DialogInterface.OnClickListener() {
+
+    DialogInterface.OnClickListener popupButtonClickListener = new DialogInterface.OnClickListener() {
       @Override
-      public void onClick(DialogInterface dialog, int which) {
-        solutionStorage.declineSolution(character);
+      public void onClick(DialogInterface dialog, final int which) {
+        SolutionStorage solutionStorage = new SolutionStorage(ParentsActivity.this);
+        solutionStorage.approveSolution(character, which == DialogInterface.BUTTON_POSITIVE);
+        solutionStorage.removeSolution(character);
         adapter.removeCharacter(character);
-        // solutionStorage.removeSolution(character)
-      }
-    }).setNeutralButton(R.string.close, new DialogInterface.OnClickListener() {
-      @Override
-      public void onClick(DialogInterface dialog, int which) {
         dialog.dismiss();
       }
-    }).show();
+    };
+    new AlertDialog.Builder(this, R.style.SolutionPopupTheme)
+      .setView(popupView)
+      .setPositiveButton(R.string.confirm, popupButtonClickListener)
+      .setNegativeButton(R.string.reject, popupButtonClickListener)
+      .setNeutralButton(R.string.close, new DialogInterface.OnClickListener() {
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+          dialog.dismiss();
+        }
+      }).show();
   }
 
   @Override
