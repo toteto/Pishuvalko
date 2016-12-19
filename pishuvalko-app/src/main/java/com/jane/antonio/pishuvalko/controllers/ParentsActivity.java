@@ -7,8 +7,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
 import android.widget.ImageView;
 
 import com.jane.antonio.pishuvalko.R;
@@ -72,11 +70,9 @@ public class ParentsActivity extends AppCompatActivity implements CharacterSelec
     @NonNull List<WritableCharacter> characters) {
     List<Object> res = new LinkedList<>();
     for (WritableCharacter character : characters) {
-      for (@WritableCharacter.GuidesType int guideType : GameController.GAME_GUIDE_TYPES) {
-        if (solutionStorage.solutionExists(character, guideType)) {
-          res.add(character);
-          break; // at least one solution found, we add the curr character and continue to the next one
-        }
+      if (solutionStorage.solutionExists(character)) {
+        res.add(character);
+        break; // at least one solution found, we add the curr character and continue to the next one
       }
     }
     if (res.size() > 0) {
@@ -86,14 +82,13 @@ public class ParentsActivity extends AppCompatActivity implements CharacterSelec
   }
 
   private void showSolutionPopUp(final WritableCharacter character) {
-    View popupView = LayoutInflater.from(this).inflate(R.layout.solution_popup_view, null, false);
-    ((ImageView) popupView.findViewById(R.id.imageView1)).setImageDrawable(character.getDisplayDrawable(this));
-    ((ImageView) popupView.findViewById(R.id.imageView2)).setImageDrawable(character.getOutlineDrawable(this));
+    final ImageView popupView = new ImageView(this);
+    final SolutionStorage solutionStorage = new SolutionStorage(this);
+    popupView.setImageBitmap(solutionStorage.readSolution(character));
     new AlertDialog.Builder(this, R.style.SolutionPopupTheme).setView(popupView).setPositiveButton(R.string.confirm,
       new DialogInterface.OnClickListener() {
         @Override
         public void onClick(DialogInterface dialog, int which) {
-          final SolutionStorage solutionStorage = new SolutionStorage(ParentsActivity.this);
           solutionStorage.approveSolution(character);
           adapter.removeCharacter(character);
           // solutionStorage.removeSolution(character)
@@ -102,7 +97,6 @@ public class ParentsActivity extends AppCompatActivity implements CharacterSelec
       }).setNegativeButton(R.string.reject, new DialogInterface.OnClickListener() {
       @Override
       public void onClick(DialogInterface dialog, int which) {
-        final SolutionStorage solutionStorage = new SolutionStorage(ParentsActivity.this);
         solutionStorage.declineSolution(character);
         adapter.removeCharacter(character);
         // solutionStorage.removeSolution(character)

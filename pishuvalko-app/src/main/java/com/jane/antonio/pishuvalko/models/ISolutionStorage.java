@@ -11,11 +11,10 @@ public interface ISolutionStorage {
    *
    * @return the success of the saving process
    */
-  boolean saveSolution(@NonNull Bitmap solution, @NonNull WritableCharacter character,
-    @WritableCharacter.GuidesType int currentGuideType);
+  boolean saveSolution(@NonNull Bitmap solution, @NonNull WritableCharacter character);
 
   /** Check if there is a solution for the provided character. */
-  boolean solutionExists(@NonNull WritableCharacter character, @WritableCharacter.GuidesType int guideType);
+  boolean solutionExists(@NonNull WritableCharacter character);
 
   /**
    * Tries to read solution for the provided character.
@@ -23,14 +22,14 @@ public interface ISolutionStorage {
    * @return the solution, null if no solution is found
    */
   @Nullable
-  Bitmap readSolution(@NonNull WritableCharacter character, @WritableCharacter.GuidesType int guideType);
+  Bitmap readSolution(@NonNull WritableCharacter character);
 
   /**
    * Tries to remove previously saved solution.
    *
    * @return true if it has been successfully removed or it hasnt been found. False otherwise.
    */
-  boolean removeSolution(@NonNull WritableCharacter character, @WritableCharacter.GuidesType int guideType);
+  boolean removeSolution(@NonNull WritableCharacter character);
 
   /** Write to storage approve status for the provided character. */
   void approveSolution(@NonNull WritableCharacter character);

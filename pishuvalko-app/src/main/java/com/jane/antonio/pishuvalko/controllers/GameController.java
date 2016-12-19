@@ -75,7 +75,7 @@ public class GameController {
   /** Saves the {@link GameController#currentCharacter} solution to  {@link GameController#solutionStorage} */
   private void saveCurrentSolution() {
     final Bitmap solution = writingImageView.getSolution();
-    if (!solutionStorage.saveSolution(solution, currentCharacter, getCurrentGuideType())) {
+    if (!solutionStorage.saveSolution(solution, currentCharacter)) {
       throw new RuntimeException("Unable to save current solution.");
     }
   }
@@ -86,14 +86,16 @@ public class GameController {
    */
   public void onConfirm() {
     if (writingImageView.isAnytingDrawn()) {
-      saveCurrentSolution();
       onErase();
       if (currentGuideTypeIndex + 1 < GAME_GUIDE_TYPES.length) {
+        // there is more guide types for the current character
         showNextGuideType();
       } else if (characterIterator.hasNext()) {
-        showNextCharacter();
+        // no more guide types for the current character
+        saveCurrentSolution(); // save the solution
+        showNextCharacter(); // go to the next character
       } else {
-        onClose();
+        onClose(); // no more characters, close the writing game
       }
     }
   }
