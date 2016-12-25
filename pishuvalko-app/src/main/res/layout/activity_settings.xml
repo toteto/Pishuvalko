@@ -54,14 +54,14 @@
 
             </RelativeLayout>
 
+        <TextView
+            android:id="@+id/txtv_langauge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="22dp"
+            android:textColor="#FFFFFF"
+            android:text="JAZIK"/>
 
-            <TextView
-                    android:id="@+id/txtv_langauge"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="22dp"
-                    android:textColor="#FFFFFF"
-                    android:text="JAZIK"/>
 
         <RelativeLayout
             android:layout_width="match_parent"

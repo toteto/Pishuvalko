@@ -1,8 +1,10 @@
 package com.jane.antonio.pishuvalko.controllers;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.CompoundButton;
@@ -49,6 +51,13 @@ public class SettingsActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "OFF", Toast.LENGTH_SHORT).show();
                 }
 
+            }
+        });
+
+        language.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getApplicationContext(), "Show dialog here", Toast.LENGTH_SHORT).show();
             }
         });
 

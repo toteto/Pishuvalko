@@ -58,6 +58,10 @@ public class LevelSelectionActivity extends AppCompatActivity implements Charact
   private List<LevelItem> buildLevelItems(@NonNull List<WritableCharacter> characters) {
     List<LevelItem> items = new LinkedList<>();
     // TODO: 19.12.2016 build level items here
+    for (WritableCharacter character: characters) {
+      LevelItem item = new LevelItem(character, false, false);
+      items.add(item);
+    }
     return items;
   }
 

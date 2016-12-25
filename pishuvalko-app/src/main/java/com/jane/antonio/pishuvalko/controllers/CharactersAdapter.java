@@ -79,6 +79,8 @@ public class CharactersAdapter extends RecyclerView.Adapter {
         @Override
         public void onClick(View v) {
           // TODO: 19.12.2016 call onCharacterSelectedListener
+          final LevelItem level_item = (LevelItem) items.get(levelViewHolder.getAdapterPosition()) ;
+          characterSelectedListener.onCharacterSelected(level_item.getWritableCharacter());
         }
       });
       return levelViewHolder;
@@ -163,15 +165,22 @@ public class CharactersAdapter extends RecyclerView.Adapter {
   }
 
   public static class LevelViewHolder extends RecyclerView.ViewHolder {
-    // TODO: 19.12.2016 views of the layout 
+    // TODO: 19.12.2016 views of the layout
+    private ImageView letter_image;
+    private ImageView level_image;
+
     public LevelViewHolder(View itemView) {
       super(itemView);
-      // TODO: 19.12.2016 findViewById of the views 
+      // TODO: 19.12.2016 findViewById of the views
+      letter_image = (ImageView) itemView.findViewById(R.id.letter_image);
+      level_image = (ImageView) itemView.findViewById(R.id.level_image);
+
     }
 
     public void bind(@NonNull LevelItem levelItem) {
       // TODO: 19.12.2016 bind the views to the levelItem (display drawable, show locked, completed and approved 
-      // icons)  
+      // icons)
+
     }
   }
 }
