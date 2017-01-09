@@ -25,12 +25,14 @@ public class CharactersAdapter extends RecyclerView.Adapter {
   private CharacterSelectedListener characterSelectedListener;
   private final GridLayoutManager layoutManager;
   private int itemsPerRow;
+  private Context context;
 
   public CharactersAdapter(@NonNull Context context, @IntRange(from = 1) int itemsPerRow) {
     this.itemsPerRow = itemsPerRow;
     items = new ArrayList<>();
     layoutManager = new GridLayoutManager(context, itemsPerRow);
     layoutManager.setSpanSizeLookup(spanSizeLookup);
+    this.context = context;
   }
 
   @SuppressWarnings("FieldCanBeLocal")
@@ -74,7 +76,7 @@ public class CharactersAdapter extends RecyclerView.Adapter {
       });
       return holder;
     } else if (R.layout.level_item == viewType) {
-      final LevelViewHolder levelViewHolder = new LevelViewHolder(view);
+      final LevelViewHolder levelViewHolder = new LevelViewHolder(view, context);
       view.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -168,18 +170,27 @@ public class CharactersAdapter extends RecyclerView.Adapter {
     // TODO: 19.12.2016 views of the layout
     private ImageView letter_image;
     private ImageView level_image;
+    private Context context;
 
-    public LevelViewHolder(View itemView) {
+    public LevelViewHolder(View itemView,@NonNull Context context) {
       super(itemView);
       // TODO: 19.12.2016 findViewById of the views
       letter_image = (ImageView) itemView.findViewById(R.id.letter_image);
       level_image = (ImageView) itemView.findViewById(R.id.level_image);
-
+      this.context = context;
     }
 
     public void bind(@NonNull LevelItem levelItem) {
       // TODO: 19.12.2016 bind the views to the levelItem (display drawable, show locked, completed and approved 
       // icons)
+      letter_image.setImageDrawable(levelItem.getWritableCharacter().getStepsDrawable(context));
+      if(levelItem.isApprovedFromParent()) {
+        level_image.setImageResource(R.drawable.approved);
+      } else if(levelItem.isSolved()) {
+        level_image.setImageResource(R.drawable.solved);
+      } else if(levelItem.isLocked()) {
+        level_image.setImageResource(R.drawable.locked);
+      }
 
     }
   }
