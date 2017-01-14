@@ -183,7 +183,7 @@ public class CharactersAdapter extends RecyclerView.Adapter {
     public void bind(@NonNull LevelItem levelItem) {
       // TODO: 19.12.2016 bind the views to the levelItem (display drawable, show locked, completed and approved 
       // icons)
-      letter_image.setImageDrawable(levelItem.getWritableCharacter().getStepsDrawable(context));
+      letter_image.setImageDrawable(levelItem.getWritableCharacter().getDisplayDrawable(context));
       if(levelItem.isApprovedFromParent()) {
         level_image.setImageResource(R.drawable.approved);
       } else if(levelItem.isSolved()) {
