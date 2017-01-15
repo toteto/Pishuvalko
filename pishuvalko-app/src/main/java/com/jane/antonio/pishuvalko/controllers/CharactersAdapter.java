@@ -81,8 +81,8 @@ public class CharactersAdapter extends RecyclerView.Adapter {
         @Override
         public void onClick(View v) {
           // TODO: 19.12.2016 call onCharacterSelectedListener
-          final LevelItem level_item = (LevelItem) items.get(levelViewHolder.getAdapterPosition()) ;
-          characterSelectedListener.onCharacterSelected(level_item.getWritableCharacter());
+          final LevelItem levelItem = (LevelItem) items.get(levelViewHolder.getAdapterPosition());
+          characterSelectedListener.onCharacterSelected(levelItem.getWritableCharacter());
         }
       });
       return levelViewHolder;
@@ -168,28 +168,27 @@ public class CharactersAdapter extends RecyclerView.Adapter {
 
   public static class LevelViewHolder extends RecyclerView.ViewHolder {
     // TODO: 19.12.2016 views of the layout
-    private ImageView letter_image;
-    private ImageView level_image;
+    private ImageView letterImage;
+    private ImageView levelImage;
     private Context context;
 
-    public LevelViewHolder(View itemView,@NonNull Context context) {
+    public LevelViewHolder(View itemView, @NonNull Context context) {
       super(itemView);
-      // TODO: 19.12.2016 findViewById of the views
-      letter_image = (ImageView) itemView.findViewById(R.id.letter_image);
-      level_image = (ImageView) itemView.findViewById(R.id.level_image);
+      letterImage = (ImageView) itemView.findViewById(R.id.letter_image);
+      levelImage = (ImageView) itemView.findViewById(R.id.level_image);
       this.context = context;
     }
 
     public void bind(@NonNull LevelItem levelItem) {
       // TODO: 19.12.2016 bind the views to the levelItem (display drawable, show locked, completed and approved 
       // icons)
-      letter_image.setImageDrawable(levelItem.getWritableCharacter().getDisplayDrawable(context));
-      if(levelItem.isApprovedFromParent()) {
-        level_image.setImageResource(R.drawable.approved);
-      } else if(levelItem.isSolved()) {
-        level_image.setImageResource(R.drawable.solved);
-      } else if(levelItem.isLocked()) {
-        level_image.setImageResource(R.drawable.locked);
+      letterImage.setImageDrawable(levelItem.getWritableCharacter().getDisplayDrawable(context));
+      if (levelItem.isApprovedFromParent() != null && levelItem.isApprovedFromParent()) {
+        levelImage.setImageResource(R.drawable.approved);
+      } else if (levelItem.isSolved()) {
+        levelImage.setImageResource(R.drawable.solved);
+      } else if (levelItem.isLocked()) {
+        levelImage.setImageResource(R.drawable.locked);
       }
 
     }
