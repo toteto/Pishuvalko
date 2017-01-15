@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import com.jane.antonio.pishuvalko.R;
 import com.jane.antonio.pishuvalko.models.CharacterFetcher;
 import com.jane.antonio.pishuvalko.models.LevelItem;
+import com.jane.antonio.pishuvalko.models.SolutionStorage;
 import com.jane.antonio.pishuvalko.models.WritableCharacter;
 
 import java.lang.annotation.Retention;
@@ -58,8 +59,9 @@ public class LevelSelectionActivity extends AppCompatActivity implements Charact
   private List<LevelItem> buildLevelItems(@NonNull List<WritableCharacter> characters) {
     List<LevelItem> items = new LinkedList<>();
     // TODO: 19.12.2016 build level items here
+    SolutionStorage solutionStorage = new SolutionStorage(this);
     for (WritableCharacter character: characters) {
-      LevelItem item = new LevelItem(character, false, false);
+      LevelItem item = new LevelItem(character, solutionStorage.solutionExists(character), solutionStorage.isSolutionApproved(character));
       items.add(item);
     }
     return items;

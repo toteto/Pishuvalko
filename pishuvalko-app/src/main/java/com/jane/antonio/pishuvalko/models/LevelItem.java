@@ -2,11 +2,11 @@ package com.jane.antonio.pishuvalko.models;
 
 public class LevelItem {
   private final WritableCharacter writableCharacter;
-  private final boolean locked;
-  private final boolean solved;
-  private final boolean approvedFromParent;
+  private final Boolean locked;
+  private final Boolean solved;
+  private final Boolean approvedFromParent;
 
-  public LevelItem(WritableCharacter writableCharacter, boolean solved, boolean approvedFromParent) {
+  public LevelItem(WritableCharacter writableCharacter, Boolean solved, Boolean approvedFromParent) {
     this.writableCharacter = writableCharacter;
     this.solved = solved;
     this.approvedFromParent = approvedFromParent;
@@ -17,15 +17,15 @@ public class LevelItem {
     return writableCharacter;
   }
 
-  public boolean isLocked() {
+  public Boolean isLocked() {
     return locked;
   }
 
-  public boolean isSolved() {
+  public Boolean isSolved() {
     return solved;
   }
 
-  public boolean isApprovedFromParent() {
+  public Boolean isApprovedFromParent() {
     return approvedFromParent;
   }
 }
