@@ -31,6 +31,9 @@ public interface ISolutionStorage {
    */
   boolean removeSolution(@NonNull WritableCharacter character);
 
+  /** Reset that approved state of the provided character. */
+  void resetApprovalStatus(@NonNull WritableCharacter character);
+
   /** Write to storage approve status for the provided character. */
   void approveSolution(@NonNull WritableCharacter character);
 

@@ -23,6 +23,7 @@ public class SolutionStorage implements ISolutionStorage {
   @Override
   public boolean saveSolution(@NonNull Bitmap solution, @NonNull WritableCharacter character) {
     try (FileOutputStream outputStream = context.openFileOutput(generateFilename(character), Context.MODE_PRIVATE)) {
+      resetApprovalStatus(character);
       return solution.compress(Bitmap.CompressFormat.WEBP, 90, outputStream);
     } catch (IOException e) {
       e.printStackTrace();
@@ -51,6 +52,11 @@ public class SolutionStorage implements ISolutionStorage {
   @Override
   public boolean removeSolution(@NonNull WritableCharacter character) {
     return !solutionExists(character) || context.deleteFile(generateFilename(character));
+  }
+
+  @Override
+  public void resetApprovalStatus(@NonNull WritableCharacter character) {
+    getSharedPreferences(character).edit().remove(generateFilename(character)).apply();
   }
 
   @Override
