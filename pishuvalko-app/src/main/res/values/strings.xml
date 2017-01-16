@@ -18,4 +18,7 @@
     <string name="confirm">Потврди</string>
     <string name="solved">Решени</string>
     <string name="unsolved">Нерешени</string>
+    <string name="confirm_that_you_are_the_parent">Потврдете дека сте родителот</string>
+    <string name="please_answer">Ве молам одговорете:</string>
+    <string name="incorrect_answer">Одговор не е точен</string>
 </resources>
