@@ -16,6 +16,7 @@ import com.jane.antonio.pishuvalko.models.WritableCharacter;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -30,12 +31,13 @@ public class LevelSelectionActivity extends AppCompatActivity implements Charact
   }
 
   public static final int SMALL_LETTERS = 1;
-
   public static final int BIG_LETTERS = 2;
   public static final int NUMBERS = 3;
   public static final int FORMS = 4;
   @GameType
   private int selectedGameType = BIG_LETTERS;
+  private RecyclerView recyclerView;
+  private CharactersAdapter charactersAdapter;
 
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -45,14 +47,19 @@ public class LevelSelectionActivity extends AppCompatActivity implements Charact
     //noinspection WrongConstant
     selectedGameType = getIntent().getIntExtra(GAME_TYPE_KEY, BIG_LETTERS);
 
-    final CharactersAdapter charactersAdapter = new CharactersAdapter(this, 3);
-    List<Object> list = new LinkedList<>();
-    list.addAll(buildLevelItems(CharacterFetcher.getCharacters(this, selectedGameType)));
-    charactersAdapter.setItems(list);
-    final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view_level_selection);
+    charactersAdapter = new CharactersAdapter(this, 3);
+    recyclerView = (RecyclerView) findViewById(R.id.recycler_view_level_selection);
     recyclerView.setLayoutManager(charactersAdapter.getLayoutManager());
     recyclerView.setAdapter(charactersAdapter);
     charactersAdapter.setOnCharacterSelectedListener(this);
+  }
+
+  @Override
+  protected void onResume() {
+    super.onResume();
+    final List<Object> tmp = new ArrayList<>();
+    tmp.addAll(buildLevelItems(CharacterFetcher.getCharacters(this, selectedGameType)));
+    charactersAdapter.setItems(tmp);
   }
 
   @NonNull
@@ -60,8 +67,9 @@ public class LevelSelectionActivity extends AppCompatActivity implements Charact
     List<LevelItem> items = new LinkedList<>();
     // TODO: 19.12.2016 build level items here
     SolutionStorage solutionStorage = new SolutionStorage(this);
-    for (WritableCharacter character: characters) {
-      LevelItem item = new LevelItem(character, solutionStorage.solutionExists(character), solutionStorage.isSolutionApproved(character));
+    for (WritableCharacter character : characters) {
+      LevelItem item = new LevelItem(character, solutionStorage.solutionExists(character),
+        solutionStorage.isSolutionApproved(character));
       items.add(item);
     }
     return items;

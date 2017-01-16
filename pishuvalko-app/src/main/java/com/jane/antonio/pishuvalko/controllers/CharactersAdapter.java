@@ -46,6 +46,7 @@ public class CharactersAdapter extends RecyclerView.Adapter {
   public void setItems(@NonNull List<Object> items) {
     this.items.clear();
     this.items.addAll(items);
+    notifyDataSetChanged();
   }
 
   public boolean removeCharacter(@NonNull WritableCharacter character) {
