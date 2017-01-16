@@ -16,6 +16,13 @@
     <string name="reject">Одбиј</string>
     <string name="close">Затвори</string>
     <string name="confirm">Потврди</string>
+
+    <string name="settings_sound">Звук</string>
+    <string name="settings_language">Јазик</string>
+    <string name="settings_share">Сподели</string>
+    <string name="settings_about">За апликацијата</string>
+    <string name="settings_share_via">Сподели преку ...</string>
+
     <string name="solved">Решени</string>
     <string name="unsolved">Нерешени</string>
     <string name="confirm_that_you_are_the_parent">Потврдете дека сте родителот</string>
