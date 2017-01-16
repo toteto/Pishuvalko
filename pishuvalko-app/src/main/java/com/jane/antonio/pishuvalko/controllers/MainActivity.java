@@ -73,7 +73,8 @@ public class MainActivity extends AppCompatActivity {
         };
 
         AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
-        builder.setMessage("Are you sure?").setPositiveButton("Yes", dialogClickListener).setNegativeButton("No",
+        builder.setMessage(getString(R.string.areYouSure)).setPositiveButton(getString(R.string.yes),
+                dialogClickListener).setNegativeButton(getString(R.string.no),
                 dialogClickListener).show();
 
       }

@@ -28,4 +28,13 @@
     <string name="confirm_that_you_are_the_parent">Потврдете дека сте родителот</string>
     <string name="please_answer">Ве молам одговорете:</string>
     <string name="incorrect_answer">Одговор не е точен</string>
+
+    <string name="areYouSure">Дали сте сигурни?</string>
+    <string name="yes">Да</string>
+    <string name="no">Не</string>
+
+    <string name="about_title">Пишувалко</string>
+    <string name="about_version">верзија 1.0</string>
+    <string name="about_description">Апликацијата пишувалко е наменета за децата од предучилишна возраст полесно да го совладаат пишувањето на буквите од македонската кирилична азбука , бројките и основните геометриски форми</string>
+
 </resources>

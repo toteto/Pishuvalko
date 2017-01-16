@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
 import com.jane.antonio.pishuvalko.R;
 import com.jane.antonio.pishuvalko.models.CharacterFetcher;
@@ -26,6 +27,8 @@ public class LevelSelectionActivity extends AppCompatActivity implements Charact
   private static final String LOG_TAG = LevelSelectionActivity.class.getSimpleName();
 
   public static final String GAME_TYPE_KEY = "game_type";
+
+  private View btnClose;
 
   @Retention(RetentionPolicy.SOURCE)
   @IntDef({SMALL_LETTERS, BIG_LETTERS, NUMBERS, FORMS})
@@ -54,6 +57,18 @@ public class LevelSelectionActivity extends AppCompatActivity implements Charact
     recyclerView.setLayoutManager(charactersAdapter.getLayoutManager());
     recyclerView.setAdapter(charactersAdapter);
     charactersAdapter.setOnCharacterSelectedListener(this);
+
+    btnClose = findViewById(R.id.btn_close);
+
+
+
+    btnClose.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View view) {
+        onBackPressed();
+      }
+    });
+
   }
 
   @Override
@@ -61,6 +76,8 @@ public class LevelSelectionActivity extends AppCompatActivity implements Charact
     super.onResume();
     charactersAdapter.setItems(buildLevelItems(CharacterFetcher.getCharacters(this, selectedGameType)));
   }
+
+
 
   @NonNull
   private List<Object> buildLevelItems(@NonNull List<WritableCharacter> characters) {

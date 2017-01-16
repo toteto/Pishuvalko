@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="0dip">
@@ -11,11 +10,20 @@
         android:layout_height="match_parent"
         android:scaleType="fitCenter"
         android:background="@drawable/greenboardfinal" />
+
+
     <LinearLayout
         android:orientation="vertical"
         android:padding="@dimen/board_borders"
         android:layout_height="fill_parent"
         android:layout_width="fill_parent">
+
+        <ImageView
+            android:id="@+id/btn_close"
+            android:layout_width="70dp"
+            android:layout_height="50dp"
+            android:contentDescription="@string/close_board"
+            android:src="@drawable/exit_arrow"/>
 
     <TextView
         android:paddingTop="20dp"
@@ -23,11 +31,23 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="TITLE"/>
+        android:textColor="@android:color/white"
+        android:text="@string/about_title"/>
+
+        <TextView
+            android:paddingTop="1dp"
+            android:textSize="15sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="@android:color/white"
+            android:text="@string/about_version"/>
 
     <TextView
+        android:paddingTop="10dp"
         android:paddingLeft="15dp"
-        android:text="skdasdsadsadsadsadsadas"
+        android:text="@string/about_description"
+        android:textColor="@android:color/white"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
