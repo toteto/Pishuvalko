@@ -64,7 +64,9 @@ public class SolutionStorage implements ISolutionStorage {
     getSharedPreferences(character).edit().putBoolean(generateFilename(character), true).apply();
   }
 
-  /** Calls the appropriate accept and decline methods based on the provided values. */
+  /**
+   * Calls the appropriate accept and decline methods based on the provided values.
+   */
   public void approveSolution(@NonNull WritableCharacter character, boolean approved) {
     if (approved) {
       approveSolution(character);
@@ -78,15 +80,15 @@ public class SolutionStorage implements ISolutionStorage {
     getSharedPreferences(character).edit().putBoolean(generateFilename(character), false).apply();
   }
 
-  @Nullable
   @Override
-  public Boolean isSolutionApproved(@NonNull WritableCharacter character) {
+  @SolutionState
+  public int isSolutionApproved(@NonNull WritableCharacter character) {
     SharedPreferences sp = getSharedPreferences(character);
     final String charFilename = generateFilename(character);
     if (sp.contains(charFilename)) {
-      return sp.getBoolean(charFilename, false);
+      return sp.getBoolean(charFilename, false) ? SOLUTION_APPROVED : SOLUTION_DECLINED;
     } else {
-      return null;
+      return SOLUTION_NOT_RATED;
     }
   }
 

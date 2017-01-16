@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.jane.antonio.pishuvalko.R;
 import com.jane.antonio.pishuvalko.models.HeaderItem;
+import com.jane.antonio.pishuvalko.models.ISolutionStorage;
 import com.jane.antonio.pishuvalko.models.LevelItem;
 import com.jane.antonio.pishuvalko.models.WritableCharacter;
 
@@ -138,14 +139,18 @@ public class CharactersAdapter extends RecyclerView.Adapter {
     private final ImageView ivDisplayImage;
     private final TextView tvLabel;
 
-    /** . */
+    /**
+     * .
+     */
     public CharacterViewHolder(@NonNull View itemView) {
       super(itemView);
       ivDisplayImage = (ImageView) itemView.findViewById(R.id.tvDisplayImage);
       tvLabel = (TextView) itemView.findViewById(R.id.tvLabel);
     }
 
-    /** Bind the views in this viewholder to the provided item. */
+    /**
+     * Bind the views in this viewholder to the provided item.
+     */
     public void bind(@NonNull WritableCharacter character) {
       ivDisplayImage.setImageDrawable(character.getDisplayDrawable(ivDisplayImage.getContext()));
       tvLabel.setText(character.getDisplayName());
@@ -155,13 +160,17 @@ public class CharactersAdapter extends RecyclerView.Adapter {
   public static class HeaderViewHolder extends RecyclerView.ViewHolder {
     private final TextView tvTitle;
 
-    /** . */
+    /**
+     * .
+     */
     public HeaderViewHolder(@NonNull View itemView) {
       super(itemView);
       tvTitle = (TextView) itemView.findViewById(R.id.tvTitle);
     }
 
-    /** Bind the views in this viewholder to the provided item. */
+    /**
+     * Bind the views in this viewholder to the provided item.
+     */
     public void bind(@NonNull HeaderItem header) {
       tvTitle.setText(header.getTitle());
     }
@@ -181,17 +190,14 @@ public class CharactersAdapter extends RecyclerView.Adapter {
     }
 
     public void bind(@NonNull LevelItem levelItem) {
-      // TODO: 19.12.2016 bind the views to the levelItem (display drawable, show locked, completed and approved 
-      // icons)
       letterImage.setImageDrawable(levelItem.getWritableCharacter().getDisplayDrawable(context));
-      if (levelItem.isApprovedFromParent() != null && levelItem.isApprovedFromParent()) {
-        levelImage.setImageResource(R.drawable.approved);
-      } else if (levelItem.isSolved()) {
-        levelImage.setImageResource(R.drawable.solved);
-      } else if (levelItem.isLocked()) {
-        levelImage.setImageResource(R.drawable.locked);
+      if (levelItem.getSolutionState() == ISolutionStorage.SOLUTION_APPROVED) {
+        levelImage.setImageResource(R.drawable.thumbs_up);
+      } else if (levelItem.getSolutionState() == ISolutionStorage.SOLUTION_DECLINED) {
+        levelImage.setImageResource(R.drawable.thumbs_down);
+      } else {
+        levelImage.setImageDrawable(null);
       }
-
     }
   }
 }

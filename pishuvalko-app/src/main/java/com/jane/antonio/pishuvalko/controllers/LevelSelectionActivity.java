@@ -10,6 +10,8 @@ import android.support.v7.widget.RecyclerView;
 
 import com.jane.antonio.pishuvalko.R;
 import com.jane.antonio.pishuvalko.models.CharacterFetcher;
+import com.jane.antonio.pishuvalko.models.HeaderItem;
+import com.jane.antonio.pishuvalko.models.ISolutionStorage;
 import com.jane.antonio.pishuvalko.models.LevelItem;
 import com.jane.antonio.pishuvalko.models.SolutionStorage;
 import com.jane.antonio.pishuvalko.models.WritableCharacter;
@@ -57,22 +59,35 @@ public class LevelSelectionActivity extends AppCompatActivity implements Charact
   @Override
   protected void onResume() {
     super.onResume();
-    final List<Object> tmp = new ArrayList<>();
-    tmp.addAll(buildLevelItems(CharacterFetcher.getCharacters(this, selectedGameType)));
-    charactersAdapter.setItems(tmp);
+    charactersAdapter.setItems(buildLevelItems(CharacterFetcher.getCharacters(this, selectedGameType)));
   }
 
   @NonNull
-  private List<LevelItem> buildLevelItems(@NonNull List<WritableCharacter> characters) {
-    List<LevelItem> items = new LinkedList<>();
-    // TODO: 19.12.2016 build level items here
-    SolutionStorage solutionStorage = new SolutionStorage(this);
+  private List<Object> buildLevelItems(@NonNull List<WritableCharacter> characters) {
+    final List<LevelItem> unsolvedItems = new LinkedList<>();
+    final List<LevelItem> solvedItems = new LinkedList<>();
+    final SolutionStorage solutionStorage = new SolutionStorage(this);
     for (WritableCharacter character : characters) {
       LevelItem item = new LevelItem(character, solutionStorage.solutionExists(character),
-        solutionStorage.isSolutionApproved(character));
-      items.add(item);
+              solutionStorage.isSolutionApproved(character));
+      if (solutionStorage.solutionExists(character) || solutionStorage.isSolutionApproved(character) == ISolutionStorage.SOLUTION_APPROVED) {
+        solvedItems.add(item);
+      } else {
+        unsolvedItems.add(item);
+      }
     }
-    return items;
+    final List<Object> listItems = new ArrayList<>(solvedItems.size() + unsolvedItems.size() + 2);
+    if (unsolvedItems.size() > 0) {
+      listItems.add(new HeaderItem(getString(R.string.unsolved)));
+      listItems.addAll(unsolvedItems);
+    }
+
+    if (solvedItems.size() > 0) {
+      listItems.add(new HeaderItem(getString(R.string.solved)));
+      listItems.addAll(solvedItems);
+    }
+
+    return listItems;
   }
 
   @Override

@@ -16,4 +16,6 @@
     <string name="reject">Одбиј</string>
     <string name="close">Затвори</string>
     <string name="confirm">Потврди</string>
+    <string name="solved">Решени</string>
+    <string name="unsolved">Нерешени</string>
 </resources>

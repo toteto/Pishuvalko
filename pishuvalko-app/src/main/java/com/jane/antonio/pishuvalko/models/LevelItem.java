@@ -1,18 +1,16 @@
 package com.jane.antonio.pishuvalko.models;
 
-import android.support.annotation.Nullable;
-
 public class LevelItem {
   private final WritableCharacter writableCharacter;
   private final Boolean locked;
   private final Boolean solved;
-  @Nullable
-  private final Boolean approvedFromParent;
+  @ISolutionStorage.SolutionState
+  private final int solutionState;
 
-  public LevelItem(WritableCharacter writableCharacter, Boolean solved, @Nullable Boolean approvedFromParent) {
+  public LevelItem(WritableCharacter writableCharacter, Boolean solved, @ISolutionStorage.SolutionState int solutionState) {
     this.writableCharacter = writableCharacter;
     this.solved = solved;
-    this.approvedFromParent = approvedFromParent;
+    this.solutionState = solutionState;
     locked = false;
   }
 
@@ -28,8 +26,8 @@ public class LevelItem {
     return solved;
   }
 
-  @Nullable
-  public Boolean isApprovedFromParent() {
-    return approvedFromParent;
+  @ISolutionStorage.SolutionState
+  public int getSolutionState() {
+    return solutionState;
   }
 }
