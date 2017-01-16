@@ -74,6 +74,7 @@ public class GameController {
 
   /** Saves the {@link GameController#currentCharacter} solution to  {@link GameController#solutionStorage} */
   private void saveCurrentSolution() {
+    gameInterface.showClapping(1);
     final Bitmap solution = writingImageView.getSolution();
     if (!solutionStorage.saveSolution(solution, currentCharacter)) {
       throw new RuntimeException("Unable to save current solution.");

@@ -1,54 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-  xmlns:android="http://schemas.android.com/apk/res/android"
-  android:layout_width="match_parent"
-  android:layout_height="match_parent"
-  android:background="@drawable/greenboardfinal"
-  android:orientation="vertical"
-  android:padding="@dimen/board_borders">
-
-  <ImageView
-    android:id="@+id/btn_close"
-    android:layout_width="70dp"
-    android:layout_height="50dp"
-    android:contentDescription="@string/close_board"
-    android:src="@drawable/exit_arrow"/>
-
-  <com.jane.antonio.pishuvalko.views.WritingImageView
-    android:id="@+id/writingImageView"
-    android:layout_width="match_parent"
-    android:layout_height="0dp"
-    android:layout_weight="1"
-    android:padding="20dp"/>
-
-  <RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/greenboardfinal"
+    android:orientation="vertical"
+    android:padding="@dimen/board_borders">
 
     <ImageView
-      android:id="@+id/ivErase"
-      android:layout_width="80dp"
-      android:layout_height="80dp"
-      android:cropToPadding="true"
-      android:src="@drawable/eraser"/>
+        android:id="@+id/btn_close"
+        android:layout_width="70dp"
+        android:layout_height="50dp"
+        android:contentDescription="@string/close_board"
+        android:src="@drawable/exit_arrow"/>
 
-    <ImageView
-      android:id="@+id/ivConfirm"
-      android:layout_width="80dp"
-      android:layout_height="80dp"
-      android:layout_alignParentTop="true"
-      android:layout_centerHorizontal="true"
-      android:filterTouchesWhenObscured="true"
-      android:src="@drawable/check_mark"/>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
-    <ImageView
-      android:id="@+id/ivColors"
-      android:layout_width="80dp"
-      android:layout_height="80dp"
-      android:layout_alignParentEnd="true"
-      android:layout_alignParentTop="true"
-      android:filterTouchesWhenObscured="true"
-      android:src="@drawable/pencils"/>
+        <com.jane.antonio.pishuvalko.views.WritingImageView
+            android:id="@+id/writingImageView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="20dp"/>
 
-  </RelativeLayout>
+        <pl.droidsonroids.gif.GifImageView
+            android:id="@+id/gifClapping"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/clapping_gif"
+            android:visibility="gone"
+            tools:visibility="visible"
+        />
+    </FrameLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/ivErase"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:cropToPadding="true"
+            android:src="@drawable/eraser"
+            tools:ignore="ContentDescription"/>
+
+        <ImageView
+            android:id="@+id/ivConfirm"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:filterTouchesWhenObscured="true"
+            android:src="@drawable/check_mark"
+            tools:ignore="ContentDescription"/>
+
+        <ImageView
+            android:id="@+id/ivColors"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:filterTouchesWhenObscured="true"
+            android:src="@drawable/pencils"
+            tools:ignore="ContentDescription"/>
+
+    </RelativeLayout>
 </LinearLayout>

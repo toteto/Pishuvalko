@@ -17,14 +17,18 @@ import com.jane.antonio.pishuvalko.views.WritingImageView;
 import com.kizitonwose.colorpreference.ColorDialog;
 import com.kizitonwose.colorpreference.ColorShape;
 
+import java.lang.ref.WeakReference;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Activity that will be responsible for controlling and displaying of the writing game.
  */
 public class WritingGameActivity extends AppCompatActivity
-  implements View.OnClickListener, WritingGameInterface, ColorDialog.OnColorSelectedListener {
-  /** Key used for storing the character that will be displayed. */
+        implements View.OnClickListener, WritingGameInterface, ColorDialog.OnColorSelectedListener {
+  /**
+   * Key used for storing the character that will be displayed.
+   */
   private static final String GAME_TYPE_KEY = "game_type";
   private static final String SELECTED_CHARACTER_KEY = "index";
   private WritingImageView writingImageView;
@@ -32,6 +36,7 @@ public class WritingGameActivity extends AppCompatActivity
   private View btnErase;
   private View btnConfirm;
   private View btnColors;
+  private View gifClapping;
 
   private GameController gameController;
 
@@ -45,6 +50,7 @@ public class WritingGameActivity extends AppCompatActivity
     btnErase = findViewById(R.id.ivErase);
     btnConfirm = findViewById(R.id.ivConfirm);
     btnColors = findViewById(R.id.ivColors);
+    gifClapping = findViewById(R.id.gifClapping);
 
     btnClose.setOnClickListener(this);
     btnConfirm.setOnClickListener(this);
@@ -104,6 +110,20 @@ public class WritingGameActivity extends AppCompatActivity
     finish();
   }
 
+  @Override
+  public void showClapping(int duration) {
+    gifClapping.setVisibility(View.VISIBLE);
+    final WeakReference<View> reference = new WeakReference<>(gifClapping);
+    gifClapping.postDelayed(new Runnable() {
+      @Override
+      public void run() {
+        if (reference.get() != null) {
+          reference.get().setVisibility(View.GONE);
+        }
+      }
+    }, TimeUnit.SECONDS.toMillis(duration));
+  }
+
   /**
    * Reads the {@link com.jane.antonio.pishuvalko.controllers.LevelSelectionActivity.GameType} from the provided
    * intent.
@@ -114,7 +134,9 @@ public class WritingGameActivity extends AppCompatActivity
     return intent.getIntExtra(GAME_TYPE_KEY, LevelSelectionActivity.BIG_LETTERS);
   }
 
-  /** Reads the char index from the provided intent. */
+  /**
+   * Reads the char index from the provided intent.
+   */
   private static WritableCharacter readCharacter(@NonNull Intent intent) {
     return (WritableCharacter) intent.getSerializableExtra(SELECTED_CHARACTER_KEY);
   }
@@ -126,7 +148,7 @@ public class WritingGameActivity extends AppCompatActivity
    * @return intent that is ready to start this activity
    */
   public static Intent getStartingIntent(@NonNull Context context, @LevelSelectionActivity.GameType int gameType,
-    @NonNull WritableCharacter character) {
+                                         @NonNull WritableCharacter character) {
     final Intent intent = new Intent(context, WritingGameActivity.class);
     intent.putExtra(GAME_TYPE_KEY, gameType);
     intent.putExtra(SELECTED_CHARACTER_KEY, character);
