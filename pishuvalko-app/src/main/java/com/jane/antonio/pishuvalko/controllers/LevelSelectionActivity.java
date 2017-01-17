@@ -87,7 +87,7 @@ public class LevelSelectionActivity extends AppCompatActivity implements Charact
     for (WritableCharacter character : characters) {
       LevelItem item = new LevelItem(character, solutionStorage.solutionExists(character),
               solutionStorage.isSolutionApproved(character));
-      if (solutionStorage.solutionExists(character) || solutionStorage.isSolutionApproved(character) == ISolutionStorage.SOLUTION_APPROVED) {
+      if (solutionStorage.solutionExists(character)) {
         solvedItems.add(item);
       } else {
         unsolvedItems.add(item);
