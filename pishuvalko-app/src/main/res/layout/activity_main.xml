@@ -13,12 +13,14 @@
     android:scaleType="fitCenter"/>
 
   <LinearLayout
+    android:paddingTop="50dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
     android:orientation="vertical">
 
     <LinearLayout
+      android:orientation="vertical"
       android:layout_width="match_parent"
       android:layout_height="0dp"
       android:layout_weight="1"
@@ -27,8 +29,17 @@
       <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="@android:color/white"
+        android:textSize="25dp"
+        android:textStyle="bold"
         android:layout_gravity="center"
-        android:text="PISHUVALKO"/>
+        android:text="ПИШУВАЛКО"/>
+
+      <ImageView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:src="@drawable/maskota"/>
+
     </LinearLayout>
 
     <LinearLayout
