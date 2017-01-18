@@ -193,9 +193,7 @@ public class CharactersAdapter extends RecyclerView.Adapter {
       letterImage.setImageDrawable(levelItem.getWritableCharacter().getDisplayDrawable(context));
       if (levelItem.getSolutionState() == ISolutionStorage.SOLUTION_APPROVED) {
         levelImage.setImageResource(R.drawable.thumbs_up);
-      } else if (levelItem.getSolutionState() == ISolutionStorage.SOLUTION_DECLINED) {
-        levelImage.setImageResource(R.drawable.thumbs_down);
-      } else {
+      }  else {
         levelImage.setImageDrawable(null);
       }
     }
