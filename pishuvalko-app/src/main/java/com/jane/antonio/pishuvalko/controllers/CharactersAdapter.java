@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.jane.antonio.pishuvalko.R;
+import com.jane.antonio.pishuvalko.models.GameTypeItem;
 import com.jane.antonio.pishuvalko.models.HeaderItem;
 import com.jane.antonio.pishuvalko.models.ISolutionStorage;
 import com.jane.antonio.pishuvalko.models.LevelItem;
@@ -82,12 +83,21 @@ public class CharactersAdapter extends RecyclerView.Adapter {
       view.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-          // TODO: 19.12.2016 call onCharacterSelectedListener
           final LevelItem levelItem = (LevelItem) items.get(levelViewHolder.getAdapterPosition());
           characterSelectedListener.onCharacterSelected(levelItem.getWritableCharacter());
         }
       });
       return levelViewHolder;
+    } else if (R.layout.game_type_item == viewType) {
+      final GameTypeViewHolder gameTypeViewHolder = new GameTypeViewHolder(view);
+      view.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+          final GameTypeItem gameType = ((GameTypeItem) items.get(gameTypeViewHolder.getAdapterPosition()));
+          characterSelectedListener.onCharacterSelected(gameType);
+        }
+      });
+      return gameTypeViewHolder;
     } else {
       throw new InvalidParameterException("Unsupported viewType:" + viewType);
     }
@@ -105,6 +115,8 @@ public class CharactersAdapter extends RecyclerView.Adapter {
       case R.layout.level_item:
         ((LevelViewHolder) holder).bind((LevelItem) items.get(position));
         break;
+      case R.layout.game_type_item:
+        ((GameTypeViewHolder) holder).bind(((GameTypeItem) items.get(position)));
     }
   }
 
@@ -113,7 +125,9 @@ public class CharactersAdapter extends RecyclerView.Adapter {
     Object item = items.get(position);
     if (item instanceof HeaderItem) {
       return R.layout.header_item;
-    } else if (item instanceof WritableCharacter) {
+    } else if (item instanceof GameTypeItem) {
+      return R.layout.game_type_item;
+    }else if (item instanceof WritableCharacter) {
       return R.layout.character_item;
     } else if (item instanceof LevelItem) {
       return R.layout.level_item;
@@ -136,8 +150,8 @@ public class CharactersAdapter extends RecyclerView.Adapter {
   }
 
   public static class CharacterViewHolder extends RecyclerView.ViewHolder {
-    private final ImageView ivDisplayImage;
-    private final TextView tvLabel;
+    protected final ImageView ivDisplayImage;
+    protected final TextView tvLabel;
 
     /**
      * .
@@ -193,9 +207,21 @@ public class CharactersAdapter extends RecyclerView.Adapter {
       letterImage.setImageDrawable(levelItem.getWritableCharacter().getDisplayDrawable(context));
       if (levelItem.getSolutionState() == ISolutionStorage.SOLUTION_APPROVED) {
         levelImage.setImageResource(R.drawable.thumbs_up);
-      }  else {
+      } else {
         levelImage.setImageDrawable(null);
       }
+    }
+  }
+
+  public static class GameTypeViewHolder extends CharacterViewHolder {
+
+    public GameTypeViewHolder(@NonNull View itemView) {
+      super(itemView);
+    }
+
+    public void bind(@NonNull GameTypeItem gameTypeItem) {
+      ivDisplayImage.setImageDrawable(gameTypeItem.getDrawable());
+      tvLabel.setText(gameTypeItem.getText());
     }
   }
 }
