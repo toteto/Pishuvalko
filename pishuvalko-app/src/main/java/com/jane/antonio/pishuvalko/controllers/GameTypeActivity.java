@@ -23,7 +23,7 @@ public class GameTypeActivity extends AppCompatActivity {
   protected void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_game_type);
-    gameTypesAdapter = new CharactersAdapter(this, 2);
+    gameTypesAdapter = new CharactersAdapter(this, 1);
     gameTypesAdapter.setOnCharacterSelectedListener(gameTypeSelectedListener);
     RecyclerView rvGameTypes = (RecyclerView) findViewById(R.id.rvGameTypes);
     rvGameTypes.setAdapter(gameTypesAdapter);
@@ -50,8 +50,8 @@ public class GameTypeActivity extends AppCompatActivity {
     final List<Object> res = new ArrayList<>(4);
     res.add(new GameTypeItem(ContextCompat.getDrawable(this, R.drawable.game_type_capital_letters),
       getString(R.string.capital_letters), LevelSelectionActivity.BIG_LETTERS));
-    res.add(new GameTypeItem(ContextCompat.getDrawable(this, R.drawable.game_type_lowercase_letters),
-      getString(R.string.lower_case_letters), LevelSelectionActivity.SMALL_LETTERS));
+//    res.add(new GameTypeItem(ContextCompat.getDrawable(this, R.drawable.game_type_lowercase_letters),
+//      getString(R.string.lower_case_letters), LevelSelectionActivity.SMALL_LETTERS));
     res.add(new GameTypeItem(ContextCompat.getDrawable(this, R.drawable.game_type_numbers_letters),
       getString(R.string.numbers), LevelSelectionActivity.NUMBERS));
     res.add(

@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.jane.antonio.pishuvalko.R;
@@ -22,6 +23,7 @@ public class ParentsActivity extends AppCompatActivity implements CharacterSelec
 
   private RecyclerView recyclerView;
   private CharactersAdapter adapter;
+  private View btnClose;
 
   @Override
   protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -36,6 +38,18 @@ public class ParentsActivity extends AppCompatActivity implements CharacterSelec
 
     adapter.setItems(buildSolutionsList());
     adapter.setOnCharacterSelectedListener(this);
+
+    btnClose = findViewById(R.id.btn_close);
+
+
+
+    btnClose.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View view) {
+        onBackPressed();
+      }
+    });
+
   }
 
   /** Builds the whole list of headers and character that will be displayed in the recyclerView. */

@@ -97,6 +97,7 @@ public class GameController {
         onErase();
         showNextCharacter(); // go to the next character
       } else {
+        saveCurrentSolution(); // save the solution
         onClose(); // no more characters, close the writing game
       }
     }
